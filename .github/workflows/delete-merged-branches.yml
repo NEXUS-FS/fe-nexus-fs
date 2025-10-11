@@ -1,0 +1,32 @@
+name: 🧹 Delete merged branches
+
+on:
+  push:
+    branches:
+      - main  
+  workflow_dispatch: 
+
+jobs:
+  delete_merged_branches:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Delete merged branches
+        run: |
+          git fetch --prune
+          # Get all branches merged into main
+          merged_branches=$(git branch -r --merged origin/main | grep -vE "main|HEAD")
+
+          echo "Merged branches:"
+          echo "$merged_branches"
+
+          for branch in $merged_branches; do
+            # Remove 'origin/' prefix
+            branch_name=${branch#origin/}
+
+            echo "Deleting branch: $branch_name"
+            git push origin --delete "$branch_name" || echo "Failed to delete $branch_name"
+          done
