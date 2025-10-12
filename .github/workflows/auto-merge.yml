@@ -35,15 +35,15 @@ jobs:
             # Feature branch → dev: merge dev into feature
             echo "merge_branch=dev" >> $GITHUB_OUTPUT
             echo "strategy=feature_to_dev" >> $GITHUB_OUTPUT
-            echo "📝 Strategy: Merge dev into feature branch"
+            echo "Strategy: Merge dev into feature branch"
           elif [ "$BASE_BRANCH" == "main" ] && [ "$HEAD_BRANCH" == "dev" ]; then
             # dev → main: merge main into dev
             echo "merge_branch=main" >> $GITHUB_OUTPUT
             echo "strategy=dev_to_main" >> $GITHUB_OUTPUT
-            echo "📝 Strategy: Merge main into dev"
+            echo "Strategy: Merge main into dev"
           else
             echo "strategy=skip" >> $GITHUB_OUTPUT
-            echo "⏭️  Skipping: No merge strategy for this PR"
+            echo "Skipping: No merge strategy for this PR"
           fi
 
       - name: Fetch branches
