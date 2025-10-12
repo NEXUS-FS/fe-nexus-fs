@@ -1,0 +1,140 @@
+name: Merge Main and Dev into PR
+
+on:
+  # Manual trigger via comment
+  issue_comment:
+    types: [created]
+  # Or manual trigger via Actions tab
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to merge into'
+        required: true
+        type: number
+
+jobs:
+  merge-branches:
+    runs-on: ubuntu-latest
+    # Only run on PR comments or manual dispatch
+    if: |
+      (github.event_name == 'issue_comment' && 
+       github.event.issue.pull_request &&
+       contains(github.event.comment.body, '/merge-branches')) ||
+      github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Add reaction to comment
+        if: github.event_name == 'issue_comment'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'rocket'
+            })
+
+      - name: Get PR details
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let pr;
+            if (context.eventName === 'issue_comment') {
+              const prNumber = context.issue.number;
+              const { data } = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber
+              });
+              pr = data;
+            } else {
+              const prNumber = context.payload.inputs.pr_number;
+              const { data } = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber
+              });
+              pr = data;
+            }
+            
+            core.setOutput('head_ref', pr.head.ref);
+            core.setOutput('head_repo', pr.head.repo.full_name);
+            core.setOutput('pr_number', pr.number);
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.pr.outputs.head_ref }}
+          repository: ${{ steps.pr.outputs.head_repo }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch all branches
+        run: |
+          git fetch origin main
+          git fetch origin dev
+
+      - name: Merge main into PR branch
+        id: merge_main
+        run: |
+          echo "Merging main into PR branch..."
+          if git merge origin/main --no-edit -m "Merge main into PR"; then
+            echo "main_merged=true" >> $GITHUB_OUTPUT
+            echo "Successfully merged main"
+          else
+            echo "main_merged=false" >> $GITHUB_OUTPUT
+            echo "Conflict detected when merging main"
+            git merge --abort
+            exit 1
+          fi
+
+      - name: Merge dev into PR branch
+        id: merge_dev
+        if: steps.merge_main.outputs.main_merged == 'true'
+        run: |
+          echo "Merging dev into PR branch..."
+          if git merge origin/dev --no-edit -m "Merge dev into PR"; then
+            echo "dev_merged=true" >> $GITHUB_OUTPUT
+            echo "Successfully merged dev"
+          else
+            echo "dev_merged=false" >> $GITHUB_OUTPUT
+            echo "Conflict detected when merging dev"
+            git merge --abort
+            exit 1
+          fi
+
+      - name: Push changes
+        if: steps.merge_main.outputs.main_merged == 'true' && steps.merge_dev.outputs.dev_merged == 'true'
+        run: |
+          git push origin ${{ steps.pr.outputs.head_ref }}
+
+      - name: Comment success on PR
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: ${{ steps.pr.outputs.pr_number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ **Successfully merged** `main` and `dev` branches into this PR!'
+            })
+
+      - name: Comment on PR failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: ${{ steps.pr.outputs.pr_number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ **Merge Conflict Detected**\n\nAutomatic merge from `main` and/or `dev` failed due to conflicts. Please manually merge these branches into your PR branch and resolve conflicts.\n\n```bash\ngit fetch origin\ngit merge origin/main\ngit merge origin/dev\n```'
+            })
