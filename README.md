@@ -1,3 +1,11 @@
+## General information
+- Scrum Master: Doltu Teodora Eliza [elizadoltuofficial@gmail.com](mailto:elizadoltuofficial@gmail.com)
+- Members: Pipirig Rares [rarespipirig@gmail.com](rarespipirig@gmail.com), Cotin Mihai [cotinmihai@gmail.com](cotinmihai@gmail.com), Karp Andrei [andreikarp977@gmail.com](andreikarp977@gmail.com), Aldea Andrei [aldea.andrei.977@gmail.com](aldea.andrei.977@gmail.com)
+
+## Important Links
+- JIRA: [NexusFS Board](https://aset-project.atlassian.net/jira/software/projects/NEXUS/boards/1)
+- Confluence: [NexusFS Overview](https://aset-project.atlassian.net/wiki/x/IAEB)
+
 ## Idea
 
 Create a universal file system API that abstracts away the differences between various file systems (local, cloud, network, etc.) and provides a consistent interface for the canonical file and directory operations (open, read, write, delete, list, etc.).
