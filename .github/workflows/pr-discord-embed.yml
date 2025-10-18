@@ -1,0 +1,43 @@
+name: Notify Discord on Pull Request
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send fancy Discord embed
+        uses: tsickert/discord-webhook@v5.1.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: "GitHub PR Bot"
+          avatar-url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+          embeds: |
+            [
+              {
+                "title": "🚀 New Pull Request Opened!",
+                "color": 5814783,
+                "fields": [
+                  {
+                    "name": "👤 Author",
+                    "value": "${{ github.actor }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "📝 Title",
+                    "value": "${{ github.event.pull_request.title }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "🔗 Link",
+                    "value": "[View Pull Request](${{ github.event.pull_request.html_url }})"
+                  }
+                ],
+                "footer": {
+                  "text": "Repository: ${{ github.repository }}"
+                },
+                "timestamp": "${{ github.event.pull_request.created_at }}"
+              }
+            ]
