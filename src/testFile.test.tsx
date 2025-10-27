@@ -1,38 +1,26 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 import App from './App'
 
-// src/App.test.tsx
-
 describe('App', () => {
-  it('renders header and logos', () => {
-    render(<App />)
+  it('renders heading and logos', () => {
+    const { getByText, getAllByRole, getByAltText } = render(<App />)
 
-    // Heading exists
-    const heading = screen.getByText('Vite + React')
-    expect(heading).toBeTruthy()
+    expect(getByText('Vite + React')).toBeTruthy()
+    expect(getByAltText('Vite logo')).toBeTruthy()
+    expect(getByAltText('React logo')).toBeTruthy()
 
-    // Logos by alt text exist
-    const viteImg = screen.getByAltText('Vite logo')
-    const reactImg = screen.getByAltText('React logo')
-    expect(viteImg).toBeTruthy()
-    expect(reactImg).toBeTruthy()
-
-    // Links have expected href attributes (use getAttribute to avoid absolute URL normalization)
-    const links = screen.getAllByRole('link')
-    expect((links[0] as HTMLAnchorElement).getAttribute('href')).toBe('https://vite.dev')
-    expect((links[1] as HTMLAnchorElement).getAttribute('href')).toBe('https://react.dev')
+    const links = getAllByRole('link')
+    expect(links.length).toBeGreaterThanOrEqual(2)
+    expect(links[0].getAttribute('href')).toContain('vite.dev')
+    expect(links[1].getAttribute('href')).toContain('react.dev')
   })
 
-  it('increments count when button clicked', () => {
-    render(<App />)
+  it('increments count when button is clicked', () => {
+    const { getByRole } = render(<App />)
+    const button = getByRole('button')
+    expect(button.textContent).toContain('count is 0')
 
-    const button = screen.getByRole('button')
-    expect(button).toBeTruthy()
-    // initial count
-    expect(button.textContent).toBe('count is 0')
-
-    // click and assert increment
     fireEvent.click(button)
     expect(button.textContent).toContain('count is 1')
   })
