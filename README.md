@@ -1,64 +1,73 @@
-## General information
-- Scrum Master: Doltu Teodora Eliza [elizadoltuofficial@gmail.com](mailto:elizadoltuofficial@gmail.com)
-- Members: Pipirig Rares [rarespipirig@gmail.com](rarespipirig@gmail.com), Cotin Mihai [cotinmihai@gmail.com](cotinmihai@gmail.com), Karp Andrei [andreikarp977@gmail.com](andreikarp977@gmail.com), Aldea Andrei [aldea.andrei.977@gmail.com](aldea.andrei.977@gmail.com)
+# React + TypeScript + Vite
 
-## Important Links
-- JIRA: [NexusFS Board](https://aset-project.atlassian.net/jira/software/projects/NEXUS/boards/1)
-- Confluence: [NexusFS Overview](https://aset-project.atlassian.net/wiki/x/IAEB)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Idea
+Currently, two official plugins are available:
 
-Create a universal file system API that abstracts away the differences between various file systems (local, cloud, network, etc.) and provides a consistent interface for the canonical file and directory operations (open, read, write, delete, list, etc.).
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-The library providing this API should allow plugins, so different file-systems can be supported without
-changing the core library. The core library should provide a way to register and manage these plugins. (maybe also plugin "store"/repo?)
+## React Compiler
 
-## LLM Agent Integration
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-This library can be incorporated into an MCP (model context protocol) server allowing LLM agents to touch files in a consistent manner regardless of the underlying file system. This is usefull for example if you want to have a generic instructions file for other agents, held somewhere on the network. Or if you have a large amount of files on a server you don't want to copy locally so llms can analyze them.
+## Expanding the ESLint configuration
 
-## Architecture
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-+--------------------------+
-|    Client Application    |
-| (e.g., LLM Agent / MCP   |
-|       Server)            |
-+------------+-------------+
-             |
-             | (Programmatic Calls: open, read, write, list...)
-             V
-+--------------------------+
-|  Universal File System   |
-|         API              |
-|   (Core Library/SDK)     |
-| (Request Validation,     |
-|   Generic Error Handling)|
-+------------+-------------+
-             |
-             | (Internal Dispatch/Routing)
-             V
-+--------------------------+
-|    Plugin Manager /      |
-|     Registry             |
-| (Loads, Manages Plugins) |
-+------------+-------------+
-             |
-   +---------+----------+---------+
-   |         |          |         |
-   V         V          V         V
-+--------+  +-------+  +------+  +--------+
-| Local  |  |Cloud  |  |Network| | Other  |
-| FS     |  |Storage|  |Share  | | Custom |
-| Plugin |  |(S3/GCS)  |(SMB/  | | Plugins|
-| e.g.:  |  |Plugin)|  |NFS)   | |        |
-|java.io |  |       |  |Plugin | |        |
-+--------+  +-------+  +-------+  +-------+
-   |         |          |         |
-   V         V          V         V
-+------------------------------------+
-|     Underlying Storage Systems     |
-| (Local Disk, S3 Buckets, Network NAS,|
-|    SFTP Servers, HDFS, etc.)       |
-+------------------------------------+
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
