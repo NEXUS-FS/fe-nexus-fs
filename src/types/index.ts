@@ -6,7 +6,7 @@ export type ErrorResponse = {
 
 export type LoginResponse = {
     token: string
-    user: {
+    user?: {
         id: string
         username: string 
         name: string 

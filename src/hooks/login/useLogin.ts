@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios, { AxiosError } from 'axios';
 import type { ErrorResponse, LoginResponse } from "@/types";
+import { axiosInstance } from "@/lib/axiosInstance";
 
 interface LoginCredentials {
     username: string
@@ -10,20 +11,16 @@ interface LoginCredentials {
 export function useLogin() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const backendApi = import.meta.env.VITE_BACKEND_LINK;
 
     const login = async (credentials: LoginCredentials) => {
         setIsLoading(true)
         setError(null)
 
         try {
-            const { data } = await axios.post<LoginResponse>(
-                '/api/auth/login',
-                credentials,
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
+            const { data } = await axiosInstance.post<LoginResponse>(
+                `${backendApi}/api/Users/login`,
+                credentials
             )
             localStorage.setItem('token', data.token)
             return data;

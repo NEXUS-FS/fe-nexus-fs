@@ -8,7 +8,6 @@ import FormHeader from "./FormHeader"
 import { useLoginForm } from "@/hooks/login/useLoginForm"
 import GoogleIcon from "../icons/GoogleIcon"
 import { SignUpPrompt } from "./SignUpPrompt"
-import { useNavigate } from "react-router-dom"
 
 export function LoginForm({ 
     className,
@@ -23,61 +22,51 @@ export function LoginForm({
         isLoading, 
         error
     } = useLoginForm()
-    const navigate = useNavigate();
-
-    const onSubmit = async (e: React.FormEvent) => {
-        try {
-            await handleSubmit(e)
-            navigate('/dashboard')
-        } catch (err) {
-            console.error('Login failed')
-        }
-    }
 
     return (
-    <form 
-      className={cn("flex flex-col gap-6", className)} 
-      onSubmit={onSubmit}
-      {...props}
-    >
-      <FieldGroup>
-        <FormHeader />
-        
-        {error && (
-          <div className="rounded-md bg-red-50 p-3 text-sm text-red-600 border border-red-200">
-            {error}
-          </div>
-        )}
+      <form 
+        className={cn("flex flex-col gap-6", className)} 
+        onSubmit={handleSubmit} // ✅ use the hook directly
+        {...props}
+      >
+        <FieldGroup>
+          <FormHeader />
+          
+          {error && (
+            <div className="rounded-md bg-red-50 p-3 text-sm text-red-600 border border-red-200">
+              {error}
+            </div>
+          )}
 
-        <UsernameField
-          value={username}
-          onChange={setUsername}
-          disabled={isLoading}
-        />
-
-        <PasswordField 
-          value={password}
-          onChange={setPassword}
-          disabled={isLoading}
-        />
-
-        <Field>
-          <Button type="submit" disabled={isLoading} className="font-general-medium">
-            {isLoading ? 'Logging in...' : 'Login'}
-          </Button>
-        </Field>
-
-        <FieldSeparator>Or continue with</FieldSeparator>
-
-        <Field>
-          <SocialLoginButton 
-            provider="Google" 
-            icon={<GoogleIcon />}
+          <UsernameField
+            value={username}
+            onChange={setUsername}
             disabled={isLoading}
           />
-          <SignUpPrompt />
-        </Field>
-      </FieldGroup>
-    </form>
-  )
+
+          <PasswordField 
+            value={password}
+            onChange={setPassword}
+            disabled={isLoading}
+          />
+
+          <Field>
+            <Button type="submit" disabled={isLoading} className="font-general-medium">
+              {isLoading ? 'Logging in...' : 'Login'}
+            </Button>
+          </Field>
+
+          <FieldSeparator>Or continue with</FieldSeparator>
+
+          <Field>
+            <SocialLoginButton 
+              provider="Google" 
+              icon={<GoogleIcon />}
+              disabled={isLoading}
+            />
+            <SignUpPrompt />
+          </Field>
+        </FieldGroup>
+      </form>
+    )
 }
