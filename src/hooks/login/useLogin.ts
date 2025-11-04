@@ -11,7 +11,6 @@ interface LoginCredentials {
 export function useLogin() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
-    const backendApi = import.meta.env.VITE_BACKEND_LINK;
 
     const login = async (credentials: LoginCredentials) => {
         setIsLoading(true)
@@ -19,7 +18,7 @@ export function useLogin() {
 
         try {
             const { data } = await axiosInstance.post<LoginResponse>(
-                `${backendApi}/api/Users/login`,
+                `/api/Users/login`,
                 credentials
             )
             localStorage.setItem('token', data.token)
