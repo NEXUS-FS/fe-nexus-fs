@@ -4,6 +4,7 @@ import { bouncy } from 'ldrs';
 import './index.css';
 import './global/general-sans.css';
 import { AuthProvider } from './context/AuthContext';
+import PageNotFound from "@/pages/PageNotFound"
 
 bouncy.register();
 
@@ -23,6 +24,7 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Suspense>
       </AuthProvider>
