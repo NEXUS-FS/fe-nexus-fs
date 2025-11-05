@@ -4,7 +4,7 @@ import { bouncy } from 'ldrs';
 import './index.css';
 import './global/general-sans.css';
 import { AuthProvider } from './context/AuthContext';
-
+import ForbiddenPage from './pages/Page403Forbidden';
 bouncy.register();
 
 const Login = lazy(() => import('./pages/Login'));
@@ -23,6 +23,7 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<Login />} />
+             <Route path="/403" element={<ForbiddenPage />} />
           </Routes>
         </Suspense>
       </AuthProvider>
