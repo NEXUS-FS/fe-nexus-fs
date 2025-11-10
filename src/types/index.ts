@@ -5,11 +5,22 @@ export type ErrorResponse = {
 }
 
 export type LoginResponse = {
-    token: string
-    user?: {
-        id: string
-        username: string 
-        name: string 
+    expiresAt: string
+    logResopnse: { 
+        accessToken: string
+        refreshToken: string
+        expiresAt: string
+        user: {
+            id: string
+            username: string
+            email: string
+            role: string
+            provider: string
+            isActive: boolean
+            createdAt: string
+            updatedAt: string | null
+            lastLogin: string | null
+        }
     }
 }
 

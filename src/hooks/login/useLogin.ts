@@ -19,9 +19,12 @@ export function useLogin() {
         try {
             const { data } = await axiosInstance.post<LoginResponse>(
                 `/api/Users/login`,
-                credentials
+                { logRequest: credentials } 
             )
-            localStorage.setItem('token', data.token)
+            
+            localStorage.setItem('token', data.logResopnse.accessToken)
+            localStorage.setItem('refreshToken', data.logResopnse.refreshToken)
+            
             return data;
         } catch (err) {
             if (axios.isAxiosError(err)) {
