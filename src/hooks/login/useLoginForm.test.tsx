@@ -13,7 +13,25 @@ vi.mock('./useLogin', () => ({
 describe('useLoginForm hook', () => {
   const mockLogin = vi.fn()
   const mockContextLogin = vi.fn()
-  const mockResponse: LoginResponse = { token: 'mock-token' }
+  const mockResponse: LoginResponse = {
+    expiresAt: "2025-11-11T21:29:24.3009622Z",
+    logResopnse: {
+      accessToken: 'mock-access-token',
+      refreshToken: 'mock-refresh-token',
+      expiresAt: "2025-11-11T21:29:24.3009622Z",
+      user: {
+        id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
+        username: "admin",
+        email: "admin@nexus.com",
+        role: "admin",
+        provider: "",
+        isActive: false,
+        createdAt: "0001-01-01T00:00:00",
+        updatedAt: null,
+        lastLogin: null
+      }
+    }
+  }
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -71,7 +89,7 @@ describe('useLoginForm hook', () => {
       username: 'admin',
       password: 'admin123',
     })
-    expect(mockContextLogin).toHaveBeenCalledWith('mock-token')
+    expect(mockContextLogin).toHaveBeenCalledWith('mock-access-token')
     expect(fakeEvent.preventDefault).toHaveBeenCalled()
   })
 
@@ -99,6 +117,44 @@ describe('useLoginForm hook', () => {
     })
     expect(mockContextLogin).not.toHaveBeenCalled()
     expect(fakeEvent.preventDefault).toHaveBeenCalled()
+  })
+
+  it('should not call contextLogin if response is missing accessToken', async () => {
+    const incompleteResponse = {
+      expiresAt: "2025-11-11T21:29:24.3009622Z",
+      logResopnse: {
+        accessToken: '',
+        refreshToken: 'mock-refresh-token',
+        expiresAt: "2025-11-11T21:29:24.3009622Z",
+        user: {
+          id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
+          username: "admin",
+          email: "admin@nexus.com",
+          role: "admin",
+          provider: "",
+          isActive: false,
+          createdAt: "0001-01-01T00:00:00",
+          updatedAt: null,
+          lastLogin: null
+        }
+      }
+    }
+    
+    mockLogin.mockResolvedValueOnce(incompleteResponse)
+    const { result } = renderHook(() => useLoginForm())
+
+    act(() => {
+      result.current.setUsername('admin')
+      result.current.setPassword('admin123')
+    })
+
+    const fakeEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent
+
+    await act(async () => {
+      await result.current.handleSubmit(fakeEvent)
+    })
+
+    expect(mockContextLogin).not.toHaveBeenCalled()
   })
 
   it('should reset username and password', () => {

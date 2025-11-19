@@ -5,12 +5,23 @@ export type ErrorResponse = {
 }
 
 export type LoginResponse = {
-    token: string
-    user?: {
-        id: string
-        username: string 
-        name: string 
+  expiresAt: string
+  logResopnse: { 
+    accessToken: string
+    refreshToken: string
+    expiresAt: string
+    user: {
+      id: string
+      username: string
+      email: string
+      role: string
+      provider: string
+      isActive: boolean
+      createdAt: string
+      updatedAt: string | null
+      lastLogin: string | null
     }
+  }
 }
 
 export const UserRole = {
@@ -38,11 +49,14 @@ export type User = {
   id: string
   username: string
   email: string
+  name?: string // Optional for backward compatibility
   role: UserRoleType
   status: UserStatusType
   provider: AuthProviderType
+  isActive?: boolean // Optional for backward compatibility
   createdAt: string
-  updatedAt?: string
+  updatedAt: string | null
+  lastLogin?: string | null // Optional field
 }
 
 export type PaginationMeta = {
@@ -52,6 +66,13 @@ export type PaginationMeta = {
   itemsPerPage: number
 }
 
+// Generic paginated response type
+export type PaginatedResponse<T> = {
+  data: T[]
+  pagination: PaginationMeta
+}
+
+// Specific users list response
 export type UsersListResponse = {
   users: User[]
   pagination: PaginationMeta
@@ -59,10 +80,14 @@ export type UsersListResponse = {
 
 export type UpdateUserRequest = {
   username?: string
+  name?: string
   email?: string
   role?: UserRoleType
   status?: UserStatusType
 }
+
+// Alias for backward compatibility
+export type UpdateUserData = UpdateUserRequest
 
 export type UserFilters = {
   search?: string

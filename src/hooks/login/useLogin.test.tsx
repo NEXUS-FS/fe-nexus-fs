@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { Mock } from "vitest";
 import { useLogin } from "./useLogin";
 import { renderHook, act } from "@testing-library/react";
-import type { ErrorResponse } from "@/types";
+import type { ErrorResponse, LoginResponse } from "@/types";
 import { axiosInstance } from "@/lib/axiosInstance";
 
 vi.mock('@/lib/axiosInstance', () => ({
@@ -13,7 +13,8 @@ vi.mock('@/lib/axiosInstance', () => ({
 
 describe('useLogin hook', () => {
     const mockPost = vi.fn()
-    const mockToken = 'test-token'
+    const mockAccessToken = 'test-access-token'
+    const mockRefreshToken = 'test-refresh-token'
 
     beforeEach(() => {
         vi.clearAllMocks()
@@ -21,8 +22,28 @@ describe('useLogin hook', () => {
         localStorage.clear()
     })
 
-    it('should perform a successfull login', async () => {
-        const mockResponse = { data: { token: mockToken } }
+    it('should perform a successful login', async () => {
+        const mockResponse: { data: LoginResponse } = {
+            data: {
+                expiresAt: "2025-11-11T21:29:24.3009622Z",
+                logResopnse: {
+                    accessToken: mockAccessToken,
+                    refreshToken: mockRefreshToken,
+                    expiresAt: "2025-11-11T21:29:24.3009622Z",
+                    user: {
+                        id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
+                        username: "admin",
+                        email: "admin@nexus.com",
+                        role: "admin",
+                        provider: "",
+                        isActive: false,
+                        createdAt: "0001-01-01T00:00:00",
+                        updatedAt: null,
+                        lastLogin: null
+                    }
+                }
+            }
+        }
         mockPost.mockResolvedValueOnce(mockResponse)
 
         const { result } = renderHook(() => useLogin())
@@ -38,7 +59,13 @@ describe('useLogin hook', () => {
             expect(data).toEqual(mockResponse.data)
         })
 
-        expect(localStorage.getItem('token')).toBe(mockToken)
+        expect(mockPost).toHaveBeenCalledWith(
+            '/api/Users/login',
+            { logRequest: { username: 'testuser', password: 'password' } }
+        )
+
+        expect(localStorage.getItem('token')).toBe(mockAccessToken)
+        expect(localStorage.getItem('refreshToken')).toBe(mockRefreshToken)
         expect(result.current.isLoading).toBe(false)
         expect(result.current.error).toBeNull()
     })
@@ -65,7 +92,10 @@ describe('useLogin hook', () => {
 
         expect(result.current.error).toBe(mockErrorResponse.message)
         expect(result.current.isLoading).toBe(false)
+        expect(localStorage.getItem('token')).toBeNull()
+        expect(localStorage.getItem('refreshToken')).toBeNull()
     })
+
     it('should handle unexpected error', async () => {
         const mockError = new Error('Network crash')
         mockPost.mockRejectedValueOnce(mockError)
@@ -80,6 +110,7 @@ describe('useLogin hook', () => {
 
         expect(result.current.error).toBe('An unexpected error occured')
         expect(result.current.isLoading).toBe(false)
+        expect(localStorage.getItem('token')).toBeNull()
+        expect(localStorage.getItem('refreshToken')).toBeNull()
     })
 })
-
