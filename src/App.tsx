@@ -8,6 +8,7 @@ import { AuthProvider } from './context/AuthContext';
 bouncy.register();
 
 const Login = lazy(() => import('./pages/Login'));
+const AdminUsers = lazy(() => import('./pages/AdminUsers'));
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
           </Routes>
         </Suspense>
       </AuthProvider>
