@@ -4,24 +4,21 @@ export type ErrorResponse = {
   statusCode?: number
 }
 
-export type LoginResponse = {
-    expiresAt: string
-    logResopnse: { 
-        accessToken: string
-        refreshToken: string
-        expiresAt: string
-        user: {
-            id: string
-            username: string
-            email: string
-            role: string
-            provider: string
-            isActive: boolean
-            createdAt: string
-            updatedAt: string | null
-            lastLogin: string | null
-        }
-    }
+export interface LoginResponse {
+    accessToken: string;
+    refreshToken: string;
+    expiresAt: string;
+    user: {
+        id: string;
+        username: string;
+        email: string;
+        role: string;
+        provider?: string;
+        isActive: boolean;
+        createdAt: string;
+        updatedAt?: string;
+        lastLogin?: string;
+    };
 }
 
 export type User = {
@@ -49,3 +46,57 @@ export type UpdateUserData = {
   email?: string
   role?: string
 }
+
+export interface RecentActivityItem {
+  action: string 
+  file: string 
+  time: string 
+  icon: string 
+}
+
+export interface ProviderHealth {
+  name: string;
+  status: string;
+  uptime: string;
+  files: number;
+}
+
+export interface FileType {
+  name: string;
+  size: string;
+  percentage: number;
+}
+
+export interface SharedFile {
+  name: string;
+  sharedWith: string;
+  expires: string;
+}
+
+export interface Suggestion {
+  title: string;
+  description: string;
+}
+
+export interface Automation {
+  name: string;
+  nextRun: string;
+  lastRun: string;
+}
+
+export interface StorageDataPoint {
+  date: string;
+  storage: number;
+}
+
+export interface DashboardStats {
+  totalFiles: number;
+  filesChange: string;
+  storageUsed: number;
+  storageTotal: number;
+  storagePercentage: number;
+  activityToday: number;
+  providersCount: number;
+}
+
+export type StoragePeriod = "7d" | "30d" | "90d" | "1y";

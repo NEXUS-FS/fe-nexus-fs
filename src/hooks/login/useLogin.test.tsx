@@ -25,22 +25,19 @@ describe('useLogin hook', () => {
     it('should perform a successful login', async () => {
         const mockResponse: { data: LoginResponse } = {
             data: {
+                accessToken: mockAccessToken,
+                refreshToken: mockRefreshToken,
                 expiresAt: "2025-11-11T21:29:24.3009622Z",
-                logResopnse: {
-                    accessToken: mockAccessToken,
-                    refreshToken: mockRefreshToken,
-                    expiresAt: "2025-11-11T21:29:24.3009622Z",
-                    user: {
-                        id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
-                        username: "admin",
-                        email: "admin@nexus.com",
-                        role: "admin",
-                        provider: "",
-                        isActive: false,
-                        createdAt: "0001-01-01T00:00:00",
-                        updatedAt: null,
-                        lastLogin: null
-                    }
+                user: {
+                    id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
+                    username: "admin",
+                    email: "admin@nexus.com",
+                    role: "admin",
+                    provider: "",
+                    isActive: true,
+                    createdAt: "0001-01-01T00:00:00",
+                    updatedAt: undefined,
+                    lastLogin: undefined
                 }
             }
         }
@@ -61,7 +58,7 @@ describe('useLogin hook', () => {
 
         expect(mockPost).toHaveBeenCalledWith(
             '/api/Users/login',
-            { logRequest: { username: 'testuser', password: 'password' } }
+            { loginRequest: { username: 'testuser', password: 'password' } }
         )
 
         expect(localStorage.getItem('token')).toBe(mockAccessToken)

@@ -14,22 +14,19 @@ describe('useLoginForm hook', () => {
   const mockLogin = vi.fn()
   const mockContextLogin = vi.fn()
   const mockResponse: LoginResponse = {
+    accessToken: 'mock-access-token',
+    refreshToken: 'mock-refresh-token',
     expiresAt: "2025-11-11T21:29:24.3009622Z",
-    logResopnse: {
-      accessToken: 'mock-access-token',
-      refreshToken: 'mock-refresh-token',
-      expiresAt: "2025-11-11T21:29:24.3009622Z",
-      user: {
-        id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
-        username: "admin",
-        email: "admin@nexus.com",
-        role: "admin",
-        provider: "",
-        isActive: false,
-        createdAt: "0001-01-01T00:00:00",
-        updatedAt: null,
-        lastLogin: null
-      }
+    user: {
+      id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
+      username: "admin",
+      email: "admin@nexus.com",
+      role: "admin",
+      provider: "",
+      isActive: true,
+      createdAt: "0001-01-01T00:00:00",
+      updatedAt: undefined,
+      lastLogin: undefined
     }
   }
 
@@ -120,23 +117,20 @@ describe('useLoginForm hook', () => {
   })
 
   it('should not call contextLogin if response is missing accessToken', async () => {
-    const incompleteResponse = {
+    const incompleteResponse: LoginResponse = {
+      accessToken: '',
+      refreshToken: 'mock-refresh-token',
       expiresAt: "2025-11-11T21:29:24.3009622Z",
-      logResopnse: {
-        accessToken: '',
-        refreshToken: 'mock-refresh-token',
-        expiresAt: "2025-11-11T21:29:24.3009622Z",
-        user: {
-          id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
-          username: "admin",
-          email: "admin@nexus.com",
-          role: "admin",
-          provider: "",
-          isActive: false,
-          createdAt: "0001-01-01T00:00:00",
-          updatedAt: null,
-          lastLogin: null
-        }
+      user: {
+        id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
+        username: "admin",
+        email: "admin@nexus.com",
+        role: "admin",
+        provider: "",
+        isActive: true,
+        createdAt: "0001-01-01T00:00:00",
+        updatedAt: undefined,
+        lastLogin: undefined
       }
     }
     
