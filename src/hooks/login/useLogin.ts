@@ -19,11 +19,11 @@ export function useLogin() {
         try {
             const { data } = await axiosInstance.post<LoginResponse>(
                 `/api/Users/login`,
-                { logRequest: credentials } 
+                { loginRequest: credentials } 
             )
             
-            localStorage.setItem('token', data.logResopnse.accessToken)
-            localStorage.setItem('refreshToken', data.logResopnse.refreshToken)
+            localStorage.setItem('token', data.accessToken)
+            localStorage.setItem('refreshToken', data.refreshToken) 
             
             return data;
         } catch (err) {
