@@ -2,15 +2,15 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import type { Mock } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useLoginForm } from './useLoginForm'
-import { useLogin } from './useLogin'
+import { useAuth } from './useAuth'
 import type { LoginResponse } from '@/types'
 import * as AuthContext from '@/context/AuthContext' 
 
-vi.mock('./useLogin', () => ({
-  useLogin: vi.fn(),
+vi.mock('./useAuth', () => ({
+  useAuth: vi.fn(),
 }))
 
-describe('useLoginForm hook', () => {
+describe('useAuthForm hook', () => {
   const mockLogin = vi.fn()
   const mockContextLogin = vi.fn()
   const mockResponse: LoginResponse = {
@@ -33,15 +33,15 @@ describe('useLoginForm hook', () => {
   beforeEach(() => {
     vi.clearAllMocks()
 
-    // Mock useLogin hook
-    ;(useLogin as unknown as Mock).mockReturnValue({
+    // Mock useAuth hook
+    ;(useAuth as unknown as Mock).mockReturnValue({
       login: mockLogin,
       isLoading: false,
       error: null,
     })
 
     // Mock useAuth context
-    vi.spyOn(AuthContext, 'useAuth').mockReturnValue({
+    vi.spyOn(AuthContext, 'useAuthContext').mockReturnValue({
       isAuthenticated: false,
       login: mockContextLogin,
       logout: vi.fn(),

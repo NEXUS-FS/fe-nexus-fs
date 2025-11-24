@@ -17,11 +17,11 @@ vi.mock('@/lib/axiosInstance', () => ({
 
 import { axiosInstance } from '@/lib/axiosInstance';
 
-vi.mock('@/hooks/login/useLoginForm', () => ({
+vi.mock('@/hooks/auth/useLoginForm', () => ({
   useLoginForm: vi.fn(),
 }));
 
-import { useLoginForm } from '@/hooks/login/useLoginForm';
+import { useLoginForm } from '@/hooks/auth/useLoginForm';
 
 const mockNavigate = vi.fn();
 vi.mock('react-router-dom', async () => {
@@ -39,7 +39,7 @@ describe('Login Page Full Flow', () => {
   const setUsername = vi.fn();
   const setPassword = vi.fn();
   const mockHandleSubmit = vi.fn();
-  const mockUseLoginForm = useLoginForm as Mock;
+  const mockuseAuthForm = useLoginForm as Mock;
 
   const renderPage = () =>
     render(
@@ -52,7 +52,7 @@ describe('Login Page Full Flow', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseLoginForm.mockReturnValue({
+    mockuseAuthForm.mockReturnValue({
       username: 'admin',
       password: '123456',
       setUsername,
@@ -87,7 +87,7 @@ describe('Login Page Full Flow', () => {
   it('shows error message when login fails', async () => {
     const errorMessage = 'Invalid credentials';
 
-    mockUseLoginForm.mockReturnValueOnce({
+    mockuseAuthForm.mockReturnValueOnce({
       username: 'admin',
       password: 'wrongpass',
       setUsername,

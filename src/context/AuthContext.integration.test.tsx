@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { AuthProvider, useAuth } from './AuthContext';
+import { AuthProvider, useAuthContext } from './AuthContext';
 import { vi } from 'vitest';
 
 const mockNavigate = vi.fn();
@@ -13,7 +13,7 @@ vi.mock('react-router-dom', async () => {
 });
 
 function AuthConsumerComponent() {
-  const { isAuthenticated, login, logout } = useAuth();
+  const { isAuthenticated, login, logout } = useAuthContext();
   return (
     <div>
       <p data-testid="status">
