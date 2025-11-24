@@ -11,7 +11,6 @@ import PageNotFound from "@/pages/PageNotFound"
 bouncy.register();
 
 const Login = lazy(() => import('./pages/Login'));
-const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Register = lazy(() => import ('./pages/Register'))
 
 function App() {
@@ -29,7 +28,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
              <Route path="/403" element={<ForbiddenPage />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
