@@ -54,7 +54,7 @@
 
 @theme  {
   --background-color: #131313;
-  --base-font: 'Geist-Regular';
+  --base-font: 'BlinkMacSystemFont-Regular';
   --font-color: #131313;
   --color-white: #E2E1DF;
   --size-unit: 16;
@@ -63,10 +63,10 @@
   --size-container-max: 1920px;
   --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
   --size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
-  --font-general-regular: 'GeneralSans-Regular';
-  --font-general-bold: 'GeneralSans-Bold';
-  --font-general-semibold: 'GeneralSans-SemiBold';
-  --font-general-medium: 'GeneralSans-Medium';
+  --font-mac-regular: 'BlinkMacSystemFont-Regular';
+  --font-mac-bold: 'BlinkMacSystemFont-Bold';
+  --font-mac-semibold: 'BlinkMacSystemFont-Semibold';
+  --font-mac-medium: 'BlinkMacSystemFont-Medium';
   --breakpoint-mobile: 300px;
   --breakpoint-tablet: 768px;
   --breakpoint-desktop: 1790px;

@@ -26,14 +26,14 @@ export default function ForbiddenPage() {
       <div className="absolute top-5 left-5">
         <Link
           to="/dashboard"
-          className="flex items-center gap-2 text-2xl font-general-semibold text-white tracking-tighter"
+          className="flex items-center gap-2 text-2xl font-mac-semibold text-white tracking-tighter"
         >
           NexusFS
         </Link>
       </div>
 
       <div className="absolute bottom-5 left-4">
-        <p className="font-general-medium text-sm text-white opacity-60">
+        <p className="font-mac-medium text-sm text-white opacity-60">
           &#169; NexusFS 2025. All rights reserved.
         </p>
       </div>

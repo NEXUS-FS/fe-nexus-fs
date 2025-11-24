@@ -19,7 +19,7 @@ export function SocialLoginButton({
       type="button" 
       onClick={onClick}
       disabled={disabled}
-      className="font-general-medium"
+      className="font-mac-medium"
     >
       {icon}
       Login with {provider}

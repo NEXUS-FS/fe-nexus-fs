@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react';
 import { bouncy } from 'ldrs';
 import './index.css';
 import './global/general-sans.css';
+import './global/blink-mac-system.css';
 import { AuthProvider } from './context/AuthContext';
 import ForbiddenPage from './pages/Page403Forbidden';
 import PageNotFound from "@/pages/PageNotFound"
@@ -10,6 +11,8 @@ import PageNotFound from "@/pages/PageNotFound"
 bouncy.register();
 
 const Login = lazy(() => import('./pages/Login'));
+const Dashboard = lazy(() => import('./pages/Dashboard'))
+const Register = lazy(() => import ('./pages/Register'))
 
 function App() {
   return (
@@ -25,6 +28,8 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/dashboard" element={<Dashboard />} />
              <Route path="/403" element={<ForbiddenPage />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>

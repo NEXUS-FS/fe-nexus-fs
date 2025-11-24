@@ -2,9 +2,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, vi, beforeEach } from 'vitest';
 import type { Mock } from 'vitest';
 import { LoginForm } from './LoginForm';
-import * as useLoginFormModule from '@/hooks/login/useLoginForm';
+import * as useLoginFormModule from '@/hooks/auth/useLoginForm';
 
-vi.mock('@/hooks/login/useLoginForm', () => ({
+vi.mock('@/hooks/auth/useLoginForm', () => ({
   useLoginForm: vi.fn(),
 }));
 
@@ -19,13 +19,13 @@ vi.mock('@/components/ui/button', async (importOriginal) => {
   };
 });
 
-vi.mock('./UsernameField', () => ({
+vi.mock('@/components/auth/UsernameField', () => ({
   UsernameField: vi.fn(({ value, onChange }: any) => (
     <input value={value} onChange={(e) => onChange(e.target.value)} />
   )),
 }));
 
-vi.mock('./PasswordField', () => ({
+vi.mock('@/components/auth/PasswordField', () => ({
   PasswordField: vi.fn(({ value, onChange }: any) => (
     <input
       type="password"
@@ -35,17 +35,17 @@ vi.mock('./PasswordField', () => ({
   )),
 }));
 
-vi.mock('./SocialLoginButton', () => ({
+vi.mock('@/components/auth/SocialLoginButton', () => ({
   SocialLoginButton: vi.fn(() => (
     <div data-testid="social-login">SocialLoginButton</div>
   )),
 }));
 
-vi.mock('./FormHeader', () => ({
+vi.mock('@/components/auth/FormHeader', () => ({
   default: vi.fn(() => <div data-testid="form-header">FormHeader</div>),
 }));
 
-vi.mock('./SignUpPrompt', () => ({
+vi.mock('@/components/auth/SignUpPrompt', () => ({
   SignUpPrompt: vi.fn(() => (
     <div data-testid="signup-prompt">SignUpPrompt</div>
   )),
