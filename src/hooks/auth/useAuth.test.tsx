@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { Mock } from "vitest";
-import { useLogin } from "./useLogin";
+import { useAuth } from "./useAuth";
 import { renderHook, act } from "@testing-library/react";
 import type { ErrorResponse, LoginResponse } from "@/types";
 import { axiosInstance } from "@/lib/axiosInstance";
@@ -11,7 +11,7 @@ vi.mock('@/lib/axiosInstance', () => ({
     }
 }))
 
-describe('useLogin hook', () => {
+describe('useAuth hook', () => {
     const mockPost = vi.fn()
     const mockAccessToken = 'test-access-token'
     const mockRefreshToken = 'test-refresh-token'
@@ -43,7 +43,7 @@ describe('useLogin hook', () => {
         }
         mockPost.mockResolvedValueOnce(mockResponse)
 
-        const { result } = renderHook(() => useLogin())
+        const { result } = renderHook(() => useAuth())
 
         expect(result.current.isLoading).toBe(false)
         expect(result.current.error).toBeNull()
@@ -79,7 +79,7 @@ describe('useLogin hook', () => {
         }
 
         mockPost.mockRejectedValueOnce(mockAxiosError)
-        const { result } = renderHook(() => useLogin())
+        const { result } = renderHook(() => useAuth())
 
         await act(async () => {
             await expect(
@@ -97,7 +97,7 @@ describe('useLogin hook', () => {
         const mockError = new Error('Network crash')
         mockPost.mockRejectedValueOnce(mockError)
 
-        const { result } = renderHook(() => useLogin())
+        const { result } = renderHook(() => useAuth())
 
         await act(async () => {
             await expect(

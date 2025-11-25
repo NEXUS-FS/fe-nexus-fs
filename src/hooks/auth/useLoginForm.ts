@@ -1,14 +1,14 @@
 import type { FormEvent } from 'react';
 import { useState } from 'react';
-import { useLogin } from './useLogin';
+import { useAuth } from './useAuth';
 import type { LoginResponse } from '@/types';
-import { useAuth } from '@/context/AuthContext';
+import { useAuthContext } from '@/context/AuthContext';
 
 export function useLoginForm() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const { login, isLoading, error } = useLogin()
-  const { login: contextLogin } = useAuth()
+  const { login, isLoading, error } = useAuth()
+  const { login: contextLogin } = useAuthContext()
 
   const handleSubmit = async (
     e: FormEvent,

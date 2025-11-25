@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { AuthProvider, useAuth } from './AuthContext';
+import { AuthProvider, useAuthContext } from './AuthContext';
 import { vi, beforeEach, describe, it } from 'vitest';
 
 const mockNavigate = vi.fn();
@@ -19,7 +19,7 @@ describe('AuthContext', () => {
   });
 
   it('throws error if useAuth is used outside of AuthProvider', () => {
-    expect(() => renderHook(() => useAuth())).toThrow(
+    expect(() => renderHook(() => useAuthContext())).toThrow(
       'useAuth must be used within AuthProvider',
     );
   });
@@ -32,7 +32,7 @@ describe('AuthContext', () => {
       </MemoryRouter>
     );
 
-    const { result } = renderHook(() => useAuth(), { wrapper });
+    const { result } = renderHook(() => useAuthContext(), { wrapper });
     expect(result.current.isAuthenticated).toBe(true);
   });
 
@@ -43,7 +43,7 @@ describe('AuthContext', () => {
       </MemoryRouter>
     );
 
-    const { result } = renderHook(() => useAuth(), { wrapper })
+    const { result } = renderHook(() => useAuthContext(), { wrapper })
     act(() => {
         result.current.login('mock-token')
     })
@@ -62,7 +62,7 @@ describe('AuthContext', () => {
       </MemoryRouter>
     )
 
-    const { result } = renderHook(() => useAuth(), { wrapper })
+    const { result } = renderHook(() => useAuthContext(), { wrapper })
 
     act(() => {
       result.current.logout()

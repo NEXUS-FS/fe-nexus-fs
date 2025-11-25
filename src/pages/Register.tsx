@@ -1,12 +1,12 @@
-import { LoginForm } from "@/features/authentication/LoginForm"
+import { RegisterForm } from "@/features/authentication/RegisterForm"
 
-export default function Login() {
+export default function Register() {
   return (
-    <div data-testid="login-page" className="grid min-h-svh w-full lg:grid-cols-2">
+    <div data-testid="register-page" className="grid min-h-svh w-full lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <RegisterForm />
           </div>
         </div>
       </div>

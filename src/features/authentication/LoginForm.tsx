@@ -1,13 +1,13 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Field, FieldGroup, FieldSeparator } from "@/components/ui/field"
-import { PasswordField } from "./PasswordField"
-import { SocialLoginButton } from "./SocialLoginButton"
-import { UsernameField } from "./UsernameField"
-import FormHeader from "./FormHeader"
-import { useLoginForm } from "@/hooks/login/useLoginForm"
-import GoogleIcon from "../icons/GoogleIcon"
-import { SignUpPrompt } from "./SignUpPrompt"
+import { PasswordField } from "@/components/auth/PasswordField"
+import { SocialLoginButton } from "@/components/auth/SocialLoginButton"
+import { UsernameField } from "@/components/auth/UsernameField"
+import FormHeader from "@/components/auth/FormHeader"
+import { useLoginForm } from "@/hooks/auth/useLoginForm"
+import GoogleIcon from "@/components/icons/GoogleIcon"
+import { SignUpPrompt } from "@/components/auth/SignUpPrompt"
 
 export function LoginForm({ 
     className,
@@ -26,7 +26,8 @@ export function LoginForm({
     return (
       <form 
         className={cn("flex flex-col gap-6", className)} 
-        onSubmit={handleSubmit} // ✅ use the hook directly
+        onSubmit={handleSubmit} 
+        data-testid="login-form"
         {...props}
       >
         <FieldGroup>
@@ -51,7 +52,7 @@ export function LoginForm({
           />
 
           <Field>
-            <Button type="submit" disabled={isLoading} className="font-general-medium">
+            <Button type="submit" disabled={isLoading} className="font-mac-medium">
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
           </Field>
