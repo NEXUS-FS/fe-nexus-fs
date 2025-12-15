@@ -13,9 +13,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Home, FileText, Bell, Search, User, Settings, Github, LifeBuoy, Code, LogOut } from "lucide-react";
 import { useAuthContext } from "@/context/AuthContext";
+import { useNavigate, useLocation } from "react-router-dom";
 
-export function DashboardHeader() {
+export function AppHeader() {
   const { user, logout } = useAuthContext();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const getInitials = (username: string) => {
     return username
@@ -28,6 +31,10 @@ export function DashboardHeader() {
 
   const handleLogout = () => {
     logout();
+  };
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
   };
 
   return (
@@ -64,14 +71,22 @@ export function DashboardHeader() {
           <nav className="flex items-center gap-6">
             <a
               href="/dashboard"
-              className="flex items-center gap-2 text-sm text-foreground hover:text-foreground/80 transition-colors"
+              className={`flex items-center gap-2 text-sm transition-colors ${
+                isActive("/dashboard") 
+                  ? "text-foreground" 
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
             >
               <Home className="h-4 w-4" />
               <span className="font-mac-medium">Home</span>
             </a>
             <a
               href="/files"
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className={`flex items-center gap-2 text-sm transition-colors ${
+                isActive("/files") 
+                  ? "text-foreground" 
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
             >
               <FileText className="h-4 w-4" />
               <span className="font-mac-medium">Files</span>
@@ -97,12 +112,12 @@ export function DashboardHeader() {
               <DropdownMenuLabel className="font-mac-medium">My account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem className="font-mac-medium">
+                <DropdownMenuItem className="font-mac-medium" onClick={() => navigate("/settings/profile")}>
                   <User className="mr-2 h-4 w-4" />
                   <span>Profile</span>
                   <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="font-mac-medium">
+                <DropdownMenuItem className="font-mac-medium" onClick={() => navigate("/settings/general")}>
                   <Settings className="mr-2 h-4 w-4" />
                   <span>Settings</span>
                   <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
@@ -114,11 +129,11 @@ export function DashboardHeader() {
                   <Github className="mr-2 h-4 w-4" />
                   <span>Github</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="font-mac-medium">
+                <DropdownMenuItem className="font-mac-medium" onClick={() => navigate("/settings/support")}>
                   <LifeBuoy className="mr-2 h-4 w-4" />
                   <span>Support</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem disabled className="font-mac-medium">
+                <DropdownMenuItem className="font-mac-medium" onClick={() => navigate("/settings/api")}>
                   <Code className="mr-2 h-4 w-4" />
                   <span>API</span>
                 </DropdownMenuItem>

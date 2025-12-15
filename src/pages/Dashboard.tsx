@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DashboardOverview } from "@/features/dashboard/DashboardOverview";
 import { DashboardStorage } from "@/features/dashboard/DashboardStorage";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { AppHeader } from "@/components/layout/AppHeader";
 import { useAuthContext } from "@/context/AuthContext";
 
 export default function Dashboard() {
@@ -18,8 +18,8 @@ export default function Dashboard() {
   const displayName = user?.username ? formatDisplayName(user.username) : "User";
 
   return (
-    <div className="min-h-screen bg-background">
-      <DashboardHeader />
+    <div className="min-h-screen bg-[#FDFDFD]">
+      <AppHeader />
 
       <main className="container py-8 px-12 lg:px-16 space-y-8">
         <div>
