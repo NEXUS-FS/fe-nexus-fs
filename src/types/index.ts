@@ -100,3 +100,55 @@ export interface DashboardStats {
 }
 
 export type StoragePeriod = "7d" | "30d" | "90d" | "1y";
+
+export type ProviderType = "google-drive" | "aws-s3" | "local";
+
+export type ProviderStatus = "active" | "inactive" | "pending" | "disconnected";
+
+export type ProviderHealthStatus = "Healthy" | "Stable" | "Active" | "Inactive";
+
+export type AccessRequestStatus = "pending" | "approved" | "rejected";
+
+export interface ConnectedProvider {
+  id: string;
+  name: string;
+  type: ProviderType;
+  status: ProviderStatus;
+  healthStatus: ProviderHealthStatus;
+  storageUsed: number;
+  storageTotal: number;
+  filesCount: number;
+  connectedAt: string;
+  isConfigured: boolean;
+}
+
+export interface ProviderConfigField {
+  id: string;
+  label: string;
+  type: "text" | "password" | "select";
+  placeholder?: string;
+  required: boolean;
+  options?: { value: string; label: string }[];
+}
+
+export interface ProviderConfig {
+  providerType: ProviderType;
+  fields: ProviderConfigField[];
+}
+
+export interface AvailableProvider {
+  id: string;
+  name: string;
+  type: ProviderType;
+  description: string;
+}
+
+export interface AccessRequest {
+  id: string;
+  providerName: string;
+  providerType: ProviderType;
+  reason: string;
+  status: AccessRequestStatus;
+  requestedAt: string;
+  respondedAt?: string;
+}
