@@ -12,14 +12,27 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
+const mockUserData = {
+  id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
+  username: "admin",
+  email: "admin@nexus.com",
+  role: "admin",
+  provider: "",
+  isActive: true,
+  createdAt: "0001-01-01T00:00:00",
+  updatedAt: undefined,
+  lastLogin: undefined
+};
+
 function AuthConsumerComponent() {
-  const { isAuthenticated, login, logout } = useAuthContext();
+  const { isAuthenticated, user, login, logout } = useAuthContext();
   return (
     <div>
       <p data-testid="status">
         {isAuthenticated ? 'Authenticated' : 'Not Authenticated'}
       </p>
-      <button onClick={() => login('mock-token')}>Login</button>
+      <p data-testid="username">{user?.username || 'No user'}</p>
+      <button onClick={() => login('mock-token', mockUserData)}>Login</button>
       <button onClick={logout}>Logout</button>
     </div>
   );
@@ -42,23 +55,29 @@ describe('AuthContext Integration', () => {
   it('shows Not Authenticated by default', () => {
     renderWithProvider();
     expect(screen.getByTestId('status')).toHaveTextContent('Not Authenticated');
+    expect(screen.getByTestId('username')).toHaveTextContent('No user');
   });
   it('changes to "Authenticated" after login and navigates to /dashboard', () => {
     renderWithProvider();
     fireEvent.click(screen.getByText('Login'));
 
-    expect(localStorage.getItem('token')).toBe('mock-token');
+    expect(localStorage.getItem('accessToken')).toBe('mock-token');
+    expect(JSON.parse(localStorage.getItem('user') || '{}')).toEqual(mockUserData);
     expect(screen.getByTestId('status')).toHaveTextContent('Authenticated');
+    expect(screen.getByTestId('username')).toHaveTextContent('admin');
     expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
   });
   it('changes to "Not Authenticated" after logout and navigates to /', () => {
-    localStorage.setItem('token', 'mock-token');
+    localStorage.setItem('accessToken', 'mock-token');
+    localStorage.setItem('user', JSON.stringify(mockUserData));
     renderWithProvider();
 
     fireEvent.click(screen.getByText('Logout'));
 
-    expect(localStorage.getItem('token')).toBeNull();
+    expect(localStorage.getItem('accessToken')).toBeNull();
+    expect(localStorage.getItem('user')).toBeNull();
     expect(screen.getByTestId('status')).toHaveTextContent('Not Authenticated');
+    expect(screen.getByTestId('username')).toHaveTextContent('No user');
     expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 });

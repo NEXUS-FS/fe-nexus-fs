@@ -30,8 +30,8 @@ const mockRecentActivity: RecentActivityItem[] = [
 
 const mockProviderHealth: ProviderHealth[] = [
   { name: 'AWS S3', status: 'Healthy', uptime: '99.98%', files: 890 },
-  { name: 'Google Drive', status: 'Stable', uptime: '99.92%', files: 110 },
-  { name: 'Local Storage', status: 'Active', uptime: '100%', files: 234 },
+  { name: 'Google Drive', status: 'Healthy', uptime: '99.92%', files: 110 },
+  { name: 'Local Storage', status: 'Healthy', uptime: '100%', files: 234 },
 ];
 
 const mockFileTypes: FileType[] = [

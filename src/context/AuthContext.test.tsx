@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider, useAuthContext } from './AuthContext';
-import { vi, beforeEach, describe, it } from 'vitest';
+import { vi, beforeEach, describe, it, expect } from 'vitest';
 
 const mockNavigate = vi.fn();
 vi.mock('react-router-dom', async () => {
@@ -11,6 +11,18 @@ vi.mock('react-router-dom', async () => {
     useNavigate: () => mockNavigate,
   };
 });
+
+const mockUserData = {
+  id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
+  username: "admin",
+  email: "admin@nexus.com",
+  role: "admin",
+  provider: "",
+  isActive: true,
+  createdAt: "0001-01-01T00:00:00",
+  updatedAt: undefined,
+  lastLogin: undefined
+};
 
 describe('AuthContext', () => {
   beforeEach(() => {
@@ -25,7 +37,7 @@ describe('AuthContext', () => {
   });
 
   it('initializes as authenticated when token exists in localStorage', () => {
-    localStorage.setItem('token', 'fake-token');
+    localStorage.setItem('accessToken', 'fake-token');
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <MemoryRouter>
         <AuthProvider>{children}</AuthProvider>
@@ -36,7 +48,7 @@ describe('AuthContext', () => {
     expect(result.current.isAuthenticated).toBe(true);
   });
 
-  it('login stores token, updates state, and navigate to /dashboard', () => {
+  it('login stores token and user, updates state, and navigate to /dashboard', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <MemoryRouter>
         <AuthProvider>{children}</AuthProvider>
@@ -45,16 +57,19 @@ describe('AuthContext', () => {
 
     const { result } = renderHook(() => useAuthContext(), { wrapper })
     act(() => {
-        result.current.login('mock-token')
+        result.current.login('mock-token', mockUserData)
     })
 
-    expect(localStorage.getItem('token')).toBe('mock-token')
+    expect(localStorage.getItem('accessToken')).toBe('mock-token')
+    expect(JSON.parse(localStorage.getItem('user') || '{}')).toEqual(mockUserData)
     expect(result.current.isAuthenticated).toBe(true)
+    expect(result.current.user).toEqual(mockUserData)
     expect(mockNavigate).toHaveBeenCalledWith('/dashboard')
   });
 
-  it('logout removes token, updates state, and navigates to /', () => {
-    localStorage.setItem('token', 'mock-token')
+  it('logout removes token and user, updates state, and navigates to /', () => {
+    localStorage.setItem('accessToken', 'mock-token')
+    localStorage.setItem('user', JSON.stringify(mockUserData))
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <MemoryRouter>
@@ -68,8 +83,10 @@ describe('AuthContext', () => {
       result.current.logout()
     })
 
-    expect(localStorage.getItem('token')).toBeNull()
+    expect(localStorage.getItem('accessToken')).toBeNull()
+    expect(localStorage.getItem('user')).toBeNull()
     expect(result.current.isAuthenticated).toBe(false)
+    expect(result.current.user).toBeNull()
     expect(mockNavigate).toHaveBeenCalledWith('/')
   })
 });
