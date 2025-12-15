@@ -61,7 +61,7 @@ describe('useAuth hook', () => {
             { loginRequest: { username: 'testuser', password: 'password' } }
         )
 
-        expect(localStorage.getItem('token')).toBe(mockAccessToken)
+        expect(localStorage.getItem('accessToken')).toBe(mockAccessToken)
         expect(localStorage.getItem('refreshToken')).toBe(mockRefreshToken)
         expect(result.current.isLoading).toBe(false)
         expect(result.current.error).toBeNull()
@@ -89,7 +89,7 @@ describe('useAuth hook', () => {
 
         expect(result.current.error).toBe(mockErrorResponse.message)
         expect(result.current.isLoading).toBe(false)
-        expect(localStorage.getItem('token')).toBeNull()
+        expect(localStorage.getItem('accessToken')).toBeNull()
         expect(localStorage.getItem('refreshToken')).toBeNull()
     })
 
@@ -107,7 +107,7 @@ describe('useAuth hook', () => {
 
         expect(result.current.error).toBe('An unexpected error occured')
         expect(result.current.isLoading).toBe(false)
-        expect(localStorage.getItem('token')).toBeNull()
+        expect(localStorage.getItem('accessToken')).toBeNull()
         expect(localStorage.getItem('refreshToken')).toBeNull()
     })
 })

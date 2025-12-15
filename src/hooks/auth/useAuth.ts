@@ -31,7 +31,7 @@ export function useAuth() {
                 { loginRequest: credentials } 
             )
             
-            localStorage.setItem('token', data.accessToken)
+            localStorage.setItem('accessToken', data.accessToken)
             localStorage.setItem('refreshToken', data.refreshToken) 
             
             return data;

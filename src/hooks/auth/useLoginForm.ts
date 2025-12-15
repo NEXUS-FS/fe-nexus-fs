@@ -15,8 +15,8 @@ export function useLoginForm() {
   ): Promise<LoginResponse | undefined> => {
     e.preventDefault()
     const response = await login({ username, password })
-    if (response?.accessToken) {
-      contextLogin(response.accessToken)
+    if (response?.accessToken && response?.user) {
+      contextLogin(response.accessToken, response.user)
     }
 
     return response

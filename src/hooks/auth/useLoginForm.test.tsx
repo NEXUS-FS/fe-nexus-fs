@@ -86,7 +86,7 @@ describe('useAuthForm hook', () => {
       username: 'admin',
       password: 'admin123',
     })
-    expect(mockContextLogin).toHaveBeenCalledWith('mock-access-token')
+    expect(mockContextLogin).toHaveBeenCalledWith('mock-access-token', mockResponse.user)
     expect(fakeEvent.preventDefault).toHaveBeenCalled()
   })
 
