@@ -19,7 +19,7 @@ export function useAdminUsers(page: number = 1, pageSize: number = 10) {
     try {
       const response = await usersApi.getAll(page, pageSize);
       setUsers(response.data);
-      setTotalCount(response.totalCount);
+      setTotalCount(response.total);
       setTotalPages(response.totalPages);
     } catch (err: any) {
       setError(err.message || "Failed to fetch users");
