@@ -3,6 +3,12 @@ import { AppHeader } from "@/components/layout/AppHeader";
 import { SettingsSidebar } from "@/components/layout/SettingsSidebar";
 import { Card } from "@/components/ui/card";
 import { ProvidersSettings } from "@/features/settings/ProvidersSettings";
+import { ProfileSettings } from "@/features/settings/ProfileSettings";
+import { GeneralSettings } from "@/features/settings/GeneralSettings";
+import { SecuritySettings } from "@/features/settings/SecuritySettings";
+import { NotificationsSettings } from "@/features/settings/NotificationsSettings";
+import { ApiSettings } from "@/features/settings/ApiSettings";
+import { SupportSettings } from "@/features/settings/SupportSettings";
 
 const validTabs = ["profile", "general", "providers", "security", "notifications", "api", "support"];
 
@@ -16,44 +22,20 @@ export default function Settings() {
 
   const renderContent = () => {
     switch (tab) {
+      case "profile":
+        return <ProfileSettings />;
+      case "general":
+        return <GeneralSettings />;
       case "providers":
         return <ProvidersSettings />;
-      case "profile":
-        return (
-          <div className="text-muted-foreground text-center py-12">
-            Profile settings coming soon...
-          </div>
-        );
-      case "general":
-        return (
-          <div className="text-muted-foreground text-center py-12">
-            General settings coming soon...
-          </div>
-        );
       case "security":
-        return (
-          <div className="text-muted-foreground text-center py-12">
-            Security settings coming soon...
-          </div>
-        );
+        return <SecuritySettings />;
       case "notifications":
-        return (
-          <div className="text-muted-foreground text-center py-12">
-            Notification settings coming soon...
-          </div>
-        );
+        return <NotificationsSettings />;
       case "api":
-        return (
-          <div className="text-muted-foreground text-center py-12">
-            API settings coming soon...
-          </div>
-        );
+        return <ApiSettings />;
       case "support":
-        return (
-          <div className="text-muted-foreground text-center py-12">
-            Support options coming soon...
-          </div>
-        );
+        return <SupportSettings />;
       default:
         return null;
     }

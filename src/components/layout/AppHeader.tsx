@@ -11,7 +11,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Home, FileText, Bell, Search, User, Settings, Github, LifeBuoy, Code, LogOut } from "lucide-react";
+import { Home, FileText, Bell, Search, User, Settings, Github, LifeBuoy, Code, LogOut, Share2 } from "lucide-react";
 import { useAuthContext } from "@/context/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -90,6 +90,17 @@ export function AppHeader() {
             >
               <FileText className="h-4 w-4" />
               <span className="font-mac-medium">Files</span>
+            </a>
+            <a
+              href="/shared"
+              className={`flex items-center gap-2 text-sm transition-colors ${
+                isActive("/shared") 
+                  ? "text-foreground" 
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Share2 className="h-4 w-4" />
+              <span className="font-mac-medium">Shared</span>
             </a>
             <button className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
               <Bell className="h-4 w-4" />
