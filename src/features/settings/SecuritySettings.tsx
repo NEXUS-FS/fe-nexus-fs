@@ -112,7 +112,7 @@ export function SecuritySettings() {
             Request Data Export
           </Button>
           <p className="text-sm text-muted-foreground mt-2">
-            We'll send you a download link via email
+            We&apos;ll send you a download link via email
           </p>
         </CardContent>
       </Card>

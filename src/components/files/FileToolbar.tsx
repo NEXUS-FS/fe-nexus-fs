@@ -12,7 +12,6 @@ import {
   Grid3x3,
   List,
   Search,
-  Filter,
 } from "lucide-react";
 import type { FileViewMode, FileSortBy } from "@/types";
 

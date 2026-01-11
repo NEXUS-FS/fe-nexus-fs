@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { fileOperationsApi } from "@/services";
 import { useAuthContext } from "@/context/AuthContext";
-import type { ListFilesResponse, FileItem } from "@/types";
+import type { ListFilesResponse } from "@/types";
 
 /**
  * Hook for fetching and managing file listings

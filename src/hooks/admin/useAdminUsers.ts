@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { usersApi } from "@/services";
-import type { User, PaginatedResponse } from "@/types";
+import type { User } from "@/types";
 
 /**
  * Hook for admin user management operations

@@ -183,7 +183,7 @@ export const adminApi = {
   /**
    * Export audit logs
    */
-  exportAuditLogs: async (params: {
+  exportAuditLogs: async (_params: {
     startDate: string;
     endDate: string;
     format: "csv" | "json";

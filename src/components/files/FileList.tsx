@@ -39,12 +39,12 @@ export function FileList({
     return parts[parts.length - 1] || parts[parts.length - 2];
   };
 
-  const formatFileSize = (fileName: string) => {
+  const formatFileSize = (_fileName: string) => {
     // Mock file sizes - in real app, this would come from file metadata
     return "—";
   };
 
-  const formatModified = (fileName: string) => {
+  const formatModified = (_fileName: string) => {
     // Mock dates - in real app, this would come from file metadata
     return "—";
   };

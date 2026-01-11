@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { File, Folder, Image, FileText, Film, Music, Archive } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";

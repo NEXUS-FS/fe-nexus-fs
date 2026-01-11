@@ -31,7 +31,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleEditUser = (user: any) => {
+  const handleEditUser = (_user: any) => {
     // TODO: Implement user edit dialog
     alert("User edit dialog coming soon!");
   };

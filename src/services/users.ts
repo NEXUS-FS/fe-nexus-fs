@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/lib/axiosInstance";
-import type { User, PaginatedResponse, UpdateUserData } from "@/types";
+import type { User, PaginatedResponse } from "@/types";
 
 /**
  * User Management API Service

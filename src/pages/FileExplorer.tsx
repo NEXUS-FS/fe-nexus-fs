@@ -31,10 +31,10 @@ export default function FileExplorer() {
     selectedProviderId || "",
     currentPath
   );
-  const { deleteFile, createDirectory, copyFile, moveFile } = useFileOperations();
+  const { createDirectory } = useFileOperations();
   const { uploadFile, isUploading, uploadProgress } = useFileUpload();
-  const { downloadFile, isDownloading } = useFileDownload();
-  const { selectedFiles, toggleSelection, clearSelection, isSelected } = useFileSelection();
+  const { downloadFile } = useFileDownload();
+  const { selectedFiles, toggleSelection, clearSelection } = useFileSelection();
 
   // Auto-select first provider
   useEffect(() => {
@@ -140,20 +140,6 @@ export default function FileExplorer() {
     }
   };
 
-  const handleDelete = async (filePath: string) => {
-    if (!selectedProviderId) return;
-    if (!confirm(`Are you sure you want to delete ${filePath}?`)) return;
-
-    const result = await deleteFile(selectedProviderId, filePath);
-    
-    if (result.success) {
-      clearSelection();
-      refresh();
-    } else {
-      alert(result.message || "Failed to delete file");
-    }
-  };
-
   const handleSort = (column: FileSortBy) => {
     if (sortBy === column) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -163,7 +149,7 @@ export default function FileExplorer() {
     }
   };
 
-  const handleContextMenu = (e: React.MouseEvent, filePath: string) => {
+  const handleContextMenu = (e: React.MouseEvent, _filePath: string) => {
     e.preventDefault();
     // Context menu is handled by FileContextMenu wrapper
   };

@@ -34,7 +34,7 @@ export function ShareDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Share "{fileName}"</DialogTitle>
+          <DialogTitle>Share &quot;{fileName}&quot;</DialogTitle>
           <DialogDescription>
             Share this file with specific users or create a public link
           </DialogDescription>

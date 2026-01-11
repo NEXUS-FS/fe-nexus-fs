@@ -10,7 +10,6 @@ import { Share2, Loader2, RefreshCw } from "lucide-react";
 export default function SharedFiles() {
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState<"by-me" | "with-me" | "links">("by-me");
-  const [copiedLinkId, setCopiedLinkId] = useState<string | null>(null);
 
   const {
     sharedByMe,
@@ -22,14 +21,12 @@ export default function SharedFiles() {
     createInternalShare,
     revokeLink,
     removeInternalShare,
-    updatePermissions,
     refresh,
   } = useSharing();
 
   const handleCopyLink = async (url: string) => {
     await navigator.clipboard.writeText(url);
-    setCopiedLinkId(url);
-    setTimeout(() => setCopiedLinkId(null), 2000);
+    // Show success feedback (could add a toast here)
   };
 
   const handleRevoke = async (id: string, type: "internal" | "public") => {
@@ -51,7 +48,7 @@ export default function SharedFiles() {
     }
   };
 
-  const handleEditPermissions = (shareId: string) => {
+  const handleEditPermissions = (_shareId: string) => {
     // TODO: Implement permissions editor dialog
     alert("Permissions editor coming soon!");
   };
@@ -65,7 +62,7 @@ export default function SharedFiles() {
           <div>
             <h1 className="text-3xl font-mac-semibold tracking-tight">Shared Files</h1>
             <p className="text-muted-foreground mt-1">
-              Manage files you've shared and files shared with you
+              Manage files you&apos;ve shared and files shared with you
             </p>
           </div>
 

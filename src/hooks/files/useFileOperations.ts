@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { fileOperationsApi } from "@/services";
 import { useAuthContext } from "@/context/AuthContext";
-import type {
-  DeleteFileRequest,
-  CopyFileRequest,
-  MoveFileRequest,
-  MkdirRequest,
-} from "@/types";
 
 /**
  * Hook for file CRUD operations

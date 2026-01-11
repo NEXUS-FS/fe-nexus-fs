@@ -152,7 +152,7 @@ export const sharingApi = {
   /**
    * Get share access statistics
    */
-  getShareStats: async (shareId: string): Promise<{
+  getShareStats: async (_shareId: string): Promise<{
     accessCount: number;
     lastAccessed: string | null;
     uniqueVisitors: number;
