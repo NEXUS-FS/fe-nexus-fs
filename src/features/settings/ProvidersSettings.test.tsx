@@ -7,8 +7,23 @@ import * as useProvidersModule from '@/hooks/settings/useProviders';
 vi.mock('@/hooks/settings/useProviders', () => ({
   useConnectedProviders: vi.fn(),
   useAvailableProviders: vi.fn(),
-  useAccessRequests: vi.fn(),
   useProviderConfig: vi.fn(),
+}));
+
+// Mock the components
+vi.mock('@/components/settings/ConfigureProviderModal', () => ({
+  ConfigureProviderModal: ({ open }: any) =>
+    open ? <div data-testid="configure-modal">Configure Modal</div> : null,
+}));
+
+vi.mock('@/components/settings/ProviderCard', () => ({
+  ProviderCard: ({ provider, onDisconnect, onTestConnection }: any) => (
+    <div data-testid={`provider-card-${provider.id}`}>
+      <span>{provider.name}</span>
+      <button onClick={() => onDisconnect(provider)}>Disconnect</button>
+      <button onClick={() => onTestConnection(provider)}>Test</button>
+    </div>
+  ),
 }));
 
 describe('ProvidersSettings', () => {
@@ -46,159 +61,182 @@ describe('ProvidersSettings', () => {
       type: 'aws-s3' as const,
       description: 'Connect to Amazon S3 buckets',
     },
+    {
+      id: 'ftp',
+      name: 'FTP Server',
+      type: 'ftp' as const,
+      description: 'Connect to FTP server',
+    },
   ];
 
-  const mockConfigureProvider = vi.fn();
+  const mockConnectProvider = vi
+    .fn()
+    .mockResolvedValue({ success: true, message: 'Connected' });
   const mockDisconnectProvider = vi.fn();
-  const mockTestConnection = vi.fn().mockResolvedValue({ success: true, message: 'Success' });
-  const mockAddProvider = vi.fn();
-  const mockSetAvailableProviders = vi.fn();
-  const mockSubmitRequest = vi.fn();
-  const mockSetRequests = vi.fn();
+  const mockTestConnection = vi
+    .fn()
+    .mockResolvedValue({ success: true, message: 'Success' });
 
   beforeEach(() => {
     vi.clearAllMocks();
+    global.confirm = vi.fn(() => true);
+    global.alert = vi.fn();
 
-    (useProvidersModule.useConnectedProviders as ReturnType<typeof vi.fn>).mockReturnValue({
+    (
+      useProvidersModule.useConnectedProviders as ReturnType<typeof vi.fn>
+    ).mockReturnValue({
       providers: mockConnectedProviders,
       isLoading: false,
-      configureProvider: mockConfigureProvider,
+      error: null,
+      connectProvider: mockConnectProvider,
       disconnectProvider: mockDisconnectProvider,
       testConnection: mockTestConnection,
-      addProvider: mockAddProvider,
     });
 
-    (useProvidersModule.useAvailableProviders as ReturnType<typeof vi.fn>).mockReturnValue({
+    (
+      useProvidersModule.useAvailableProviders as ReturnType<typeof vi.fn>
+    ).mockReturnValue({
       providers: mockAvailableProviders,
-      setProviders: mockSetAvailableProviders,
       isLoading: false,
     });
 
-    (useProvidersModule.useAccessRequests as ReturnType<typeof vi.fn>).mockReturnValue({
-      requests: [],
-      setRequests: mockSetRequests,
-      isLoading: false,
-      submitRequest: mockSubmitRequest,
-    });
-
-    (useProvidersModule.useProviderConfig as ReturnType<typeof vi.fn>).mockReturnValue(null);
+    (
+      useProvidersModule.useProviderConfig as ReturnType<typeof vi.fn>
+    ).mockReturnValue(null);
   });
 
-  it('renders Connected Providers section', () => {
+  it('should render connected providers section', () => {
     render(<ProvidersSettings />);
 
     expect(screen.getByText('Connected Providers')).toBeInTheDocument();
-    expect(screen.getByText('Manage your connected storage providers')).toBeInTheDocument();
+    expect(
+      screen.getByText('Manage your connected storage providers'),
+    ).toBeInTheDocument();
   });
 
-  it('renders Request Access section', () => {
+  it('should display connected providers', () => {
     render(<ProvidersSettings />);
 
-    expect(screen.getByText('Request Access')).toBeInTheDocument();
-    expect(screen.getByText('Request access to additional storage providers')).toBeInTheDocument();
-  });
-
-  it('renders My Access Requests section', () => {
-    render(<ProvidersSettings />);
-
-    expect(screen.getByText('My Access Requests')).toBeInTheDocument();
-    expect(screen.getByText('Track your access request status')).toBeInTheDocument();
-  });
-
-  it('displays connected providers', () => {
-    render(<ProvidersSettings />);
-
+    expect(screen.getByTestId('provider-card-local-1')).toBeInTheDocument();
+    expect(screen.getByTestId('provider-card-google-1')).toBeInTheDocument();
     expect(screen.getByText('Local Storage')).toBeInTheDocument();
     expect(screen.getByText('Google Drive')).toBeInTheDocument();
   });
 
-  it('displays available providers for request', () => {
+  it('should display available providers section', () => {
+    render(<ProvidersSettings />);
+
+    expect(screen.getByText('Available Providers')).toBeInTheDocument();
+    expect(
+      screen.getByText('Connect to a new storage provider'),
+    ).toBeInTheDocument();
+  });
+
+  it('should display available providers with connect buttons', () => {
     render(<ProvidersSettings />);
 
     expect(screen.getByText('AWS S3')).toBeInTheDocument();
+    expect(screen.getByText('FTP Server')).toBeInTheDocument();
+    expect(
+      screen.getByText('Connect to Amazon S3 buckets'),
+    ).toBeInTheDocument();
+
+    const connectButtons = screen.getAllByText('Connect');
+    expect(connectButtons.length).toBeGreaterThan(0);
   });
 
-  it('shows empty state when no providers are connected', () => {
-    (useProvidersModule.useConnectedProviders as ReturnType<typeof vi.fn>).mockReturnValue({
+  it('should show empty state when no providers are connected', () => {
+    (
+      useProvidersModule.useConnectedProviders as ReturnType<typeof vi.fn>
+    ).mockReturnValue({
       providers: [],
       isLoading: false,
-      configureProvider: mockConfigureProvider,
+      error: null,
+      connectProvider: mockConnectProvider,
       disconnectProvider: mockDisconnectProvider,
       testConnection: mockTestConnection,
-      addProvider: mockAddProvider,
     });
 
     render(<ProvidersSettings />);
 
-    expect(screen.getByText('No providers configured yet')).toBeInTheDocument();
+    expect(screen.getByText('No providers connected yet')).toBeInTheDocument();
+    expect(
+      screen.getByText('Connect a provider below to get started'),
+    ).toBeInTheDocument();
   });
 
-  it('shows empty state when no access requests exist', () => {
-    render(<ProvidersSettings />);
-
-    expect(screen.getByText('No requests were made yet.')).toBeInTheDocument();
-  });
-
-  it('shows loading skeletons when data is loading', () => {
-    (useProvidersModule.useConnectedProviders as ReturnType<typeof vi.fn>).mockReturnValue({
+  it('should show loading state', () => {
+    (
+      useProvidersModule.useConnectedProviders as ReturnType<typeof vi.fn>
+    ).mockReturnValue({
       providers: [],
       isLoading: true,
-      configureProvider: mockConfigureProvider,
+      error: null,
+      connectProvider: mockConnectProvider,
       disconnectProvider: mockDisconnectProvider,
       testConnection: mockTestConnection,
-      addProvider: mockAddProvider,
     });
 
     render(<ProvidersSettings />);
 
-    // Check for skeleton elements
-    const skeletons = document.querySelectorAll('[data-slot="skeleton"]');
+    // Skeleton loaders should be present
+    const skeletons = document.querySelectorAll('.animate-pulse');
     expect(skeletons.length).toBeGreaterThan(0);
   });
 
-  it('opens request modal when Request button is clicked', async () => {
+  it('should handle disconnect provider', async () => {
     render(<ProvidersSettings />);
 
-    const requestButton = screen.getByRole('button', { name: /Request/i });
-    fireEvent.click(requestButton);
+    const disconnectButtons = screen.getAllByText('Disconnect');
+    fireEvent.click(disconnectButtons[0]);
 
     await waitFor(() => {
-      expect(screen.getByText('Request Provider Access')).toBeInTheDocument();
+      expect(global.confirm).toHaveBeenCalled();
+      expect(mockDisconnectProvider).toHaveBeenCalledWith('local-1');
     });
   });
 
-  it('displays access requests with correct status badges', () => {
-    (useProvidersModule.useAccessRequests as ReturnType<typeof vi.fn>).mockReturnValue({
-      requests: [
-        {
-          id: 'req-1',
-          providerName: 'AWS S3',
-          providerType: 'aws-s3' as const,
-          reason: 'Need for project',
-          status: 'pending' as const,
-          requestedAt: '2024-03-01T10:00:00Z',
-        },
-      ],
-      setRequests: mockSetRequests,
+  it('should handle test connection', async () => {
+    render(<ProvidersSettings />);
+
+    const testButtons = screen.getAllByText('Test');
+    fireEvent.click(testButtons[0]);
+
+    await waitFor(() => {
+      expect(mockTestConnection).toHaveBeenCalledWith('local-1');
+      expect(global.alert).toHaveBeenCalledWith('Success');
+    });
+  });
+
+  it('should display error message when present', () => {
+    (
+      useProvidersModule.useConnectedProviders as ReturnType<typeof vi.fn>
+    ).mockReturnValue({
+      providers: mockConnectedProviders,
       isLoading: false,
-      submitRequest: mockSubmitRequest,
+      error: 'Failed to load providers',
+      connectProvider: mockConnectProvider,
+      disconnectProvider: mockDisconnectProvider,
+      testConnection: mockTestConnection,
     });
 
     render(<ProvidersSettings />);
 
-    expect(screen.getByText('Pending')).toBeInTheDocument();
+    expect(screen.getByText('Failed to load providers')).toBeInTheDocument();
   });
 
-  it('shows message when all providers are requested', () => {
-    (useProvidersModule.useAvailableProviders as ReturnType<typeof vi.fn>).mockReturnValue({
+  it('should show empty state when all providers are connected', () => {
+    (
+      useProvidersModule.useAvailableProviders as ReturnType<typeof vi.fn>
+    ).mockReturnValue({
       providers: [],
-      setProviders: mockSetAvailableProviders,
       isLoading: false,
     });
 
     render(<ProvidersSettings />);
 
-    expect(screen.getByText('You have requested access to all available providers')).toBeInTheDocument();
+    expect(
+      screen.getByText('All available providers are already connected'),
+    ).toBeInTheDocument();
   });
 });
-

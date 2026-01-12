@@ -1,14 +1,14 @@
-import { cn } from "@/lib/utils";
-import { NavLink } from "react-router-dom";
-import { 
-  User, 
-  Settings, 
-  Cloud, 
-  Shield, 
-  Bell, 
-  Code, 
-  LifeBuoy 
-} from "lucide-react";
+import { cn } from '@/lib/utils';
+import { NavLink } from 'react-router-dom';
+import {
+  User,
+  Settings,
+  Cloud,
+  Shield,
+  Bell,
+  Code,
+  LifeBuoy,
+} from 'lucide-react';
 
 export interface SettingsNavItem {
   id: string;
@@ -18,13 +18,38 @@ export interface SettingsNavItem {
 }
 
 const settingsNavItems: SettingsNavItem[] = [
-  { id: "profile", label: "Profile", icon: User, path: "/settings/profile" },
-  { id: "general", label: "General", icon: Settings, path: "/settings/general" },
-  { id: "providers", label: "Providers", icon: Cloud, path: "/settings/providers" },
-  { id: "security", label: "Security", icon: Shield, path: "/settings/security" },
-  { id: "notifications", label: "Notifications", icon: Bell, path: "/settings/notifications" },
-  { id: "api", label: "API", icon: Code, path: "/settings/api" },
-  { id: "support", label: "Support", icon: LifeBuoy, path: "/settings/support" },
+  { id: 'profile', label: 'Profile', icon: User, path: '/settings/profile' },
+  {
+    id: 'general',
+    label: 'General',
+    icon: Settings,
+    path: '/settings/general',
+  },
+  {
+    id: 'providers',
+    label: 'Providers',
+    icon: Cloud,
+    path: '/settings/providers',
+  },
+  {
+    id: 'security',
+    label: 'Security',
+    icon: Shield,
+    path: '/settings/security',
+  },
+  {
+    id: 'notifications',
+    label: 'Notifications',
+    icon: Bell,
+    path: '/settings/notifications',
+  },
+  { id: 'api', label: 'API', icon: Code, path: '/settings/api' },
+  {
+    id: 'support',
+    label: 'Support',
+    icon: LifeBuoy,
+    path: '/settings/support',
+  },
 ];
 
 export function SettingsSidebar() {
@@ -33,17 +58,17 @@ export function SettingsSidebar() {
       <ul className="space-y-1">
         {settingsNavItems.map((item) => {
           const Icon = item.icon;
-          
+
           return (
             <li key={item.id}>
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
                   cn(
-                    "w-full flex items-center gap-3 px-3 py-2.5 text-sm rounded-md transition-colors",
+                    'w-full flex items-center gap-3 px-3 py-2.5 text-sm rounded-md transition-colors',
                     isActive
-                      ? "bg-accent text-foreground font-mac-medium"
-                      : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+                      ? 'bg-accent text-foreground font-mac-medium'
+                      : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground',
                   )
                 }
               >

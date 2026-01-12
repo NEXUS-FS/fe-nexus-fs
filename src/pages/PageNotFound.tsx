@@ -1,24 +1,30 @@
-import { Link, useNavigate } from "react-router-dom"
-import { Home, ArrowLeft } from "lucide-react"
+import { Link, useNavigate } from 'react-router-dom';
+import { Home, ArrowLeft } from 'lucide-react';
 
 export default function PageNotFound() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
-    <div data-testid="not-found-page" className="grid min-h-svh w-full lg:grid-cols-2">
+    <div
+      data-testid="not-found-page"
+      className="grid min-h-svh w-full lg:grid-cols-2"
+    >
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-md text-center space-y-6">
             <div className="space-y-2">
-              <h1 className="text-8xl font-mac-semibold tracking-tighter">404</h1>
+              <h1 className="text-8xl font-mac-semibold tracking-tighter">
+                404
+              </h1>
               <h2 className="text-2xl font-mac-semibold tracking-tight">
                 Page not found!
               </h2>
               <p className="text-muted-foreground font-mac-regular">
-                Sorry, the page you want to access does no longer exists or have been moved.
+                Sorry, the page you want to access does no longer exists or have
+                been moved.
               </p>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
               <Link
                 to="/dashboard"
@@ -38,10 +44,13 @@ export default function PageNotFound() {
           </div>
         </div>
       </div>
-      
+
       <div className="bg-[#131313] hidden lg:flex justify-center items-center relative">
         <div className="absolute top-5 left-5">
-          <a href="/dashboard" className="flex items-center gap-2 text-2xl font-mac-semibold text-white tracking-tighter">
+          <a
+            href="/dashboard"
+            className="flex items-center gap-2 text-2xl font-mac-semibold text-white tracking-tighter"
+          >
             NexusFS
           </a>
         </div>
@@ -53,5 +62,5 @@ export default function PageNotFound() {
         <img src="/logo-white.svg" alt="Logo NexusFS" className="opacity-20" />
       </div>
     </div>
-  )
+  );
 }

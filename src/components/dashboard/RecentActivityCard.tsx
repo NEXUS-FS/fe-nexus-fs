@@ -1,9 +1,15 @@
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Upload, Download, Files } from "lucide-react";
-import type { RecentActivityItem } from "@/types";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Upload, Download, Files } from 'lucide-react';
+import type { RecentActivityItem } from '@/types';
 
 const iconMap = {
   Upload,
@@ -43,7 +49,11 @@ export function RecentActivityCardSkeleton() {
   );
 }
 
-export function RecentActivityCard({ activities, onViewAll, isLoading }: RecentActivityCardProps) {
+export function RecentActivityCard({
+  activities,
+  onViewAll,
+  isLoading,
+}: RecentActivityCardProps) {
   if (isLoading) {
     return <RecentActivityCardSkeleton />;
   }
@@ -62,7 +72,7 @@ export function RecentActivityCard({ activities, onViewAll, isLoading }: RecentA
                 <Icon className="h-4 w-4 text-muted-foreground mt-0.5" />
                 <div className="flex-1 space-y-1">
                   <p className="text-sm">
-                    You <span className="font-medium">{item.action}</span>{" "}
+                    You <span className="font-medium">{item.action}</span>{' '}
                     <span className="font-medium">{item.file}</span>
                   </p>
                   <p className="text-xs text-muted-foreground">{item.time}</p>
@@ -72,9 +82,9 @@ export function RecentActivityCard({ activities, onViewAll, isLoading }: RecentA
           })}
         </div>
         <Separator className="my-4" />
-        <Button 
-          variant="default" 
-          className="w-full" 
+        <Button
+          variant="default"
+          className="w-full"
           size="sm"
           onClick={onViewAll}
         >

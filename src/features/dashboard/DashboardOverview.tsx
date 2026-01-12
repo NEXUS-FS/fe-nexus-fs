@@ -1,9 +1,12 @@
-import { StatsCard, StatsCardSkeleton } from "@/components/dashboard/StatsCard";
-import { SystemStatus } from "@/components/dashboard/SystemStatus";
-import { RecentActivityCard } from "@/components/dashboard/RecentActivityCard";
-import { QuickActionsCard } from "@/components/dashboard/QuickActionsCard";
-import { Files, HardDrive, Sparkles, Cloud } from "lucide-react";
-import { useDashboardStats, useRecentActivity } from "@/hooks/dashboard/useDashboard";
+import { StatsCard, StatsCardSkeleton } from '@/components/dashboard/StatsCard';
+import { SystemStatus } from '@/components/dashboard/SystemStatus';
+import { RecentActivityCard } from '@/components/dashboard/RecentActivityCard';
+import { QuickActionsCard } from '@/components/dashboard/QuickActionsCard';
+import { Files, HardDrive, Sparkles, Cloud } from 'lucide-react';
+import {
+  useDashboardStats,
+  useRecentActivity,
+} from '@/hooks/dashboard/useDashboard';
 
 export function DashboardOverview() {
   const { stats, isLoading: statsLoading } = useDashboardStats();
@@ -59,14 +62,14 @@ export function DashboardOverview() {
       <div className="grid gap-6 md:grid-cols-2">
         <RecentActivityCard
           activities={activities}
-          onViewAll={() => console.log("View all logs")}
+          onViewAll={() => console.log('View all logs')}
           isLoading={activitiesLoading}
         />
         <QuickActionsCard
-          onUpload={() => console.log("Upload")}
-          onNewFolder={() => console.log("New folder")}
-          onShare={() => console.log("Share")}
-          onSettings={() => console.log("Settings")}
+          onUpload={() => console.log('Upload')}
+          onNewFolder={() => console.log('New folder')}
+          onShare={() => console.log('Share')}
+          onSettings={() => console.log('Settings')}
         />
       </div>
     </div>

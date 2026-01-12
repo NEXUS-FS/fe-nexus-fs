@@ -9,4 +9,4 @@ const GoogleIcon = () => {
   );
 };
 
-export default GoogleIcon
+export default GoogleIcon;

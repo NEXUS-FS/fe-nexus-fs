@@ -45,9 +45,7 @@ vi.mock('../../components/auth/SocialLoginButton', () => ({
 }));
 
 vi.mock('../../components/auth/LoginPrompt', () => ({
-  LoginPrompt: vi.fn(() => (
-    <div data-testid="login-prompt">LoginPrompt</div>
-  )),
+  LoginPrompt: vi.fn(() => <div data-testid="login-prompt">LoginPrompt</div>),
 }));
 
 vi.mock('@/hooks/auth/useRegisterForm', () => ({
@@ -82,7 +80,9 @@ describe('RegisterForm', () => {
     expect(screen.getByDisplayValue('testuser')).toBeInTheDocument();
     expect(screen.getByDisplayValue('test@example.com')).toBeInTheDocument();
     expect(screen.getByDisplayValue('password123')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /sign up/i }),
+    ).toBeInTheDocument();
     expect(screen.getByTestId('social-login')).toBeInTheDocument();
     expect(screen.getByTestId('login-prompt')).toBeInTheDocument();
   });
@@ -137,7 +137,9 @@ describe('RegisterForm', () => {
 
     render(<RegisterForm />);
 
-    expect(screen.getByRole('button', { name: /creating account/i })).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: /creating account/i }),
+    ).toBeDisabled();
     expect(screen.getByDisplayValue('u')).toBeDisabled();
     expect(screen.getByDisplayValue('e')).toBeDisabled();
     expect(screen.getByDisplayValue('p')).toBeDisabled();

@@ -1,8 +1,8 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DashboardOverview } from "@/features/dashboard/DashboardOverview";
-import { DashboardStorage } from "@/features/dashboard/DashboardStorage";
-import { AppHeader } from "@/components/layout/AppHeader";
-import { useAuthContext } from "@/context/AuthContext";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { DashboardOverview } from '@/features/dashboard/DashboardOverview';
+import { DashboardStorage } from '@/features/dashboard/DashboardStorage';
+import { AppHeader } from '@/components/layout/AppHeader';
+import { useAuthContext } from '@/context/AuthContext';
 
 export default function Dashboard() {
   const { user } = useAuthContext();
@@ -12,10 +12,12 @@ export default function Dashboard() {
     return username
       .split(/[._-]/)
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
+      .join(' ');
   };
 
-  const displayName = user?.username ? formatDisplayName(user.username) : "User";
+  const displayName = user?.username
+    ? formatDisplayName(user.username)
+    : 'User';
 
   return (
     <div className="min-h-screen bg-[#FDFDFD]">

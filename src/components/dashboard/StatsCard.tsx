@@ -1,7 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { LucideIcon } from "lucide-react";
+import { Card, CardContent } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Skeleton } from '@/components/ui/skeleton';
+import type { LucideIcon } from 'lucide-react';
 
 interface StatsCardProps {
   title: string;
@@ -29,14 +29,14 @@ export function StatsCardSkeleton() {
   );
 }
 
-export function StatsCard({ 
-  title, 
-  value, 
-  icon: Icon, 
-  description, 
-  showProgress, 
+export function StatsCard({
+  title,
+  value,
+  icon: Icon,
+  description,
+  showProgress,
   progressValue,
-  isLoading
+  isLoading,
 }: StatsCardProps) {
   if (isLoading) {
     return <StatsCardSkeleton />;

@@ -8,7 +8,7 @@ const renderWithRouter = (initialRoute = '/settings/providers') => {
   return render(
     <MemoryRouter initialEntries={[initialRoute]}>
       <SettingsSidebar />
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 };
 
@@ -28,13 +28,34 @@ describe('SettingsSidebar', () => {
   it('renders navigation links with correct hrefs', () => {
     renderWithRouter();
 
-    expect(screen.getByText('Profile').closest('a')).toHaveAttribute('href', '/settings/profile');
-    expect(screen.getByText('General').closest('a')).toHaveAttribute('href', '/settings/general');
-    expect(screen.getByText('Providers').closest('a')).toHaveAttribute('href', '/settings/providers');
-    expect(screen.getByText('Security').closest('a')).toHaveAttribute('href', '/settings/security');
-    expect(screen.getByText('Notifications').closest('a')).toHaveAttribute('href', '/settings/notifications');
-    expect(screen.getByText('API').closest('a')).toHaveAttribute('href', '/settings/api');
-    expect(screen.getByText('Support').closest('a')).toHaveAttribute('href', '/settings/support');
+    expect(screen.getByText('Profile').closest('a')).toHaveAttribute(
+      'href',
+      '/settings/profile',
+    );
+    expect(screen.getByText('General').closest('a')).toHaveAttribute(
+      'href',
+      '/settings/general',
+    );
+    expect(screen.getByText('Providers').closest('a')).toHaveAttribute(
+      'href',
+      '/settings/providers',
+    );
+    expect(screen.getByText('Security').closest('a')).toHaveAttribute(
+      'href',
+      '/settings/security',
+    );
+    expect(screen.getByText('Notifications').closest('a')).toHaveAttribute(
+      'href',
+      '/settings/notifications',
+    );
+    expect(screen.getByText('API').closest('a')).toHaveAttribute(
+      'href',
+      '/settings/api',
+    );
+    expect(screen.getByText('Support').closest('a')).toHaveAttribute(
+      'href',
+      '/settings/support',
+    );
   });
 
   it('highlights the active tab based on current route', () => {
@@ -50,11 +71,10 @@ describe('SettingsSidebar', () => {
     // Each nav item should have an icon (svg element)
     const navItems = screen.getAllByRole('link');
     expect(navItems).toHaveLength(7);
-    
+
     navItems.forEach((item) => {
       const icon = item.querySelector('svg');
       expect(icon).toBeInTheDocument();
     });
   });
 });
-

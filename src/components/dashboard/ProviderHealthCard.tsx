@@ -1,10 +1,16 @@
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { CheckCircle2 } from "lucide-react";
-import type { ProviderHealth } from "@/types";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { CheckCircle2 } from 'lucide-react';
+import type { ProviderHealth } from '@/types';
 
 interface ProviderHealthCardProps {
   providers: ProviderHealth[];
@@ -44,7 +50,11 @@ export function ProviderHealthCardSkeleton() {
   );
 }
 
-export function ProviderHealthCard({ providers, onManage, isLoading }: ProviderHealthCardProps) {
+export function ProviderHealthCard({
+  providers,
+  onManage,
+  isLoading,
+}: ProviderHealthCardProps) {
   if (isLoading) {
     return <ProviderHealthCardSkeleton />;
   }
@@ -80,11 +90,7 @@ export function ProviderHealthCard({ providers, onManage, isLoading }: ProviderH
           ))}
         </div>
         <Separator className="my-4" />
-        <Button 
-          variant="default" 
-          className="w-full" 
-          onClick={onManage}
-        >
+        <Button variant="default" className="w-full" onClick={onManage}>
           Manage Connections
         </Button>
       </CardContent>

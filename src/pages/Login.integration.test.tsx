@@ -64,7 +64,6 @@ describe('Login Page Full Flow', () => {
   });
 
   it('logs in successfully and redirects to dashboard', async () => {
-
     const mockedPost = vi.mocked(axiosInstance.post);
     mockedPost.mockResolvedValueOnce({
       status: 200,
@@ -81,7 +80,6 @@ describe('Login Page Full Flow', () => {
     await waitFor(() => {
       expect(mockHandleSubmit).toHaveBeenCalled();
     });
-
   });
 
   it('shows error message when login fails', async () => {
@@ -92,7 +90,7 @@ describe('Login Page Full Flow', () => {
       password: 'wrongpass',
       setUsername,
       setPassword,
-      handleSubmit: vi.fn().mockResolvedValueOnce(undefined), 
+      handleSubmit: vi.fn().mockResolvedValueOnce(undefined),
       isLoading: false,
       error: errorMessage,
     });

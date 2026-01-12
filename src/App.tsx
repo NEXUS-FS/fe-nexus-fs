@@ -6,14 +6,17 @@ import './global/general-sans.css';
 import './global/blink-mac-system.css';
 import { AuthProvider } from './context/AuthContext';
 import ForbiddenPage from './pages/Page403Forbidden';
-import PageNotFound from "@/pages/PageNotFound"
+import PageNotFound from '@/pages/PageNotFound';
 
 bouncy.register();
 
 const Login = lazy(() => import('./pages/Login'));
-const Register = lazy(() => import ('./pages/Register'))
-const Dashboard = lazy(() => import ('./pages/Dashboard'))
-const Settings = lazy(() => import('./pages/Settings'))
+const Register = lazy(() => import('./pages/Register'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Settings = lazy(() => import('./pages/Settings'));
+const FileExplorer = lazy(() => import('./pages/FileExplorer'));
+const SharedFiles = lazy(() => import('./pages/SharedFiles'));
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 
 function App() {
   return (
@@ -30,9 +33,12 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
-             <Route path="/403" element={<ForbiddenPage />} />
+            <Route path="/403" element={<ForbiddenPage />} />
             <Route path="*" element={<PageNotFound />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/files" element={<FileExplorer />} />
+            <Route path="/shared" element={<SharedFiles />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/settings/:tab" element={<Settings />} />
           </Routes>

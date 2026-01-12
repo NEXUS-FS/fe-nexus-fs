@@ -1,22 +1,22 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
 
 interface SocialLoginButtonProps {
-  provider: string
-  icon: React.ReactNode
-  onClick?: () => void
-  disabled?: boolean
+  provider: string;
+  icon: React.ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
 }
 
-export function SocialLoginButton({ 
-  provider, 
-  icon, 
+export function SocialLoginButton({
+  provider,
+  icon,
   onClick,
-  disabled 
+  disabled,
 }: SocialLoginButtonProps) {
   return (
-    <Button 
-      variant="outline" 
-      type="button" 
+    <Button
+      variant="outline"
+      type="button"
       onClick={onClick}
       disabled={disabled}
       className="font-mac-medium"
@@ -24,5 +24,5 @@ export function SocialLoginButton({
       {icon}
       Login with {provider}
     </Button>
-  )
+  );
 }

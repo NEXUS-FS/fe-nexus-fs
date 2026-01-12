@@ -18,12 +18,50 @@ vi.mock('@/components/layout/AppHeader', () => ({
 
 // Mock the SettingsSidebar
 vi.mock('@/components/layout/SettingsSidebar', () => ({
-  SettingsSidebar: () => <nav data-testid="settings-sidebar">Settings Sidebar</nav>,
+  SettingsSidebar: () => (
+    <nav data-testid="settings-sidebar">Settings Sidebar</nav>
+  ),
 }));
 
-// Mock the ProvidersSettings
+// Mock all settings components
 vi.mock('@/features/settings/ProvidersSettings', () => ({
-  ProvidersSettings: () => <div data-testid="providers-settings">Providers Settings</div>,
+  ProvidersSettings: () => (
+    <div data-testid="providers-settings">Providers Settings</div>
+  ),
+}));
+
+vi.mock('@/features/settings/ProfileSettings', () => ({
+  ProfileSettings: () => (
+    <div data-testid="profile-settings">Profile Settings</div>
+  ),
+}));
+
+vi.mock('@/features/settings/GeneralSettings', () => ({
+  GeneralSettings: () => (
+    <div data-testid="general-settings">General Settings</div>
+  ),
+}));
+
+vi.mock('@/features/settings/SecuritySettings', () => ({
+  SecuritySettings: () => (
+    <div data-testid="security-settings">Security Settings</div>
+  ),
+}));
+
+vi.mock('@/features/settings/NotificationsSettings', () => ({
+  NotificationsSettings: () => (
+    <div data-testid="notifications-settings">Notifications Settings</div>
+  ),
+}));
+
+vi.mock('@/features/settings/ApiSettings', () => ({
+  ApiSettings: () => <div data-testid="api-settings">API Settings</div>,
+}));
+
+vi.mock('@/features/settings/SupportSettings', () => ({
+  SupportSettings: () => (
+    <div data-testid="support-settings">Support Settings</div>
+  ),
 }));
 
 const renderWithRouter = (route: string) => {
@@ -33,7 +71,7 @@ const renderWithRouter = (route: string) => {
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/:tab" element={<Settings />} />
       </Routes>
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 };
 
@@ -46,7 +84,9 @@ describe('Settings Page', () => {
     renderWithRouter('/settings/providers');
 
     expect(screen.getByText('Settings')).toBeInTheDocument();
-    expect(screen.getByText('Manage your account and application preferences')).toBeInTheDocument();
+    expect(
+      screen.getByText('Manage your account and application preferences'),
+    ).toBeInTheDocument();
   });
 
   it('renders AppHeader', () => {
@@ -67,47 +107,53 @@ describe('Settings Page', () => {
     expect(screen.getByTestId('providers-settings')).toBeInTheDocument();
   });
 
-  it('shows coming soon message for profile tab', () => {
+  it('renders ProfileSettings for /settings/profile route', () => {
     renderWithRouter('/settings/profile');
 
-    expect(screen.getByText('Profile settings coming soon...')).toBeInTheDocument();
+    expect(screen.getByTestId('profile-settings')).toBeInTheDocument();
   });
 
-  it('shows coming soon message for general tab', () => {
+  it('renders GeneralSettings for /settings/general route', () => {
     renderWithRouter('/settings/general');
 
-    expect(screen.getByText('General settings coming soon...')).toBeInTheDocument();
+    expect(screen.getByTestId('general-settings')).toBeInTheDocument();
   });
 
-  it('shows coming soon message for security tab', () => {
+  it('renders SecuritySettings for /settings/security route', () => {
     renderWithRouter('/settings/security');
 
-    expect(screen.getByText('Security settings coming soon...')).toBeInTheDocument();
+    expect(screen.getByTestId('security-settings')).toBeInTheDocument();
   });
 
-  it('shows coming soon message for notifications tab', () => {
+  it('renders NotificationsSettings for /settings/notifications route', () => {
     renderWithRouter('/settings/notifications');
 
-    expect(screen.getByText('Notification settings coming soon...')).toBeInTheDocument();
+    expect(screen.getByTestId('notifications-settings')).toBeInTheDocument();
   });
 
-  it('shows coming soon message for api tab', () => {
+  it('renders ApiSettings for /settings/api route', () => {
     renderWithRouter('/settings/api');
 
-    expect(screen.getByText('API settings coming soon...')).toBeInTheDocument();
+    expect(screen.getByTestId('api-settings')).toBeInTheDocument();
   });
 
-  it('shows coming soon message for support tab', () => {
+  it('renders SupportSettings for /settings/support route', () => {
     renderWithRouter('/settings/support');
 
-    expect(screen.getByText('Support options coming soon...')).toBeInTheDocument();
+    expect(screen.getByTestId('support-settings')).toBeInTheDocument();
   });
 
   it('redirects to /settings/providers for base /settings route', () => {
     renderWithRouter('/settings');
 
     // The Navigate component redirects to /settings/providers, which renders ProvidersSettings
-    // After redirect, the providers-settings should be visible
+    expect(screen.getByTestId('providers-settings')).toBeInTheDocument();
+  });
+
+  it('redirects to /settings/providers for invalid tab', () => {
+    renderWithRouter('/settings/invalid-tab');
+
+    // Invalid tabs should redirect to providers
     expect(screen.getByTestId('providers-settings')).toBeInTheDocument();
   });
 
@@ -118,4 +164,3 @@ describe('Settings Page', () => {
     expect(mainDiv).toHaveClass('bg-[#FDFDFD]');
   });
 });
-

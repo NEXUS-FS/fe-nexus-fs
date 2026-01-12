@@ -1,9 +1,26 @@
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
-import type { StorageDataPoint, StoragePeriod } from "@/types";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from '@/components/ui/chart';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid } from 'recharts';
+import type { StorageDataPoint, StoragePeriod } from '@/types';
 
 interface StorageTrendChartProps {
   data: StorageDataPoint[];
@@ -14,8 +31,8 @@ interface StorageTrendChartProps {
 
 const chartConfig = {
   storage: {
-    label: "Storage (GB)",
-    color: "hsl(var(--foreground))",
+    label: 'Storage (GB)',
+    color: 'hsl(var(--foreground))',
   },
 } satisfies ChartConfig;
 
@@ -60,7 +77,12 @@ export function StorageTrendChartSkeleton() {
   );
 }
 
-export function StorageTrendChart({ data, period, onPeriodChange, isLoading }: StorageTrendChartProps) {
+export function StorageTrendChart({
+  data,
+  period,
+  onPeriodChange,
+  isLoading,
+}: StorageTrendChartProps) {
   // Show skeleton only on initial load (no data yet)
   if (isLoading && data.length === 0) {
     return <StorageTrendChartSkeleton />;
@@ -73,7 +95,10 @@ export function StorageTrendChart({ data, period, onPeriodChange, isLoading }: S
             <CardTitle>Storage Trend</CardTitle>
             <CardDescription>Storage usage over time</CardDescription>
           </div>
-          <Select value={period} onValueChange={(value: StoragePeriod) => onPeriodChange(value)}>
+          <Select
+            value={period}
+            onValueChange={(value: StoragePeriod) => onPeriodChange(value)}
+          >
             <SelectTrigger className="w-[140px]">
               <SelectValue />
             </SelectTrigger>
@@ -87,7 +112,10 @@ export function StorageTrendChart({ data, period, onPeriodChange, isLoading }: S
         </div>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className={`h-[300px] w-full transition-opacity duration-300 ${isLoading ? 'opacity-50' : 'opacity-100'}`}>
+        <ChartContainer
+          config={chartConfig}
+          className={`h-[300px] w-full transition-opacity duration-300 ${isLoading ? 'opacity-50' : 'opacity-100'}`}
+        >
           <LineChart
             data={data}
             margin={{
@@ -109,7 +137,12 @@ export function StorageTrendChart({ data, period, onPeriodChange, isLoading }: S
               axisLine={false}
               tickMargin={8}
               tickFormatter={(value) => `${value}`}
-              label={{ value: "GB", angle: -90, position: "insideLeft", offset: 0 }}
+              label={{
+                value: 'GB',
+                angle: -90,
+                position: 'insideLeft',
+                offset: 0,
+              }}
             />
             <ChartTooltip
               cursor={false}
@@ -121,7 +154,7 @@ export function StorageTrendChart({ data, period, onPeriodChange, isLoading }: S
               stroke="#000000"
               strokeWidth={2}
               dot={{
-                fill: "#000000",
+                fill: '#000000',
                 r: 5,
                 strokeWidth: 0,
               }}

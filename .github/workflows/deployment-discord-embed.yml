@@ -2,7 +2,7 @@ name: Discord Deployment Notifications
 
 on:
   workflow_run:
-    workflows: ["CI/CD"]
+    workflows: ['CI/CD']
     types:
       - completed
     branches: [main, dev]
@@ -17,9 +17,9 @@ jobs:
         uses: tsickert/discord-webhook@v5.1.0
         with:
           webhook-url: ${{ secrets.DEPLOYMENT_HOOK }}
-          username: "GitHub Deployment Bot"
-          avatar-url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-          embed-title: "✅ Deployment Successful!"
+          username: 'GitHub Deployment Bot'
+          avatar-url: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
+          embed-title: '✅ Deployment Successful!'
           embed-color: 5763719
           embed-description: |
             **✨ Status:** Deployed to ${{ github.event.workflow_run.head_branch == 'main' && 'Production' || 'Preview' }}
@@ -28,17 +28,17 @@ jobs:
             **💬 Commit Message:** ${{ github.event.workflow_run.head_commit.message }}
             **🔗 [View Workflow Run](${{ github.event.workflow_run.html_url }})**
             **📦 [View Commit](https://github.com/${{ github.repository }}/commit/${{ github.event.workflow_run.head_sha }})**
-          embed-footer-text: "Repository: ${{ github.repository }}"
-          embed-timestamp: "${{ github.event.workflow_run.updated_at }}"
+          embed-footer-text: 'Repository: ${{ github.repository }}'
+          embed-timestamp: '${{ github.event.workflow_run.updated_at }}'
 
       - name: Send Discord failure notification
         if: github.event.workflow_run.conclusion == 'failure'
         uses: tsickert/discord-webhook@v5.1.0
         with:
           webhook-url: ${{ secrets.DEPLOYMENT_HOOK }}
-          username: "GitHub Deployment Bot"
-          avatar-url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-          embed-title: "🚨 Deployment Failed!"
+          username: 'GitHub Deployment Bot'
+          avatar-url: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
+          embed-title: '🚨 Deployment Failed!'
           embed-color: 15158332
           embed-description: |
             **⚠️ Status:** Deployment Failed
@@ -47,5 +47,5 @@ jobs:
             **💬 Commit Message:** ${{ github.event.workflow_run.head_commit.message }}
             **🔗 [View Workflow Run](${{ github.event.workflow_run.html_url }})**
             **📦 [View Commit](https://github.com/${{ github.repository }}/commit/${{ github.event.workflow_run.head_sha }})**
-          embed-footer-text: "Repository: ${{ github.repository }}"
-          embed-timestamp: "${{ github.event.workflow_run.updated_at }}"
+          embed-footer-text: 'Repository: ${{ github.repository }}'
+          embed-timestamp: '${{ github.event.workflow_run.updated_at }}'

@@ -1,9 +1,9 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { CheckCircle2, Circle, Cloud, HardDrive } from "lucide-react";
-import type { ConnectedProvider } from "@/types";
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { CheckCircle2, Circle, Cloud, HardDrive } from 'lucide-react';
+import type { ConnectedProvider } from '@/types';
 
 interface ProviderCardProps {
   provider: ConnectedProvider;
@@ -14,33 +14,51 @@ interface ProviderCardProps {
 
 const getProviderIcon = (type: string) => {
   switch (type) {
-    case "google-drive":
+    case 'google-drive':
       return (
         <div className="h-6 w-6 flex items-center justify-center">
           <svg viewBox="0 0 87.3 78" className="h-5 w-5">
-            <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
-            <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/>
-            <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
-            <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
-            <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
-            <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
+            <path
+              d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z"
+              fill="#0066da"
+            />
+            <path
+              d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z"
+              fill="#00ac47"
+            />
+            <path
+              d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z"
+              fill="#ea4335"
+            />
+            <path
+              d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z"
+              fill="#00832d"
+            />
+            <path
+              d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z"
+              fill="#2684fc"
+            />
+            <path
+              d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z"
+              fill="#ffba00"
+            />
           </svg>
         </div>
       );
-    case "aws-s3":
+    case 'aws-s3':
       return (
         <div className="h-6 w-6 flex items-center justify-center">
           <svg viewBox="0 0 256 310" className="h-5 w-5">
-            <path fill="#E25444" d="m4.8 176.8 119.2 69v62L4.8 241.4z"/>
-            <path fill="#7B1D13" d="M124 245.8 243.2 176.8v64.6l-119.2 66.4z"/>
-            <path fill="#F58536" d="m243.2 94.2-119.2 69V231.6l119.2-66.8z"/>
-            <path fill="#E25444" d="M124 163.2 4.8 94.2v103.6l119.2 38z"/>
-            <path fill="#7B1D13" d="m124 0-119.2 65.8v103.6l119.2-106z"/>
-            <path fill="#F58536" d="m124 0 119.2 65.8v103.6L124 63.4z"/>
+            <path fill="#E25444" d="m4.8 176.8 119.2 69v62L4.8 241.4z" />
+            <path fill="#7B1D13" d="M124 245.8 243.2 176.8v64.6l-119.2 66.4z" />
+            <path fill="#F58536" d="m243.2 94.2-119.2 69V231.6l119.2-66.8z" />
+            <path fill="#E25444" d="M124 163.2 4.8 94.2v103.6l119.2 38z" />
+            <path fill="#7B1D13" d="m124 0-119.2 65.8v103.6l119.2-106z" />
+            <path fill="#F58536" d="m124 0 119.2 65.8v103.6L124 63.4z" />
           </svg>
         </div>
       );
-    case "local":
+    case 'local':
       return <HardDrive className="h-5 w-5 text-blue-500" />;
     default:
       return <Cloud className="h-5 w-5" />;
@@ -58,23 +76,32 @@ const getHealthBadge = (healthStatus: string, isConfigured: boolean) => {
   }
 
   switch (healthStatus) {
-    case "Healthy":
+    case 'Healthy':
       return (
-        <Badge variant="outline" className="text-green-600 border-green-600 gap-1">
+        <Badge
+          variant="outline"
+          className="text-green-600 border-green-600 gap-1"
+        >
           <CheckCircle2 className="h-3 w-3" />
           Healthy
         </Badge>
       );
-    case "Stable":
+    case 'Stable':
       return (
-        <Badge variant="outline" className="text-green-600 border-green-600 gap-1">
+        <Badge
+          variant="outline"
+          className="text-green-600 border-green-600 gap-1"
+        >
           <CheckCircle2 className="h-3 w-3" />
           Stable
         </Badge>
       );
-    case "Active":
+    case 'Active':
       return (
-        <Badge variant="outline" className="text-green-600 border-green-600 gap-1">
+        <Badge
+          variant="outline"
+          className="text-green-600 border-green-600 gap-1"
+        >
           <CheckCircle2 className="h-3 w-3" />
           Active
         </Badge>
@@ -95,7 +122,8 @@ export function ProviderCard({
   onTestConnection,
   onDisconnect,
 }: ProviderCardProps) {
-  const storagePercentage = (provider.storageUsed / provider.storageTotal) * 100;
+  const storagePercentage =
+    (provider.storageUsed / provider.storageTotal) * 100;
 
   return (
     <Card>
@@ -158,4 +186,3 @@ export function ProviderCard({
     </Card>
   );
 }
-

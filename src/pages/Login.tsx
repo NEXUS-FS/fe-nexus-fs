@@ -1,8 +1,11 @@
-import { LoginForm } from "@/features/authentication/LoginForm"
+import { LoginForm } from '@/features/authentication/LoginForm';
 
 export default function Login() {
   return (
-    <div data-testid="login-page" className="grid min-h-svh w-full lg:grid-cols-2">
+    <div
+      data-testid="login-page"
+      className="grid min-h-svh w-full lg:grid-cols-2"
+    >
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
@@ -12,7 +15,10 @@ export default function Login() {
       </div>
       <div className="bg-[#131313] hidden lg:flex justify-center items-center relative">
         <div className="absolute top-5 left-5">
-          <a href="#" className="flex items-center gap-2 text-2xl font-mac-semibold text-white tracking-tighter">
+          <a
+            href="#"
+            className="flex items-center gap-2 text-2xl font-mac-semibold text-white tracking-tighter"
+          >
             NexusFS
           </a>
         </div>
@@ -24,5 +30,5 @@ export default function Login() {
         <img src="/logo-white.svg" alt="Logo NexusFS" />
       </div>
     </div>
-  )
+  );
 }
