@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
+import { ReactNode } from 'react';
 import {
   useConnectedProviders,
   useAvailableProviders,
@@ -27,12 +28,34 @@ Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
 });
 
-// Mock the providers API
+// Mock AuthContext
+vi.mock('@/context/AuthContext', () => ({
+  useAuthContext: vi.fn(() => ({
+    user: {
+      id: 'test-user-id',
+      email: 'test@example.com',
+      name: 'Test User',
+    },
+    isAuthenticated: true,
+    login: vi.fn(),
+    logout: vi.fn(),
+    register: vi.fn(),
+  })),
+  AuthProvider: ({ children }: { children: ReactNode }) => children,
+}));
+
+// Mock the file operations API
 vi.mock('@/services', () => ({
   providersApi: {
     connect: vi.fn().mockResolvedValue({
       success: true,
       message: 'Provider connected successfully',
+    }),
+  },
+  fileOperationsApi: {
+    list: vi.fn().mockResolvedValue({
+      files: ['file1.txt', 'file2.txt', 'file3.txt'],
+      success: true,
     }),
   },
 }));

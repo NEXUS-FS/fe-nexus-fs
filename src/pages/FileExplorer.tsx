@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { Button } from '@/components/ui/button';
 import { useFileList } from '@/hooks/files';
 import { useConnectedProviders } from '@/hooks/settings/useProviders';
 import { useAuthContext } from '@/context/AuthContext';
 import { fileOperationsApi } from '@/services';
+import { FileViewerModal } from '@/components/files/FileViewerModal';
+import { CreateFolderModal } from '@/components/files/CreateFolderModal';
+import { UploadModal } from '@/components/files/UploadModal';
 import {
   Grid3x3,
   LayoutList,
@@ -35,12 +38,27 @@ export default function FileExplorer() {
   const [allFiles, setAllFiles] = useState<string[]>([]);
   const [isLoadingAll, setIsLoadingAll] = useState(false);
 
+  // Modal states
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<string | null>(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
   // Hooks
   const { providers } = useConnectedProviders();
-  const { files, isLoading: filesLoading } = useFileList(
-    selectedProviderId || '',
-    currentPath,
-  );
+  const {
+    files,
+    isLoading: filesLoading,
+    refresh: refreshFiles,
+  } = useFileList(selectedProviderId || '', currentPath);
+
+  // Refresh files when trigger changes
+  useEffect(() => {
+    if (refreshTrigger > 0) {
+      refreshFiles();
+    }
+  }, [refreshTrigger, refreshFiles]);
 
   // Auto-select first provider (but don't show all files by default)
   useEffect(() => {
@@ -51,57 +69,57 @@ export default function FileExplorer() {
   }, [providers, selectedProviderId, showAllFiles]);
 
   // Fetch files from all providers when "All files" is selected
-  useEffect(() => {
-    const fetchAllFiles = async () => {
-      if (!showAllFiles || !user?.id) return;
+  const fetchAllFiles = useCallback(async () => {
+    if (!showAllFiles || !user?.id) return;
 
-      console.log('🔄 Fetching files from all providers:', providers);
+    console.log('🔄 Fetching files from all providers:', providers);
 
-      setIsLoadingAll(true);
-      try {
-        const allFilesPromises = providers.map(async (provider) => {
-          try {
-            console.log(
-              `📥 Fetching from ${provider.name} (${provider.id}, type: ${provider.type})...`,
-            );
+    setIsLoadingAll(true);
+    try {
+      const allFilesPromises = providers.map(async (provider) => {
+        try {
+          console.log(
+            `📥 Fetching from ${provider.name} (${provider.id}, type: ${provider.type})...`,
+          );
 
-            // Use correct root path based on provider type
-            // Local uses ".", cloud providers use "/"
-            const rootPath = provider.type === 'local' ? '.' : '/';
+          // Use correct root path based on provider type
+          // Local uses ".", cloud providers use "/"
+          const rootPath = provider.type === 'local' ? '.' : '/';
 
-            const result = await fileOperationsApi.list({
-              providerId: provider.id,
-              directoryPath: rootPath,
-              recursive: false,
-              userId: user.id,
-            });
-            console.log(`✅ ${provider.name} returned:`, result);
-            console.log(`📋 ${provider.name} files:`, result.files);
-            return result.files || [];
-          } catch (error) {
-            console.error(
-              `❌ Failed to fetch files from ${provider.name}:`,
-              error,
-            );
-            return [];
-          }
-        });
+          const result = await fileOperationsApi.list({
+            providerId: provider.id,
+            directoryPath: rootPath,
+            recursive: false,
+            userId: user.id,
+          });
+          console.log(`✅ ${provider.name} returned:`, result);
+          console.log(`📋 ${provider.name} files:`, result.files);
+          return result.files || [];
+        } catch (error) {
+          console.error(
+            `❌ Failed to fetch files from ${provider.name}:`,
+            error,
+          );
+          return [];
+        }
+      });
 
-        const filesArrays = await Promise.all(allFilesPromises);
-        console.log('📦 All files arrays:', filesArrays);
-        const combined = filesArrays.flat();
-        console.log('🎯 Combined files:', combined);
-        setAllFiles(combined);
-      } catch (error) {
-        console.error('Failed to fetch all files:', error);
-        setAllFiles([]);
-      } finally {
-        setIsLoadingAll(false);
-      }
-    };
-
-    fetchAllFiles();
+      const filesArrays = await Promise.all(allFilesPromises);
+      console.log('📦 All files arrays:', filesArrays);
+      const combined = filesArrays.flat();
+      console.log('🎯 Combined files:', combined);
+      setAllFiles(combined);
+    } catch (error) {
+      console.error('Failed to fetch all files:', error);
+      setAllFiles([]);
+    } finally {
+      setIsLoadingAll(false);
+    }
   }, [showAllFiles, providers, user?.id]);
+
+  useEffect(() => {
+    fetchAllFiles();
+  }, [fetchAllFiles]);
 
   const handleProviderSelect = (providerId: string) => {
     setShowAllFiles(false);
@@ -139,8 +157,16 @@ export default function FileExplorer() {
         : filePath;
       setCurrentPath(folderPath);
     } else {
-      // TODO: Open/preview file
-      console.log('Opening file:', filePath);
+      // Open file viewer
+      setSelectedFile(filePath);
+      setIsViewerOpen(true);
+    }
+  };
+
+  const handleRefresh = () => {
+    setRefreshTrigger((prev) => prev + 1);
+    if (showAllFiles) {
+      fetchAllFiles();
     }
   };
 
@@ -280,11 +306,20 @@ export default function FileExplorer() {
             {/* Toolbar */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <Button className="h-9 px-4 bg-black hover:bg-black/90 text-white">
+                <Button
+                  className="h-9 px-4 bg-black hover:bg-black/90 text-white"
+                  onClick={() => setIsUploadOpen(true)}
+                  disabled={!selectedProviderId || showAllFiles}
+                >
                   <Upload className="h-4 w-4 mr-2" />
                   Upload
                 </Button>
-                <Button variant="outline" className="h-9 px-4">
+                <Button
+                  variant="outline"
+                  className="h-9 px-4"
+                  onClick={() => setIsCreateFolderOpen(true)}
+                  disabled={!selectedProviderId || showAllFiles}
+                >
                   <FolderPlus className="h-4 w-4 mr-2" />
                   New Folder
                 </Button>
@@ -370,6 +405,41 @@ export default function FileExplorer() {
           </div>
         </main>
       </div>
+
+      {/* Modals */}
+      {selectedFile && (
+        <FileViewerModal
+          isOpen={isViewerOpen}
+          onClose={() => {
+            setIsViewerOpen(false);
+            setSelectedFile(null);
+          }}
+          filePath={selectedFile}
+          fileName={selectedFile.split('/').pop() || selectedFile}
+          providerId={selectedProviderId || ''}
+          onDelete={handleRefresh}
+        />
+      )}
+
+      {selectedProviderId && (
+        <>
+          <UploadModal
+            isOpen={isUploadOpen}
+            onClose={() => setIsUploadOpen(false)}
+            providerId={selectedProviderId}
+            currentPath={currentPath}
+            onSuccess={handleRefresh}
+          />
+
+          <CreateFolderModal
+            isOpen={isCreateFolderOpen}
+            onClose={() => setIsCreateFolderOpen(false)}
+            providerId={selectedProviderId}
+            currentPath={currentPath}
+            onSuccess={handleRefresh}
+          />
+        </>
+      )}
     </div>
   );
 }

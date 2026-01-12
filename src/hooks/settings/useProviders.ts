@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { providersApi } from '@/services';
+import { providersApi, fileOperationsApi } from '@/services';
+import { useAuthContext } from '@/context/AuthContext';
 import type {
   ConnectedProvider,
   AvailableProvider,
@@ -178,6 +179,7 @@ const providerConfigs: Record<string, ProviderConfig> = {
  * Hook for managing connected providers
  */
 export function useConnectedProviders() {
+  const { user } = useAuthContext();
   const [providers, setProviders] = useState<ConnectedProvider[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -198,6 +200,67 @@ export function useConnectedProviders() {
 
     loadProviders();
   }, []);
+
+  // Fetch file counts for all providers (only on initial load)
+  useEffect(() => {
+    const fetchFileCounts = async () => {
+      if (!user?.id || providers.length === 0) return;
+
+      // Skip if all providers already have file counts
+      const needsUpdate = providers.some(
+        (p) => p.filesCount === undefined || p.filesCount === 0,
+      );
+      if (!needsUpdate) return;
+
+      const updatedProviders = await Promise.all(
+        providers.map(async (provider) => {
+          // Skip if already has count
+          if (provider.filesCount && provider.filesCount > 0) {
+            return provider;
+          }
+
+          try {
+            // Use correct root path based on provider type
+            const rootPath = provider.type === 'local' ? '.' : '/';
+
+            const result = await fileOperationsApi.list({
+              providerId: provider.id,
+              directoryPath: rootPath,
+              recursive: true, // Count all files recursively
+              userId: user.id,
+            });
+
+            return {
+              ...provider,
+              filesCount: result.files?.length || 0,
+            };
+          } catch (err) {
+            console.error(
+              `Failed to fetch file count for ${provider.name}:`,
+              err,
+            );
+            // Keep existing count on error
+            return provider;
+          }
+        }),
+      );
+
+      // Only update if counts changed
+      const hasChanges = updatedProviders.some(
+        (updated, idx) => updated.filesCount !== providers[idx].filesCount,
+      );
+
+      if (hasChanges) {
+        setProviders(updatedProviders);
+        localStorage.setItem(
+          'connectedProviders',
+          JSON.stringify(updatedProviders),
+        );
+      }
+    };
+
+    fetchFileCounts();
+  }, [providers.length, user?.id]); // Only re-run when provider count or user changes
 
   const saveProviders = (updated: ConnectedProvider[]) => {
     setProviders(updated);
@@ -222,6 +285,24 @@ export function useConnectedProviders() {
       const result = await providersApi.connect(providerType, request);
 
       if (result.success) {
+        // Fetch initial file count
+        let filesCount = 0;
+        try {
+          if (user?.id) {
+            const rootPath = providerType === 'local' ? '.' : '/';
+            const listResult = await fileOperationsApi.list({
+              providerId,
+              directoryPath: rootPath,
+              recursive: true,
+              userId: user.id,
+            });
+            filesCount = listResult.files?.length || 0;
+          }
+        } catch (err) {
+          console.error('Failed to fetch initial file count:', err);
+          // Continue with 0 count
+        }
+
         const newProvider: ConnectedProvider = {
           id: providerId,
           name:
@@ -232,7 +313,7 @@ export function useConnectedProviders() {
           healthStatus: 'Healthy',
           storageUsed: 0,
           storageTotal: 100,
-          filesCount: 0,
+          filesCount,
           connectedAt: new Date().toISOString(),
           isConfigured: true,
         };
@@ -267,6 +348,33 @@ export function useConnectedProviders() {
     return { success: true, message: 'Connection successful' };
   };
 
+  const refreshFileCount = async (providerId: string) => {
+    if (!user?.id) return;
+
+    const provider = providers.find((p) => p.id === providerId);
+    if (!provider) return;
+
+    try {
+      const rootPath = provider.type === 'local' ? '.' : '/';
+      const result = await fileOperationsApi.list({
+        providerId,
+        directoryPath: rootPath,
+        recursive: true,
+        userId: user.id,
+      });
+
+      const updatedProviders = providers.map((p) =>
+        p.id === providerId
+          ? { ...p, filesCount: result.files?.length || 0 }
+          : p,
+      );
+
+      saveProviders(updatedProviders);
+    } catch (err) {
+      console.error('Failed to refresh file count:', err);
+    }
+  };
+
   return {
     providers,
     isLoading,
@@ -274,6 +382,7 @@ export function useConnectedProviders() {
     connectProvider,
     disconnectProvider,
     testConnection,
+    refreshFileCount,
   };
 }
 
