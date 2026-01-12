@@ -13,15 +13,15 @@ vi.mock('react-router-dom', async () => {
 });
 
 const mockUserData = {
-  id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
-  username: "admin",
-  email: "admin@nexus.com",
-  role: "admin",
-  provider: "",
+  id: '17dc09a2-52b4-421e-a8ee-f9f1301c4815',
+  username: 'admin',
+  email: 'admin@nexus.com',
+  role: 'admin',
+  provider: '',
   isActive: true,
-  createdAt: "0001-01-01T00:00:00",
+  createdAt: '0001-01-01T00:00:00',
   updatedAt: undefined,
-  lastLogin: undefined
+  lastLogin: undefined,
 };
 
 describe('AuthContext', () => {
@@ -55,38 +55,40 @@ describe('AuthContext', () => {
       </MemoryRouter>
     );
 
-    const { result } = renderHook(() => useAuthContext(), { wrapper })
+    const { result } = renderHook(() => useAuthContext(), { wrapper });
     act(() => {
-        result.current.login('mock-token', mockUserData)
-    })
+      result.current.login('mock-token', mockUserData);
+    });
 
-    expect(localStorage.getItem('accessToken')).toBe('mock-token')
-    expect(JSON.parse(localStorage.getItem('user') || '{}')).toEqual(mockUserData)
-    expect(result.current.isAuthenticated).toBe(true)
-    expect(result.current.user).toEqual(mockUserData)
-    expect(mockNavigate).toHaveBeenCalledWith('/dashboard')
+    expect(localStorage.getItem('accessToken')).toBe('mock-token');
+    expect(JSON.parse(localStorage.getItem('user') || '{}')).toEqual(
+      mockUserData,
+    );
+    expect(result.current.isAuthenticated).toBe(true);
+    expect(result.current.user).toEqual(mockUserData);
+    expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
   });
 
   it('logout removes token and user, updates state, and navigates to /', () => {
-    localStorage.setItem('accessToken', 'mock-token')
-    localStorage.setItem('user', JSON.stringify(mockUserData))
+    localStorage.setItem('accessToken', 'mock-token');
+    localStorage.setItem('user', JSON.stringify(mockUserData));
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <MemoryRouter>
         <AuthProvider>{children}</AuthProvider>
       </MemoryRouter>
-    )
+    );
 
-    const { result } = renderHook(() => useAuthContext(), { wrapper })
+    const { result } = renderHook(() => useAuthContext(), { wrapper });
 
     act(() => {
-      result.current.logout()
-    })
+      result.current.logout();
+    });
 
-    expect(localStorage.getItem('accessToken')).toBeNull()
-    expect(localStorage.getItem('user')).toBeNull()
-    expect(result.current.isAuthenticated).toBe(false)
-    expect(result.current.user).toBeNull()
-    expect(mockNavigate).toHaveBeenCalledWith('/')
-  })
+    expect(localStorage.getItem('accessToken')).toBeNull();
+    expect(localStorage.getItem('user')).toBeNull();
+    expect(result.current.isAuthenticated).toBe(false);
+    expect(result.current.user).toBeNull();
+    expect(mockNavigate).toHaveBeenCalledWith('/');
+  });
 });

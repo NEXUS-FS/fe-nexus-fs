@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
-import { adminApi } from "@/services";
-import type { AdminMetrics, ProviderMetrics } from "@/types";
+import { useState, useEffect, useCallback } from 'react';
+import { adminApi } from '@/services';
+import type { AdminMetrics, ProviderMetrics } from '@/types';
 
 /**
  * Hook for fetching admin metrics and system statistics
@@ -24,7 +24,7 @@ export function useAdminMetrics() {
       setMetrics(systemMetrics);
       setProviderMetrics(providers);
     } catch (err: any) {
-      setError(err.message || "Failed to fetch metrics");
+      setError(err.message || 'Failed to fetch metrics');
     } finally {
       setIsLoading(false);
     }
@@ -42,4 +42,3 @@ export function useAdminMetrics() {
     refresh: fetchMetrics,
   };
 }
-

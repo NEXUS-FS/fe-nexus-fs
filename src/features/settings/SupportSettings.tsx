@@ -1,14 +1,29 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { ExternalLink, Book, MessageCircle, Bug, Lightbulb, Github } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  ExternalLink,
+  Book,
+  MessageCircle,
+  Bug,
+  Lightbulb,
+  Github,
+} from 'lucide-react';
 
 export function SupportSettings() {
   const handleSubmitSupport = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Support request will be submitted when backend integration is complete!");
+    alert(
+      'Support request will be submitted when backend integration is complete!',
+    );
   };
 
   return (
@@ -22,7 +37,10 @@ export function SupportSettings() {
           <form onSubmit={handleSubmitSupport} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="subject">Subject</Label>
-              <Input id="subject" placeholder="Brief description of your issue" />
+              <Input
+                id="subject"
+                placeholder="Brief description of your issue"
+              />
             </div>
 
             <div className="space-y-2">
@@ -77,13 +95,17 @@ export function SupportSettings() {
       <Card>
         <CardHeader>
           <CardTitle>System Status</CardTitle>
-          <CardDescription>Check the status of NexusFS services</CardDescription>
+          <CardDescription>
+            Check the status of NexusFS services
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-between p-4 border rounded-lg">
             <div>
               <p className="font-mac-medium">All Systems Operational</p>
-              <p className="text-sm text-muted-foreground">Last checked: 2 minutes ago</p>
+              <p className="text-sm text-muted-foreground">
+                Last checked: 2 minutes ago
+              </p>
             </div>
             <div className="h-3 w-3 bg-green-500 rounded-full"></div>
           </div>
@@ -136,4 +158,3 @@ export function SupportSettings() {
     </div>
   );
 }
-

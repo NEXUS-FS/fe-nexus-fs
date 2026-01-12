@@ -112,6 +112,7 @@ npm run format       # Format code with Prettier
 The frontend integrates with the NexusFS backend API. All API services are located in `src/services/`:
 
 ### File Operations
+
 - Read, write, delete files
 - List directories
 - Copy, move, rename files
@@ -119,22 +120,26 @@ The frontend integrates with the NexusFS backend API. All API services are locat
 - Stream upload/download for large files
 
 ### Provider Management
+
 - Connect/disconnect providers
 - Configure provider credentials
 - Test connections
 - View provider health
 
 ### User Management (Admin)
+
 - CRUD operations for users
 - Role management
 - Session management
 
 ### Credential Rotation
+
 - Rotate provider credentials
 - Test new credentials
 - View rotation history
 
 ### File Sharing (In Progress)
+
 - Create public share links
 - Share files with specific users
 - Manage permissions
@@ -202,15 +207,15 @@ export default defineConfig([
       // other options...
     },
   },
-])
+]);
 ```
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import reactX from 'eslint-plugin-react-x';
+import reactDom from 'eslint-plugin-react-dom';
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -231,5 +236,5 @@ export default defineConfig([
       // other options...
     },
   },
-])
+]);
 ```

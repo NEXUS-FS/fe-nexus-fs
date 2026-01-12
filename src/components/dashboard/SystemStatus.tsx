@@ -1,5 +1,5 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2 } from "lucide-react";
+import { Card, CardContent } from '@/components/ui/card';
+import { CheckCircle2 } from 'lucide-react';
 
 export function SystemStatus() {
   return (

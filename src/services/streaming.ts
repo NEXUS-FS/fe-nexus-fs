@@ -1,5 +1,5 @@
-import { axiosInstance } from "@/lib/axiosInstance";
-import type { StreamDownloadParams, StreamUploadParams } from "@/types";
+import { axiosInstance } from '@/lib/axiosInstance';
+import type { StreamDownloadParams, StreamUploadParams } from '@/types';
 
 /**
  * Streaming API Service
@@ -12,12 +12,12 @@ export const streamingApi = {
    * Returns blob for file download
    */
   download: async (params: StreamDownloadParams): Promise<Blob> => {
-    const response = await axiosInstance.get("/api/files/stream/download", {
+    const response = await axiosInstance.get('/api/files/stream/download', {
       params: {
         providerId: params.providerId,
         filePath: params.filePath,
       },
-      responseType: "blob",
+      responseType: 'blob',
     });
     return response.data;
   },
@@ -27,18 +27,18 @@ export const streamingApi = {
    */
   upload: async (
     params: StreamUploadParams,
-    onUploadProgress?: (progressEvent: any) => void
+    onUploadProgress?: (progressEvent: any) => void,
   ): Promise<void> => {
     const formData = new FormData();
-    formData.append("file", params.file);
+    formData.append('file', params.file);
 
-    await axiosInstance.post("/api/files/stream/upload", formData, {
+    await axiosInstance.post('/api/files/stream/upload', formData, {
       params: {
         providerId: params.providerId,
         filePath: params.filePath,
       },
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
       onUploadProgress,
     });
@@ -49,7 +49,7 @@ export const streamingApi = {
    */
   triggerDownload: (blob: Blob, filename: string): void => {
     const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = url;
     link.download = filename;
     document.body.appendChild(link);
@@ -58,4 +58,3 @@ export const streamingApi = {
     window.URL.revokeObjectURL(url);
   },
 };
-

@@ -1,21 +1,33 @@
-import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Save } from "lucide-react";
+import { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Save } from 'lucide-react';
 
 export function GeneralSettings() {
-  const [theme, setTheme] = useState("light");
-  const [defaultView, setDefaultView] = useState("grid");
-  const [filesPerPage, setFilesPerPage] = useState("20");
-  const [defaultProvider, setDefaultProvider] = useState("local");
+  const [theme, setTheme] = useState('light');
+  const [defaultView, setDefaultView] = useState('grid');
+  const [filesPerPage, setFilesPerPage] = useState('20');
+  const [defaultProvider, setDefaultProvider] = useState('local');
   const [keyboardShortcuts, setKeyboardShortcuts] = useState(true);
 
   const handleSave = () => {
     // TODO: Save settings to localStorage or backend
-    alert("Settings saved!");
+    alert('Settings saved!');
   };
 
   return (
@@ -109,7 +121,9 @@ export function GeneralSettings() {
       <Card>
         <CardHeader>
           <CardTitle>Keyboard Shortcuts</CardTitle>
-          <CardDescription>Enable or disable keyboard shortcuts</CardDescription>
+          <CardDescription>
+            Enable or disable keyboard shortcuts
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-between">
@@ -136,4 +150,3 @@ export function GeneralSettings() {
     </div>
   );
 }
-

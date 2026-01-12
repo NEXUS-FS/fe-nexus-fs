@@ -4,7 +4,7 @@ import type {
   CreateShareLinkRequest,
   CreateInternalShareRequest,
   SharePermission,
-} from "@/types";
+} from '@/types';
 
 /**
  * File Sharing API Service
@@ -22,7 +22,7 @@ export const sharingApi = {
    * TODO: Replace with real API call when backend endpoint is ready
    */
   createPublicLink: async (
-    request: CreateShareLinkRequest
+    request: CreateShareLinkRequest,
   ): Promise<ShareLink> => {
     // Mock implementation
     const shareLink: ShareLink = {
@@ -33,7 +33,7 @@ export const sharingApi = {
       url: `${window.location.origin}/share/${Math.random()
         .toString(36)
         .substring(2, 15)}`,
-      createdBy: "current-user", // Should come from auth context
+      createdBy: 'current-user', // Should come from auth context
       createdAt: new Date().toISOString(),
       expiresAt: request.expiresAt || null,
       password: request.password || null,
@@ -56,14 +56,14 @@ export const sharingApi = {
    * TODO: Replace with real API call when backend endpoint is ready
    */
   createInternalShare: async (
-    request: CreateInternalShareRequest
+    request: CreateInternalShareRequest,
   ): Promise<InternalShare> => {
     // Mock implementation
     const share: InternalShare = {
       id: `share-${Date.now()}`,
       fileId: request.fileId,
       fileName: request.fileName,
-      sharedBy: "current-user",
+      sharedBy: 'current-user',
       sharedWith: request.sharedWith,
       permissions: request.permissions,
       message: request.message || null,
@@ -125,7 +125,7 @@ export const sharingApi = {
    */
   updateSharePermissions: async (
     shareId: string,
-    permissions: SharePermission[]
+    permissions: SharePermission[],
   ): Promise<void> => {
     // Mock implementation
     const share = mockInternalShares.find((s) => s.id === shareId);
@@ -152,7 +152,9 @@ export const sharingApi = {
   /**
    * Get share access statistics
    */
-  getShareStats: async (_shareId: string): Promise<{
+  getShareStats: async (
+    _shareId: string,
+  ): Promise<{
     accessCount: number;
     lastAccessed: string | null;
     uniqueVisitors: number;
@@ -166,4 +168,3 @@ export const sharingApi = {
     };
   },
 };
-

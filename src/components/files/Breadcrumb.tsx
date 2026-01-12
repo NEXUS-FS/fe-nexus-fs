@@ -1,6 +1,6 @@
-import { ChevronRight, Home } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import type { BreadcrumbItem } from "@/types";
+import { ChevronRight, Home } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import type { BreadcrumbItem } from '@/types';
 
 interface BreadcrumbProps {
   items: BreadcrumbItem[];
@@ -13,7 +13,7 @@ export function Breadcrumb({ items, onNavigate }: BreadcrumbProps) {
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => onNavigate("/")}
+        onClick={() => onNavigate('/')}
         className="shrink-0"
       >
         <Home className="h-4 w-4" />
@@ -26,7 +26,7 @@ export function Breadcrumb({ items, onNavigate }: BreadcrumbProps) {
             variant="ghost"
             size="sm"
             onClick={() => onNavigate(item.path)}
-            className={index === items.length - 1 ? "font-mac-medium" : ""}
+            className={index === items.length - 1 ? 'font-mac-medium' : ''}
           >
             {item.label}
           </Button>
@@ -35,4 +35,3 @@ export function Breadcrumb({ items, onNavigate }: BreadcrumbProps) {
     </nav>
   );
 }
-

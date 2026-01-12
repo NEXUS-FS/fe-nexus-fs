@@ -1,11 +1,11 @@
-import { axiosInstance } from "@/lib/axiosInstance";
+import { axiosInstance } from '@/lib/axiosInstance';
 import type {
   RotateCredentialsRequest,
   RotateCredentialsResponse,
   TestCredentialsRequest,
   TestCredentialsResponse,
   CredentialHistoryResponse,
-} from "@/types";
+} from '@/types';
 
 /**
  * Credential Management API Service
@@ -18,11 +18,11 @@ export const credentialsApi = {
    */
   rotate: async (
     providerId: string,
-    request: RotateCredentialsRequest
+    request: RotateCredentialsRequest,
   ): Promise<RotateCredentialsResponse> => {
     const response = await axiosInstance.post<RotateCredentialsResponse>(
       `/api/credentials/${providerId}/rotate`,
-      request
+      request,
     );
     return response.data;
   },
@@ -32,11 +32,11 @@ export const credentialsApi = {
    */
   test: async (
     providerId: string,
-    request: TestCredentialsRequest
+    request: TestCredentialsRequest,
   ): Promise<TestCredentialsResponse> => {
     const response = await axiosInstance.post<TestCredentialsResponse>(
       `/api/credentials/${providerId}/test`,
-      request
+      request,
     );
     return response.data;
   },
@@ -45,12 +45,11 @@ export const credentialsApi = {
    * Get credential rotation history
    */
   getHistory: async (
-    providerId: string
+    providerId: string,
   ): Promise<CredentialHistoryResponse> => {
     const response = await axiosInstance.get<CredentialHistoryResponse>(
-      `/api/credentials/${providerId}/history`
+      `/api/credentials/${providerId}/history`,
     );
     return response.data;
   },
 };
-

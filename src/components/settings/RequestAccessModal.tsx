@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -6,11 +6,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import type { AvailableProvider } from "@/types";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import type { AvailableProvider } from '@/types';
 
 interface RequestAccessModalProps {
   open: boolean;
@@ -25,18 +25,18 @@ export function RequestAccessModal({
   provider,
   onSubmit,
 }: RequestAccessModalProps) {
-  const [reason, setReason] = useState("");
+  const [reason, setReason] = useState('');
 
   const handleSubmit = () => {
     if (reason.trim()) {
       onSubmit(reason);
-      setReason("");
+      setReason('');
       onOpenChange(false);
     }
   };
 
   const handleCancel = () => {
-    setReason("");
+    setReason('');
     onOpenChange(false);
   };
 
@@ -48,7 +48,8 @@ export function RequestAccessModal({
             Request Provider Access
           </DialogTitle>
           <DialogDescription>
-            Please provide a reason for requesting access to {provider?.name || "this provider"}
+            Please provide a reason for requesting access to{' '}
+            {provider?.name || 'this provider'}
           </DialogDescription>
         </DialogHeader>
 
@@ -79,4 +80,3 @@ export function RequestAccessModal({
     </Dialog>
   );
 }
-

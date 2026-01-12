@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -6,10 +6,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { File, Copy, Link2, X, Edit, Users } from "lucide-react";
-import type { InternalShare, ShareLink } from "@/types";
+} from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { File, Copy, Link2, X, Edit, Users } from 'lucide-react';
+import type { InternalShare, ShareLink } from '@/types';
 
 interface SharedFilesListProps {
   internalShares?: InternalShare[];
@@ -17,7 +17,7 @@ interface SharedFilesListProps {
   onCopyLink?: (url: string) => void;
   onRevoke?: (id: string) => void;
   onEditPermissions?: (id: string) => void;
-  type: "internal" | "public";
+  type: 'internal' | 'public';
 }
 
 export function SharedFilesList({
@@ -29,18 +29,20 @@ export function SharedFilesList({
   type,
 }: SharedFilesListProps) {
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
     });
   };
 
   const formatPermissions = (permissions: string[]) => {
-    return permissions.map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join(", ");
+    return permissions
+      .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
+      .join(', ');
   };
 
-  if (type === "internal" && internalShares) {
+  if (type === 'internal' && internalShares) {
     if (internalShares.length === 0) {
       return (
         <div className="flex flex-col items-center justify-center py-12 text-muted-foreground border rounded-lg">
@@ -76,7 +78,11 @@ export function SharedFilesList({
                 <TableCell>
                   <div className="flex flex-wrap gap-1">
                     {share.sharedWith.slice(0, 2).map((email) => (
-                      <Badge key={email} variant="secondary" className="text-xs">
+                      <Badge
+                        key={email}
+                        variant="secondary"
+                        className="text-xs"
+                      >
                         {email}
                       </Badge>
                     ))}
@@ -94,7 +100,7 @@ export function SharedFilesList({
                   {formatDate(share.sharedAt)}
                 </TableCell>
                 <TableCell className="text-sm text-muted-foreground">
-                  {share.expiresAt ? formatDate(share.expiresAt) : "Never"}
+                  {share.expiresAt ? formatDate(share.expiresAt) : 'Never'}
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
@@ -127,13 +133,15 @@ export function SharedFilesList({
     );
   }
 
-  if (type === "public" && publicLinks) {
+  if (type === 'public' && publicLinks) {
     if (publicLinks.length === 0) {
       return (
         <div className="flex flex-col items-center justify-center py-12 text-muted-foreground border rounded-lg">
           <Link2 className="h-12 w-12 mb-3 opacity-50" />
           <p className="text-lg font-mac-medium">No public links</p>
-          <p className="text-sm">Create public links to share files with anyone</p>
+          <p className="text-sm">
+            Create public links to share files with anyone
+          </p>
         </div>
       );
     }
@@ -172,14 +180,14 @@ export function SharedFilesList({
                   {formatDate(link.createdAt)}
                 </TableCell>
                 <TableCell className="text-sm text-muted-foreground">
-                  {link.expiresAt ? formatDate(link.expiresAt) : "Never"}
+                  {link.expiresAt ? formatDate(link.expiresAt) : 'Never'}
                 </TableCell>
                 <TableCell>
                   <Badge
-                    variant={link.isActive ? "default" : "secondary"}
+                    variant={link.isActive ? 'default' : 'secondary'}
                     className="text-xs"
                   >
-                    {link.isActive ? "Active" : "Revoked"}
+                    {link.isActive ? 'Active' : 'Revoked'}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
@@ -215,4 +223,3 @@ export function SharedFilesList({
 
   return null;
 }
-

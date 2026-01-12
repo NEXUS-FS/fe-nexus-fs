@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
 /**
  * Hook for managing file selection (single and multi-select)
@@ -27,7 +27,7 @@ export function useFileSelection() {
     (filePath: string) => {
       return selectedFiles.includes(filePath);
     },
-    [selectedFiles]
+    [selectedFiles],
   );
 
   const selectRange = useCallback(
@@ -46,7 +46,7 @@ export function useFileSelection() {
         return Array.from(newSelection);
       });
     },
-    []
+    [],
   );
 
   return {
@@ -60,4 +60,3 @@ export function useFileSelection() {
     hasSelection: selectedFiles.length > 0,
   };
 }
-

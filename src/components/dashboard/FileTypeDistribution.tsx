@@ -1,7 +1,13 @@
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { FileType } from "@/types";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Skeleton } from '@/components/ui/skeleton';
+import type { FileType } from '@/types';
 
 interface FileTypeDistributionProps {
   fileTypes: FileType[];
@@ -32,7 +38,10 @@ export function FileTypeDistributionSkeleton() {
   );
 }
 
-export function FileTypeDistribution({ fileTypes, isLoading }: FileTypeDistributionProps) {
+export function FileTypeDistribution({
+  fileTypes,
+  isLoading,
+}: FileTypeDistributionProps) {
   if (isLoading) {
     return <FileTypeDistributionSkeleton />;
   }
@@ -50,7 +59,10 @@ export function FileTypeDistribution({ fileTypes, isLoading }: FileTypeDistribut
                 <span className="font-medium">{type.name}</span>
                 <span className="text-muted-foreground">{type.size}</span>
               </div>
-              <Progress value={type.percentage} className="h-2 [&>div]:bg-foreground" />
+              <Progress
+                value={type.percentage}
+                className="h-2 [&>div]:bg-foreground"
+              />
             </div>
           ))}
         </div>

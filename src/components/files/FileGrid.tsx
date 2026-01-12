@@ -1,6 +1,14 @@
-import { File, Folder, Image, FileText, Film, Music, Archive } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { cn } from "@/lib/utils";
+import {
+  File,
+  Folder,
+  Image,
+  FileText,
+  Film,
+  Music,
+  Archive,
+} from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { cn } from '@/lib/utils';
 
 interface FileGridProps {
   files: string[];
@@ -20,39 +28,39 @@ export function FileGrid({
   onContextMenu,
 }: FileGridProps) {
   const getFileIcon = (fileName: string) => {
-    const ext = fileName.split(".").pop()?.toLowerCase();
-    
-    if (fileName.endsWith("/")) {
+    const ext = fileName.split('.').pop()?.toLowerCase();
+
+    if (fileName.endsWith('/')) {
       return <Folder className="h-12 w-12 text-blue-500" />;
     }
 
     switch (ext) {
-      case "jpg":
-      case "jpeg":
-      case "png":
-      case "gif":
-      case "webp":
-      case "svg":
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+      case 'gif':
+      case 'webp':
+      case 'svg':
         return <Image className="h-12 w-12 text-green-500" />;
-      case "pdf":
-      case "doc":
-      case "docx":
-      case "txt":
-      case "md":
+      case 'pdf':
+      case 'doc':
+      case 'docx':
+      case 'txt':
+      case 'md':
         return <FileText className="h-12 w-12 text-red-500" />;
-      case "mp4":
-      case "avi":
-      case "mov":
-      case "mkv":
+      case 'mp4':
+      case 'avi':
+      case 'mov':
+      case 'mkv':
         return <Film className="h-12 w-12 text-purple-500" />;
-      case "mp3":
-      case "wav":
-      case "ogg":
+      case 'mp3':
+      case 'wav':
+      case 'ogg':
         return <Music className="h-12 w-12 text-pink-500" />;
-      case "zip":
-      case "tar":
-      case "gz":
-      case "rar":
+      case 'zip':
+      case 'tar':
+      case 'gz':
+      case 'rar':
         return <Archive className="h-12 w-12 text-yellow-500" />;
       default:
         return <File className="h-12 w-12 text-gray-500" />;
@@ -60,7 +68,7 @@ export function FileGrid({
   };
 
   const formatFileName = (path: string) => {
-    const parts = path.split("/");
+    const parts = path.split('/');
     return parts[parts.length - 1] || parts[parts.length - 2];
   };
 
@@ -69,7 +77,9 @@ export function FileGrid({
       <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
         <Folder className="h-16 w-16 mb-4 opacity-50" />
         <p className="text-lg font-mac-medium">This folder is empty</p>
-        <p className="text-sm">Upload files or create a new folder to get started</p>
+        <p className="text-sm">
+          Upload files or create a new folder to get started
+        </p>
       </div>
     );
   }
@@ -84,10 +94,10 @@ export function FileGrid({
           <div
             key={filePath}
             className={cn(
-              "relative group flex flex-col items-center p-4 rounded-lg border-2 transition-all cursor-pointer hover:bg-accent",
+              'relative group flex flex-col items-center p-4 rounded-lg border-2 transition-all cursor-pointer hover:bg-accent',
               isSelected
-                ? "border-primary bg-accent"
-                : "border-transparent hover:border-gray-300"
+                ? 'border-primary bg-accent'
+                : 'border-transparent hover:border-gray-300',
             )}
             onClick={() => onFileClick(filePath)}
             onDoubleClick={() => onFileDoubleClick(filePath)}
@@ -118,4 +128,3 @@ export function FileGrid({
     </div>
   );
 }
-

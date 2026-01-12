@@ -1,20 +1,26 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LucideIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { LucideIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface MetricsCardProps {
   title: string;
   value: string | number;
   change?: string;
   icon: LucideIcon;
-  trend?: "up" | "down" | "neutral";
+  trend?: 'up' | 'down' | 'neutral';
 }
 
-export function MetricsCard({ title, value, change, icon: Icon, trend = "neutral" }: MetricsCardProps) {
+export function MetricsCard({
+  title,
+  value,
+  change,
+  icon: Icon,
+  trend = 'neutral',
+}: MetricsCardProps) {
   const trendColors = {
-    up: "text-green-600",
-    down: "text-red-600",
-    neutral: "text-gray-600",
+    up: 'text-green-600',
+    down: 'text-red-600',
+    neutral: 'text-gray-600',
   };
 
   return (
@@ -26,12 +32,9 @@ export function MetricsCard({ title, value, change, icon: Icon, trend = "neutral
       <CardContent>
         <div className="text-2xl font-mac-bold">{value}</div>
         {change && (
-          <p className={cn("text-xs mt-1", trendColors[trend])}>
-            {change}
-          </p>
+          <p className={cn('text-xs mt-1', trendColors[trend])}>{change}</p>
         )}
       </CardContent>
     </Card>
   );
 }
-

@@ -45,7 +45,7 @@ describe('ProviderCard', () => {
         onConfigure={mockOnConfigure}
         onTestConnection={mockOnTestConnection}
         onDisconnect={mockOnDisconnect}
-      />
+      />,
     );
 
     expect(screen.getByText('Local Storage')).toBeInTheDocument();
@@ -59,7 +59,7 @@ describe('ProviderCard', () => {
         onConfigure={mockOnConfigure}
         onTestConnection={mockOnTestConnection}
         onDisconnect={mockOnDisconnect}
-      />
+      />,
     );
 
     expect(screen.getByText('Active')).toBeInTheDocument();
@@ -72,7 +72,7 @@ describe('ProviderCard', () => {
         onConfigure={mockOnConfigure}
         onTestConnection={mockOnTestConnection}
         onDisconnect={mockOnDisconnect}
-      />
+      />,
     );
 
     expect(screen.getByText('Inactive')).toBeInTheDocument();
@@ -85,7 +85,7 @@ describe('ProviderCard', () => {
         onConfigure={mockOnConfigure}
         onTestConnection={mockOnTestConnection}
         onDisconnect={mockOnDisconnect}
-      />
+      />,
     );
 
     expect(screen.getByText('Storage')).toBeInTheDocument();
@@ -99,7 +99,7 @@ describe('ProviderCard', () => {
         onConfigure={mockOnConfigure}
         onTestConnection={mockOnTestConnection}
         onDisconnect={mockOnDisconnect}
-      />
+      />,
     );
 
     expect(screen.queryByText('Storage')).not.toBeInTheDocument();
@@ -112,7 +112,7 @@ describe('ProviderCard', () => {
         onConfigure={mockOnConfigure}
         onTestConnection={mockOnTestConnection}
         onDisconnect={mockOnDisconnect}
-      />
+      />,
     );
 
     expect(screen.getByText('Configure')).toBeInTheDocument();
@@ -127,7 +127,7 @@ describe('ProviderCard', () => {
         onConfigure={mockOnConfigure}
         onTestConnection={mockOnTestConnection}
         onDisconnect={mockOnDisconnect}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByText('Configure'));
@@ -141,7 +141,7 @@ describe('ProviderCard', () => {
         onConfigure={mockOnConfigure}
         onTestConnection={mockOnTestConnection}
         onDisconnect={mockOnDisconnect}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByText('Test Connection'));
@@ -155,7 +155,7 @@ describe('ProviderCard', () => {
         onConfigure={mockOnConfigure}
         onTestConnection={mockOnTestConnection}
         onDisconnect={mockOnDisconnect}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByText('Disconnect'));
@@ -177,12 +177,10 @@ describe('ProviderCard', () => {
         onConfigure={mockOnConfigure}
         onTestConnection={mockOnTestConnection}
         onDisconnect={mockOnDisconnect}
-      />
+      />,
     );
 
     expect(screen.getByText('Google Drive')).toBeInTheDocument();
     expect(screen.getByText('Stable')).toBeInTheDocument();
   });
 });
-
-

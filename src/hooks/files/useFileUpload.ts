@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { streamingApi } from "@/services";
+import { useState } from 'react';
+import { streamingApi } from '@/services';
 
 interface UploadProgress {
   fileName: string;
@@ -14,14 +14,14 @@ interface UploadProgress {
 export function useFileUpload() {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<UploadProgress | null>(
-    null
+    null,
   );
   const [error, setError] = useState<string | null>(null);
 
   const uploadFile = async (
     providerId: string,
     filePath: string,
-    file: File
+    file: File,
   ) => {
     setIsUploading(true);
     setError(null);
@@ -37,7 +37,7 @@ export function useFileUpload() {
         { providerId, filePath, file },
         (progressEvent: any) => {
           const progress = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
+            (progressEvent.loaded * 100) / progressEvent.total,
           );
           setUploadProgress({
             fileName: file.name,
@@ -45,14 +45,14 @@ export function useFileUpload() {
             total: progressEvent.total,
             loaded: progressEvent.loaded,
           });
-        }
+        },
       );
 
       setUploadProgress(null);
       return { success: true };
     } catch (err: any) {
       const errorMsg =
-        err.response?.data?.message || err.message || "Upload failed";
+        err.response?.data?.message || err.message || 'Upload failed';
       setError(errorMsg);
       setUploadProgress(null);
       return { success: false, error: errorMsg };
@@ -64,7 +64,7 @@ export function useFileUpload() {
   const uploadMultipleFiles = async (
     providerId: string,
     baseDirectory: string,
-    files: File[]
+    files: File[],
   ) => {
     const results = [];
 
@@ -97,4 +97,3 @@ export function useFileUpload() {
     reset,
   };
 }
-

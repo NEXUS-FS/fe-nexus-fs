@@ -1,19 +1,13 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import {
-  Upload,
-  FolderPlus,
-  Grid3x3,
-  List,
-  Search,
-} from "lucide-react";
-import type { FileViewMode, FileSortBy } from "@/types";
+} from '@/components/ui/select';
+import { Upload, FolderPlus, Grid3x3, List, Search } from 'lucide-react';
+import type { FileViewMode, FileSortBy } from '@/types';
 
 interface FileToolbarProps {
   viewMode: FileViewMode;
@@ -62,7 +56,10 @@ export function FileToolbar({
         </div>
 
         {/* Sort */}
-        <Select value={sortBy} onValueChange={(value) => onSortChange(value as FileSortBy)}>
+        <Select
+          value={sortBy}
+          onValueChange={(value) => onSortChange(value as FileSortBy)}
+        >
           <SelectTrigger className="w-[140px] h-9">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
@@ -77,17 +74,17 @@ export function FileToolbar({
         {/* View mode toggle */}
         <div className="flex border rounded-md">
           <Button
-            variant={viewMode === "grid" ? "default" : "ghost"}
+            variant={viewMode === 'grid' ? 'default' : 'ghost'}
             size="sm"
-            onClick={() => onViewModeChange("grid")}
+            onClick={() => onViewModeChange('grid')}
             className="rounded-r-none"
           >
             <Grid3x3 className="h-4 w-4" />
           </Button>
           <Button
-            variant={viewMode === "list" ? "default" : "ghost"}
+            variant={viewMode === 'list' ? 'default' : 'ghost'}
             size="sm"
-            onClick={() => onViewModeChange("list")}
+            onClick={() => onViewModeChange('list')}
             className="rounded-l-none"
           >
             <List className="h-4 w-4" />
@@ -97,4 +94,3 @@ export function FileToolbar({
     </div>
   );
 }
-

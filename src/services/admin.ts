@@ -3,7 +3,7 @@ import type {
   AuditLogEntry,
   SystemLog,
   ProviderMetrics,
-} from "@/types";
+} from '@/types';
 
 /**
  * Admin API Service
@@ -52,30 +52,30 @@ export const adminApi = {
     // TODO: Replace with: await axiosInstance.get('/api/admin/audit', { params });
     const mockLogs: AuditLogEntry[] = [
       {
-        id: "audit-1",
+        id: 'audit-1',
         timestamp: new Date(Date.now() - 3600000).toISOString(),
-        userId: "user-1",
-        username: "john.doe",
-        operation: "file.read",
-        resource: "/documents/report.pdf",
-        providerId: "local-1",
+        userId: 'user-1',
+        username: 'john.doe',
+        operation: 'file.read',
+        resource: '/documents/report.pdf',
+        providerId: 'local-1',
         success: true,
         errorMessage: null,
-        ipAddress: "192.168.1.100",
-        userAgent: "Mozilla/5.0...",
+        ipAddress: '192.168.1.100',
+        userAgent: 'Mozilla/5.0...',
       },
       {
-        id: "audit-2",
+        id: 'audit-2',
         timestamp: new Date(Date.now() - 7200000).toISOString(),
-        userId: "user-2",
-        username: "jane.smith",
-        operation: "file.delete",
-        resource: "/temp/old-file.txt",
-        providerId: "s3-1",
+        userId: 'user-2',
+        username: 'jane.smith',
+        operation: 'file.delete',
+        resource: '/temp/old-file.txt',
+        providerId: 's3-1',
         success: false,
-        errorMessage: "File not found",
-        ipAddress: "192.168.1.101",
-        userAgent: "Mozilla/5.0...",
+        errorMessage: 'File not found',
+        ipAddress: '192.168.1.101',
+        userAgent: 'Mozilla/5.0...',
       },
     ];
 
@@ -91,7 +91,7 @@ export const adminApi = {
    * Get system logs with filtering
    */
   getSystemLogs: async (params?: {
-    level?: "info" | "warning" | "error" | "debug";
+    level?: 'info' | 'warning' | 'error' | 'debug';
     source?: string;
     startDate?: string;
     endDate?: string;
@@ -107,28 +107,28 @@ export const adminApi = {
     // TODO: Replace with: await axiosInstance.get('/api/admin/logs', { params });
     const mockLogs: SystemLog[] = [
       {
-        id: "log-1",
+        id: 'log-1',
         timestamp: new Date(Date.now() - 60000).toISOString(),
-        level: "info",
-        message: "File operation completed successfully",
-        source: "FileOperationService",
-        metadata: { duration: 142, providerId: "local-1" },
+        level: 'info',
+        message: 'File operation completed successfully',
+        source: 'FileOperationService',
+        metadata: { duration: 142, providerId: 'local-1' },
       },
       {
-        id: "log-2",
+        id: 'log-2',
         timestamp: new Date(Date.now() - 120000).toISOString(),
-        level: "error",
-        message: "Provider connection failed",
-        source: "S3Provider",
-        metadata: { providerId: "s3-1", error: "Timeout" },
+        level: 'error',
+        message: 'Provider connection failed',
+        source: 'S3Provider',
+        metadata: { providerId: 's3-1', error: 'Timeout' },
       },
       {
-        id: "log-3",
+        id: 'log-3',
         timestamp: new Date(Date.now() - 180000).toISOString(),
-        level: "warning",
-        message: "Cache miss for frequently accessed file",
-        source: "CacheManager",
-        metadata: { filePath: "/shared/document.pdf" },
+        level: 'warning',
+        message: 'Cache miss for frequently accessed file',
+        source: 'CacheManager',
+        metadata: { filePath: '/shared/document.pdf' },
       },
     ];
 
@@ -148,9 +148,9 @@ export const adminApi = {
     // TODO: Replace with: await axiosInstance.get('/api/admin/providers/metrics');
     return [
       {
-        providerId: "local-1",
-        providerName: "Local Storage",
-        providerType: "local",
+        providerId: 'local-1',
+        providerName: 'Local Storage',
+        providerType: 'local',
         requestCount: 1524,
         errorCount: 3,
         avgLatency: 45,
@@ -158,9 +158,9 @@ export const adminApi = {
         lastChecked: new Date(Date.now() - 300000).toISOString(),
       },
       {
-        providerId: "s3-1",
-        providerName: "AWS S3",
-        providerType: "aws-s3",
+        providerId: 's3-1',
+        providerName: 'AWS S3',
+        providerType: 'aws-s3',
         requestCount: 987,
         errorCount: 12,
         avgLatency: 180,
@@ -168,9 +168,9 @@ export const adminApi = {
         lastChecked: new Date(Date.now() - 300000).toISOString(),
       },
       {
-        providerId: "gdrive-1",
-        providerName: "Google Drive",
-        providerType: "google-drive",
+        providerId: 'gdrive-1',
+        providerName: 'Google Drive',
+        providerType: 'google-drive',
         requestCount: 432,
         errorCount: 5,
         avgLatency: 320,
@@ -186,33 +186,32 @@ export const adminApi = {
   exportAuditLogs: async (_params: {
     startDate: string;
     endDate: string;
-    format: "csv" | "json";
+    format: 'csv' | 'json';
   }): Promise<Blob> => {
     // Mock implementation
     // TODO: Replace with: await axiosInstance.get('/api/admin/audit/export', { params, responseType: 'blob' });
-    const mockCsv = "timestamp,user,operation,resource,success\n";
-    return new Blob([mockCsv], { type: "text/csv" });
+    const mockCsv = 'timestamp,user,operation,resource,success\n';
+    return new Blob([mockCsv], { type: 'text/csv' });
   },
 
   /**
    * Get system health status
    */
   getHealth: async (): Promise<{
-    status: "healthy" | "degraded" | "unhealthy";
+    status: 'healthy' | 'degraded' | 'unhealthy';
     checks: Record<string, { status: string; message?: string }>;
   }> => {
     // Mock implementation
     // Note: Backend has /health endpoint, this wraps it
     // TODO: Use actual health endpoint
     return {
-      status: "healthy",
+      status: 'healthy',
       checks: {
-        database: { status: "healthy" },
-        redis: { status: "healthy" },
-        providers: { status: "healthy" },
-        disk: { status: "healthy" },
+        database: { status: 'healthy' },
+        redis: { status: 'healthy' },
+        providers: { status: 'healthy' },
+        disk: { status: 'healthy' },
       },
     };
   },
 };
-

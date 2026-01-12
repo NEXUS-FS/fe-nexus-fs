@@ -69,11 +69,13 @@ describe('ConfigureProviderModal', () => {
         provider={provider}
         config={config}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     expect(screen.getByText('Configure AWS S3 Production')).toBeInTheDocument();
-    expect(screen.getByText('Enter the connection details for AWS S3 Production')).toBeInTheDocument();
+    expect(
+      screen.getByText('Enter the connection details for AWS S3 Production'),
+    ).toBeInTheDocument();
   });
 
   it('does not render modal when closed', () => {
@@ -84,10 +86,12 @@ describe('ConfigureProviderModal', () => {
         provider={provider}
         config={config}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
-    expect(screen.queryByText('Configure AWS S3 Production')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Configure AWS S3 Production'),
+    ).not.toBeInTheDocument();
   });
 
   it('renders all configuration fields', () => {
@@ -98,7 +102,7 @@ describe('ConfigureProviderModal', () => {
         provider={provider}
         config={config}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     expect(screen.getByText('Access Key ID')).toBeInTheDocument();
@@ -115,7 +119,7 @@ describe('ConfigureProviderModal', () => {
         provider={provider}
         config={config}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     // All fields in this config are required, so we should see asterisks
@@ -131,7 +135,7 @@ describe('ConfigureProviderModal', () => {
         provider={provider}
         config={config}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     expect(screen.getByText('Cancel')).toBeInTheDocument();
@@ -146,7 +150,7 @@ describe('ConfigureProviderModal', () => {
         provider={provider}
         config={config}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByText('Cancel'));
@@ -162,11 +166,15 @@ describe('ConfigureProviderModal', () => {
         provider={provider}
         config={config}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
-    const accessKeyInput = screen.getByPlaceholderText('Enter your AWS Access Key ID');
-    fireEvent.change(accessKeyInput, { target: { value: 'AKIAIOSFODNN7EXAMPLE' } });
+    const accessKeyInput = screen.getByPlaceholderText(
+      'Enter your AWS Access Key ID',
+    );
+    fireEvent.change(accessKeyInput, {
+      target: { value: 'AKIAIOSFODNN7EXAMPLE' },
+    });
 
     expect(accessKeyInput).toHaveValue('AKIAIOSFODNN7EXAMPLE');
   });
@@ -179,16 +187,22 @@ describe('ConfigureProviderModal', () => {
         provider={provider}
         config={config}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     // Fill in all required fields
-    fireEvent.change(screen.getByPlaceholderText('Enter your AWS Access Key ID'), {
-      target: { value: 'AKIAIOSFODNN7EXAMPLE' },
-    });
-    fireEvent.change(screen.getByPlaceholderText('Enter your AWS Secret Access Key'), {
-      target: { value: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY' },
-    });
+    fireEvent.change(
+      screen.getByPlaceholderText('Enter your AWS Access Key ID'),
+      {
+        target: { value: 'AKIAIOSFODNN7EXAMPLE' },
+      },
+    );
+    fireEvent.change(
+      screen.getByPlaceholderText('Enter your AWS Secret Access Key'),
+      {
+        target: { value: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY' },
+      },
+    );
     fireEvent.change(screen.getByPlaceholderText('my-bucket-name'), {
       target: { value: 'my-test-bucket' },
     });
@@ -218,7 +232,7 @@ describe('ConfigureProviderModal', () => {
         provider={null}
         config={config}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     expect(container).toBeEmptyDOMElement();
@@ -232,11 +246,9 @@ describe('ConfigureProviderModal', () => {
         provider={provider}
         config={null}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     expect(container).toBeEmptyDOMElement();
   });
 });
-
-

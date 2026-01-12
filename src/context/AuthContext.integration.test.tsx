@@ -13,15 +13,15 @@ vi.mock('react-router-dom', async () => {
 });
 
 const mockUserData = {
-  id: "17dc09a2-52b4-421e-a8ee-f9f1301c4815",
-  username: "admin",
-  email: "admin@nexus.com",
-  role: "admin",
-  provider: "",
+  id: '17dc09a2-52b4-421e-a8ee-f9f1301c4815',
+  username: 'admin',
+  email: 'admin@nexus.com',
+  role: 'admin',
+  provider: '',
   isActive: true,
-  createdAt: "0001-01-01T00:00:00",
+  createdAt: '0001-01-01T00:00:00',
   updatedAt: undefined,
-  lastLogin: undefined
+  lastLogin: undefined,
 };
 
 function AuthConsumerComponent() {
@@ -62,7 +62,9 @@ describe('AuthContext Integration', () => {
     fireEvent.click(screen.getByText('Login'));
 
     expect(localStorage.getItem('accessToken')).toBe('mock-token');
-    expect(JSON.parse(localStorage.getItem('user') || '{}')).toEqual(mockUserData);
+    expect(JSON.parse(localStorage.getItem('user') || '{}')).toEqual(
+      mockUserData,
+    );
     expect(screen.getByTestId('status')).toHaveTextContent('Authenticated');
     expect(screen.getByTestId('username')).toHaveTextContent('admin');
     expect(mockNavigate).toHaveBeenCalledWith('/dashboard');

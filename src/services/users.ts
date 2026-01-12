@@ -1,5 +1,5 @@
-import { axiosInstance } from "@/lib/axiosInstance";
-import type { User, PaginatedResponse } from "@/types";
+import { axiosInstance } from '@/lib/axiosInstance';
+import type { User, PaginatedResponse } from '@/types';
 
 /**
  * User Management API Service
@@ -29,13 +29,13 @@ export const usersApi = {
    */
   getAll: async (
     pageNumber: number = 1,
-    pageSize: number = 10
+    pageSize: number = 10,
   ): Promise<PaginatedResponse<User>> => {
     const response = await axiosInstance.get<PaginatedResponse<User>>(
-      "/api/Users",
+      '/api/Users',
       {
         params: { pageNumber, pageSize },
-      }
+      },
     );
     return response.data;
   },
@@ -53,7 +53,7 @@ export const usersApi = {
    */
   getByUsername: async (username: string): Promise<User> => {
     const response = await axiosInstance.get<User>(
-      `/api/Users/by-username/${username}`
+      `/api/Users/by-username/${username}`,
     );
     return response.data;
   },
@@ -63,7 +63,7 @@ export const usersApi = {
    */
   getByEmail: async (email: string): Promise<User> => {
     const response = await axiosInstance.get<User>(
-      `/api/Users/by-email/${email}`
+      `/api/Users/by-email/${email}`,
     );
     return response.data;
   },
@@ -72,7 +72,7 @@ export const usersApi = {
    * Create new user
    */
   create: async (user: CreateUserRequest): Promise<User> => {
-    const response = await axiosInstance.post<User>("/api/Users", user);
+    const response = await axiosInstance.post<User>('/api/Users', user);
     return response.data;
   },
 
@@ -90,4 +90,3 @@ export const usersApi = {
     await axiosInstance.delete(`/api/Users/${id}`);
   },
 };
-

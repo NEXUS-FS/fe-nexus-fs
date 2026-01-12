@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { fileOperationsApi } from "@/services";
-import { useAuthContext } from "@/context/AuthContext";
+import { useState } from 'react';
+import { fileOperationsApi } from '@/services';
+import { useAuthContext } from '@/context/AuthContext';
 
 /**
  * Hook for file CRUD operations
@@ -12,7 +12,7 @@ export function useFileOperations() {
 
   const deleteFile = async (providerId: string, filePath: string) => {
     if (!user?.id) {
-      setError("User not authenticated");
+      setError('User not authenticated');
       return { success: false };
     }
 
@@ -28,9 +28,13 @@ export function useFileOperations() {
       return result;
     } catch (err: any) {
       const errorMsg =
-        err.response?.data?.message || err.message || "Failed to delete file";
+        err.response?.data?.message || err.message || 'Failed to delete file';
       setError(errorMsg);
-      return { success: false, message: errorMsg, timestamp: new Date().toISOString() };
+      return {
+        success: false,
+        message: errorMsg,
+        timestamp: new Date().toISOString(),
+      };
     } finally {
       setIsLoading(false);
     }
@@ -39,10 +43,10 @@ export function useFileOperations() {
   const copyFile = async (
     providerId: string,
     sourcePath: string,
-    destinationPath: string
+    destinationPath: string,
   ) => {
     if (!user?.id) {
-      setError("User not authenticated");
+      setError('User not authenticated');
       return { success: false };
     }
 
@@ -59,9 +63,15 @@ export function useFileOperations() {
       return result;
     } catch (err: any) {
       const errorMsg =
-        err.response?.data?.message || err.message || "Failed to copy file";
+        err.response?.data?.message || err.message || 'Failed to copy file';
       setError(errorMsg);
-      return { success: false, message: errorMsg, timestamp: new Date().toISOString(), sourcePath: null, destinationPath: null };
+      return {
+        success: false,
+        message: errorMsg,
+        timestamp: new Date().toISOString(),
+        sourcePath: null,
+        destinationPath: null,
+      };
     } finally {
       setIsLoading(false);
     }
@@ -70,10 +80,10 @@ export function useFileOperations() {
   const moveFile = async (
     providerId: string,
     sourcePath: string,
-    destinationPath: string
+    destinationPath: string,
   ) => {
     if (!user?.id) {
-      setError("User not authenticated");
+      setError('User not authenticated');
       return { success: false };
     }
 
@@ -90,9 +100,15 @@ export function useFileOperations() {
       return result;
     } catch (err: any) {
       const errorMsg =
-        err.response?.data?.message || err.message || "Failed to move file";
+        err.response?.data?.message || err.message || 'Failed to move file';
       setError(errorMsg);
-      return { success: false, message: errorMsg, timestamp: new Date().toISOString(), sourcePath: null, destinationPath: null };
+      return {
+        success: false,
+        message: errorMsg,
+        timestamp: new Date().toISOString(),
+        sourcePath: null,
+        destinationPath: null,
+      };
     } finally {
       setIsLoading(false);
     }
@@ -101,10 +117,10 @@ export function useFileOperations() {
   const createDirectory = async (
     providerId: string,
     path: string,
-    recursive: boolean = true
+    recursive: boolean = true,
   ) => {
     if (!user?.id) {
-      setError("User not authenticated");
+      setError('User not authenticated');
       return { success: false };
     }
 
@@ -121,9 +137,16 @@ export function useFileOperations() {
       return result;
     } catch (err: any) {
       const errorMsg =
-        err.response?.data?.message || err.message || "Failed to create directory";
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to create directory';
       setError(errorMsg);
-      return { success: false, message: errorMsg, timestamp: new Date().toISOString(), path: null };
+      return {
+        success: false,
+        message: errorMsg,
+        timestamp: new Date().toISOString(),
+        path: null,
+      };
     } finally {
       setIsLoading(false);
     }
@@ -131,7 +154,7 @@ export function useFileOperations() {
 
   const checkExists = async (providerId: string, path: string) => {
     if (!user?.id) {
-      setError("User not authenticated");
+      setError('User not authenticated');
       return { exists: false };
     }
 
@@ -147,9 +170,17 @@ export function useFileOperations() {
       return result;
     } catch (err: any) {
       const errorMsg =
-        err.response?.data?.message || err.message || "Failed to check file existence";
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to check file existence';
       setError(errorMsg);
-      return { success: false, message: errorMsg, timestamp: new Date().toISOString(), path: null, exists: false };
+      return {
+        success: false,
+        message: errorMsg,
+        timestamp: new Date().toISOString(),
+        path: null,
+        exists: false,
+      };
     } finally {
       setIsLoading(false);
     }
@@ -165,4 +196,3 @@ export function useFileOperations() {
     error,
   };
 }
-

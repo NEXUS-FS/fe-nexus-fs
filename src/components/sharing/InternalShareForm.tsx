@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Badge } from "@/components/ui/badge";
-import { X, UserPlus } from "lucide-react";
-import type { CreateInternalShareRequest, SharePermission } from "@/types";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
+import { X, UserPlus } from 'lucide-react';
+import type { CreateInternalShareRequest, SharePermission } from '@/types';
 
 interface InternalShareFormProps {
   fileId: string;
@@ -21,17 +21,20 @@ export function InternalShareForm({
   onSubmit,
   onSuccess,
 }: InternalShareFormProps) {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [sharedWith, setSharedWith] = useState<string[]>([]);
-  const [permissions, setPermissions] = useState<SharePermission[]>(["view", "download"]);
-  const [message, setMessage] = useState("");
-  const [expiresAt, setExpiresAt] = useState("");
+  const [permissions, setPermissions] = useState<SharePermission[]>([
+    'view',
+    'download',
+  ]);
+  const [message, setMessage] = useState('');
+  const [expiresAt, setExpiresAt] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleAddUser = () => {
     if (email.trim() && !sharedWith.includes(email.trim())) {
       setSharedWith([...sharedWith, email.trim()]);
-      setEmail("");
+      setEmail('');
     }
   };
 
@@ -42,7 +45,7 @@ export function InternalShareForm({
   const togglePermission = (permission: SharePermission) => {
     if (permissions.includes(permission)) {
       // Don't allow removing "view" if it's the only permission
-      if (permission === "view" && permissions.length === 1) return;
+      if (permission === 'view' && permissions.length === 1) return;
       setPermissions(permissions.filter((p) => p !== permission));
     } else {
       setPermissions([...permissions, permission]);
@@ -51,7 +54,7 @@ export function InternalShareForm({
 
   const handleSubmit = async () => {
     if (sharedWith.length === 0) {
-      alert("Please add at least one user");
+      alert('Please add at least one user');
       return;
     }
 
@@ -73,7 +76,7 @@ export function InternalShareForm({
     if (result.success) {
       onSuccess();
     } else {
-      alert(result.error || "Failed to share file");
+      alert(result.error || 'Failed to share file');
     }
   };
 
@@ -90,7 +93,7 @@ export function InternalShareForm({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
+              if (e.key === 'Enter') {
                 e.preventDefault();
                 handleAddUser();
               }
@@ -125,18 +128,23 @@ export function InternalShareForm({
       <div className="space-y-3">
         <Label>Permissions</Label>
         <div className="space-y-2">
-          {(["view", "download", "edit", "delete"] as SharePermission[]).map((perm) => (
-            <div key={perm} className="flex items-center gap-2">
-              <Checkbox
-                id={`perm-${perm}`}
-                checked={permissions.includes(perm)}
-                onCheckedChange={() => togglePermission(perm)}
-              />
-              <Label htmlFor={`perm-${perm}`} className="cursor-pointer capitalize">
-                {perm}
-              </Label>
-            </div>
-          ))}
+          {(['view', 'download', 'edit', 'delete'] as SharePermission[]).map(
+            (perm) => (
+              <div key={perm} className="flex items-center gap-2">
+                <Checkbox
+                  id={`perm-${perm}`}
+                  checked={permissions.includes(perm)}
+                  onCheckedChange={() => togglePermission(perm)}
+                />
+                <Label
+                  htmlFor={`perm-${perm}`}
+                  className="cursor-pointer capitalize"
+                >
+                  {perm}
+                </Label>
+              </div>
+            ),
+          )}
         </div>
       </div>
 
@@ -169,10 +177,9 @@ export function InternalShareForm({
           onClick={handleSubmit}
           disabled={isSubmitting || sharedWith.length === 0}
         >
-          {isSubmitting ? "Sharing..." : "Send Invitation"}
+          {isSubmitting ? 'Sharing...' : 'Send Invitation'}
         </Button>
       </div>
     </div>
   );
 }
-

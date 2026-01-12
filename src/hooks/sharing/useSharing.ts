@@ -1,12 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
-import { sharingApi } from "@/services";
+import { useState, useEffect, useCallback } from 'react';
+import { sharingApi } from '@/services';
 import type {
   ShareLink,
   InternalShare,
   CreateShareLinkRequest,
   CreateInternalShareRequest,
   SharePermission,
-} from "@/types";
+} from '@/types';
 
 /**
  * Hook for managing file sharing
@@ -33,7 +33,7 @@ export function useSharing() {
       setSharedWithMe(withMe);
       setMyShareLinks(links);
     } catch (err: any) {
-      setError(err.message || "Failed to fetch shares");
+      setError(err.message || 'Failed to fetch shares');
     } finally {
       setIsLoading(false);
     }
@@ -52,7 +52,7 @@ export function useSharing() {
       setMyShareLinks((prev) => [...prev, shareLink]);
       return { success: true, shareLink };
     } catch (err: any) {
-      const errorMsg = err.message || "Failed to create share link";
+      const errorMsg = err.message || 'Failed to create share link';
       setError(errorMsg);
       return { success: false, error: errorMsg };
     } finally {
@@ -69,7 +69,7 @@ export function useSharing() {
       setSharedByMe((prev) => [...prev, share]);
       return { success: true, share };
     } catch (err: any) {
-      const errorMsg = err.message || "Failed to create share";
+      const errorMsg = err.message || 'Failed to create share';
       setError(errorMsg);
       return { success: false, error: errorMsg };
     } finally {
@@ -85,12 +85,12 @@ export function useSharing() {
       await sharingApi.revokeShareLink(linkId);
       setMyShareLinks((prev) =>
         prev.map((link) =>
-          link.id === linkId ? { ...link, isActive: false } : link
-        )
+          link.id === linkId ? { ...link, isActive: false } : link,
+        ),
       );
       return { success: true };
     } catch (err: any) {
-      const errorMsg = err.message || "Failed to revoke share link";
+      const errorMsg = err.message || 'Failed to revoke share link';
       setError(errorMsg);
       return { success: false, error: errorMsg };
     } finally {
@@ -107,7 +107,7 @@ export function useSharing() {
       setSharedByMe((prev) => prev.filter((s) => s.id !== shareId));
       return { success: true };
     } catch (err: any) {
-      const errorMsg = err.message || "Failed to remove share";
+      const errorMsg = err.message || 'Failed to remove share';
       setError(errorMsg);
       return { success: false, error: errorMsg };
     } finally {
@@ -117,7 +117,7 @@ export function useSharing() {
 
   const updatePermissions = async (
     shareId: string,
-    permissions: SharePermission[]
+    permissions: SharePermission[],
   ) => {
     setIsLoading(true);
     setError(null);
@@ -126,12 +126,12 @@ export function useSharing() {
       await sharingApi.updateSharePermissions(shareId, permissions);
       setSharedByMe((prev) =>
         prev.map((share) =>
-          share.id === shareId ? { ...share, permissions } : share
-        )
+          share.id === shareId ? { ...share, permissions } : share,
+        ),
       );
       return { success: true };
     } catch (err: any) {
-      const errorMsg = err.message || "Failed to update permissions";
+      const errorMsg = err.message || 'Failed to update permissions';
       setError(errorMsg);
       return { success: false, error: errorMsg };
     } finally {
@@ -153,4 +153,3 @@ export function useSharing() {
     refresh: fetchAll,
   };
 }
-

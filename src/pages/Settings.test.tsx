@@ -18,28 +18,40 @@ vi.mock('@/components/layout/AppHeader', () => ({
 
 // Mock the SettingsSidebar
 vi.mock('@/components/layout/SettingsSidebar', () => ({
-  SettingsSidebar: () => <nav data-testid="settings-sidebar">Settings Sidebar</nav>,
+  SettingsSidebar: () => (
+    <nav data-testid="settings-sidebar">Settings Sidebar</nav>
+  ),
 }));
 
 // Mock all settings components
 vi.mock('@/features/settings/ProvidersSettings', () => ({
-  ProvidersSettings: () => <div data-testid="providers-settings">Providers Settings</div>,
+  ProvidersSettings: () => (
+    <div data-testid="providers-settings">Providers Settings</div>
+  ),
 }));
 
 vi.mock('@/features/settings/ProfileSettings', () => ({
-  ProfileSettings: () => <div data-testid="profile-settings">Profile Settings</div>,
+  ProfileSettings: () => (
+    <div data-testid="profile-settings">Profile Settings</div>
+  ),
 }));
 
 vi.mock('@/features/settings/GeneralSettings', () => ({
-  GeneralSettings: () => <div data-testid="general-settings">General Settings</div>,
+  GeneralSettings: () => (
+    <div data-testid="general-settings">General Settings</div>
+  ),
 }));
 
 vi.mock('@/features/settings/SecuritySettings', () => ({
-  SecuritySettings: () => <div data-testid="security-settings">Security Settings</div>,
+  SecuritySettings: () => (
+    <div data-testid="security-settings">Security Settings</div>
+  ),
 }));
 
 vi.mock('@/features/settings/NotificationsSettings', () => ({
-  NotificationsSettings: () => <div data-testid="notifications-settings">Notifications Settings</div>,
+  NotificationsSettings: () => (
+    <div data-testid="notifications-settings">Notifications Settings</div>
+  ),
 }));
 
 vi.mock('@/features/settings/ApiSettings', () => ({
@@ -47,7 +59,9 @@ vi.mock('@/features/settings/ApiSettings', () => ({
 }));
 
 vi.mock('@/features/settings/SupportSettings', () => ({
-  SupportSettings: () => <div data-testid="support-settings">Support Settings</div>,
+  SupportSettings: () => (
+    <div data-testid="support-settings">Support Settings</div>
+  ),
 }));
 
 const renderWithRouter = (route: string) => {
@@ -57,7 +71,7 @@ const renderWithRouter = (route: string) => {
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/:tab" element={<Settings />} />
       </Routes>
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 };
 
@@ -70,7 +84,9 @@ describe('Settings Page', () => {
     renderWithRouter('/settings/providers');
 
     expect(screen.getByText('Settings')).toBeInTheDocument();
-    expect(screen.getByText('Manage your account and application preferences')).toBeInTheDocument();
+    expect(
+      screen.getByText('Manage your account and application preferences'),
+    ).toBeInTheDocument();
   });
 
   it('renders AppHeader', () => {
@@ -148,4 +164,3 @@ describe('Settings Page', () => {
     expect(mainDiv).toHaveClass('bg-[#FDFDFD]');
   });
 });
-

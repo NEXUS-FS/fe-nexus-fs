@@ -1,57 +1,57 @@
 export type ErrorResponse = {
-  message: string
-  errors?: Record<string, string[]>
-  statusCode?: number
-}
+  message: string;
+  errors?: Record<string, string[]>;
+  statusCode?: number;
+};
 
 export interface LoginResponse {
-    accessToken: string;
-    refreshToken: string;
-    expiresAt: string;
-    user: {
-        id: string;
-        username: string;
-        email: string;
-        role: string;
-        provider?: string;
-        isActive: boolean;
-        createdAt: string;
-        updatedAt?: string;
-        lastLogin?: string;
-    };
+  accessToken: string;
+  refreshToken: string;
+  expiresAt: string;
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    role: string;
+    provider?: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt?: string;
+    lastLogin?: string;
+  };
 }
 
 export type User = {
-  id: string
-  username: string
-  name: string
-  email: string
-  role: string
-  status: 'active' | 'inactive'
-  createdAt: string
-  updatedAt: string
-}
+  id: string;
+  username: string;
+  name: string;
+  email: string;
+  role: string;
+  status: 'active' | 'inactive';
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type PaginatedResponse<T> = {
-  data: T[]
-  page: number
-  limit: number
-  total: number
-  totalPages: number
-}
+  data: T[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+};
 
 export type UpdateUserData = {
-  username?: string
-  name?: string
-  email?: string
-  role?: string
-}
+  username?: string;
+  name?: string;
+  email?: string;
+  role?: string;
+};
 
 export interface RecentActivityItem {
-  action: string 
-  file: string 
-  time: string 
-  icon: string 
+  action: string;
+  file: string;
+  time: string;
+  icon: string;
 }
 
 export interface ProviderHealth {
@@ -99,15 +99,26 @@ export interface DashboardStats {
   providersCount: number;
 }
 
-export type StoragePeriod = "7d" | "30d" | "90d" | "1y";
+export type StoragePeriod = '7d' | '30d' | '90d' | '1y';
 
-export type ProviderType = "google-drive" | "aws-s3" | "local";
+export type ProviderType =
+  | 'google-drive'
+  | 'aws-s3'
+  | 'local'
+  | 'ftp'
+  | 'memory';
 
-export type ProviderStatus = "active" | "inactive" | "pending" | "disconnected";
+export type ProviderStatus = 'active' | 'inactive' | 'pending' | 'disconnected';
 
-export type ProviderHealthStatus = "Healthy" | "Stable" | "Active" | "Inactive";
+export type ProviderHealthStatus = 'Healthy' | 'Stable' | 'Active' | 'Inactive';
 
-export type AccessRequestStatus = "pending" | "approved" | "rejected";
+export interface ProviderRegistrationRequest {
+  providerId: string;
+  providerType: string;
+  configuration: Record<string, string>;
+}
+
+export type AccessRequestStatus = 'pending' | 'approved' | 'rejected';
 
 export interface ConnectedProvider {
   id: string;
@@ -125,7 +136,7 @@ export interface ConnectedProvider {
 export interface ProviderConfigField {
   id: string;
   label: string;
-  type: "text" | "password" | "select";
+  type: 'text' | 'password' | 'select';
   placeholder?: string;
   required: boolean;
   options?: { value: string; label: string }[];
@@ -338,7 +349,7 @@ export interface CredentialHistoryResponse {
 
 // ============= Sharing Types (Frontend-only for now) =============
 
-export type SharePermission = "view" | "download" | "edit" | "delete";
+export type SharePermission = 'view' | 'download' | 'edit' | 'delete';
 
 export interface ShareLink {
   id: string;
@@ -415,7 +426,7 @@ export interface AuditLogEntry {
 export interface SystemLog {
   id: string;
   timestamp: string;
-  level: "info" | "warning" | "error" | "debug";
+  level: 'info' | 'warning' | 'error' | 'debug';
   message: string;
   source: string;
   metadata: Record<string, any>;
@@ -434,9 +445,9 @@ export interface ProviderMetrics {
 
 // ============= View/Display Types =============
 
-export type FileViewMode = "grid" | "list";
-export type FileSortBy = "name" | "date" | "size" | "type";
-export type FileSortOrder = "asc" | "desc";
+export type FileViewMode = 'grid' | 'list';
+export type FileSortBy = 'name' | 'date' | 'size' | 'type';
+export type FileSortOrder = 'asc' | 'desc';
 
 export interface FileFilterOptions {
   providerId?: string;

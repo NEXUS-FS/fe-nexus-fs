@@ -1,5 +1,5 @@
-import { File, Folder, ArrowUpDown } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { File, Folder, ArrowUpDown } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
   TableBody,
@@ -7,9 +7,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { cn } from "@/lib/utils";
-import type { FileSortBy, FileSortOrder } from "@/types";
+} from '@/components/ui/table';
+import { cn } from '@/lib/utils';
+import type { FileSortBy, FileSortOrder } from '@/types';
 
 interface FileListProps {
   files: string[];
@@ -35,27 +35,27 @@ export function FileList({
   onSort,
 }: FileListProps) {
   const formatFileName = (path: string) => {
-    const parts = path.split("/");
+    const parts = path.split('/');
     return parts[parts.length - 1] || parts[parts.length - 2];
   };
 
   const formatFileSize = (_fileName: string) => {
     // Mock file sizes - in real app, this would come from file metadata
-    return "—";
+    return '—';
   };
 
   const formatModified = (_fileName: string) => {
     // Mock dates - in real app, this would come from file metadata
-    return "—";
+    return '—';
   };
 
   const getFileType = (fileName: string) => {
-    if (fileName.endsWith("/")) return "Folder";
-    const ext = fileName.split(".").pop()?.toUpperCase();
-    return ext ? `${ext} File` : "File";
+    if (fileName.endsWith('/')) return 'Folder';
+    const ext = fileName.split('.').pop()?.toUpperCase();
+    return ext ? `${ext} File` : 'File';
   };
 
-  const isDirectory = (path: string) => path.endsWith("/");
+  const isDirectory = (path: string) => path.endsWith('/');
 
   const SortIcon = ({ column }: { column: FileSortBy }) => {
     if (sortBy !== column) {
@@ -64,8 +64,8 @@ export function FileList({
     return (
       <ArrowUpDown
         className={cn(
-          "h-4 w-4",
-          sortOrder === "desc" && "transform rotate-180"
+          'h-4 w-4',
+          sortOrder === 'desc' && 'transform rotate-180',
         )}
       />
     );
@@ -76,7 +76,9 @@ export function FileList({
       <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
         <Folder className="h-16 w-16 mb-4 opacity-50" />
         <p className="text-lg font-mac-medium">This folder is empty</p>
-        <p className="text-sm">Upload files or create a new folder to get started</p>
+        <p className="text-sm">
+          Upload files or create a new folder to get started
+        </p>
       </div>
     );
   }
@@ -96,7 +98,7 @@ export function FileList({
             </TableHead>
             <TableHead
               className="cursor-pointer hover:bg-accent"
-              onClick={() => onSort("name")}
+              onClick={() => onSort('name')}
             >
               <div className="flex items-center gap-2">
                 Name
@@ -105,7 +107,7 @@ export function FileList({
             </TableHead>
             <TableHead
               className="cursor-pointer hover:bg-accent"
-              onClick={() => onSort("size")}
+              onClick={() => onSort('size')}
             >
               <div className="flex items-center gap-2">
                 Size
@@ -114,7 +116,7 @@ export function FileList({
             </TableHead>
             <TableHead
               className="cursor-pointer hover:bg-accent"
-              onClick={() => onSort("date")}
+              onClick={() => onSort('date')}
             >
               <div className="flex items-center gap-2">
                 Modified
@@ -123,7 +125,7 @@ export function FileList({
             </TableHead>
             <TableHead
               className="cursor-pointer hover:bg-accent"
-              onClick={() => onSort("type")}
+              onClick={() => onSort('type')}
             >
               <div className="flex items-center gap-2">
                 Type
@@ -141,10 +143,7 @@ export function FileList({
             return (
               <TableRow
                 key={filePath}
-                className={cn(
-                  "cursor-pointer",
-                  isSelected && "bg-accent"
-                )}
+                className={cn('cursor-pointer', isSelected && 'bg-accent')}
                 onClick={() => onFileClick(filePath)}
                 onDoubleClick={() => onFileDoubleClick(filePath)}
                 onContextMenu={(e) => onContextMenu(e, filePath)}
@@ -185,4 +184,3 @@ export function FileList({
     </div>
   );
 }
-

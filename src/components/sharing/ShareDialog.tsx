@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { InternalShareForm } from "./InternalShareForm";
-import { PublicLinkForm } from "./PublicLinkForm";
-import type { CreateShareLinkRequest, CreateInternalShareRequest } from "@/types";
+} from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { InternalShareForm } from './InternalShareForm';
+import { PublicLinkForm } from './PublicLinkForm';
+import type {
+  CreateShareLinkRequest,
+  CreateInternalShareRequest,
+} from '@/types';
 
 interface ShareDialogProps {
   open: boolean;
@@ -28,7 +31,7 @@ export function ShareDialog({
   onCreatePublicLink,
   onCreateInternalShare,
 }: ShareDialogProps) {
-  const [activeTab, setActiveTab] = useState("internal");
+  const [activeTab, setActiveTab] = useState('internal');
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -68,4 +71,3 @@ export function ShareDialog({
     </Dialog>
   );
 }
-

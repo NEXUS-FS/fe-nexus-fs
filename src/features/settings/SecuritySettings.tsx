@@ -1,15 +1,33 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
-import { Shield, Key, Download, X } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
+import { Shield, Key, Download, X } from 'lucide-react';
 
 export function SecuritySettings() {
   const activeSessions = [
-    { id: "1", device: "Chrome on Windows", location: "New York, US", lastActive: "Now", current: true },
-    { id: "2", device: "Firefox on MacOS", location: "London, UK", lastActive: "2 hours ago", current: false },
+    {
+      id: '1',
+      device: 'Chrome on Windows',
+      location: 'New York, US',
+      lastActive: 'Now',
+      current: true,
+    },
+    {
+      id: '2',
+      device: 'Firefox on MacOS',
+      location: 'London, UK',
+      lastActive: '2 hours ago',
+      current: false,
+    },
   ];
 
   return (
@@ -17,7 +35,9 @@ export function SecuritySettings() {
       <Card>
         <CardHeader>
           <CardTitle>Change Password</CardTitle>
-          <CardDescription>Update your password regularly for security</CardDescription>
+          <CardDescription>
+            Update your password regularly for security
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
@@ -68,14 +88,23 @@ export function SecuritySettings() {
         <CardContent>
           <div className="space-y-3">
             {activeSessions.map((session) => (
-              <div key={session.id} className="flex items-center justify-between p-4 border rounded-lg">
+              <div
+                key={session.id}
+                className="flex items-center justify-between p-4 border rounded-lg"
+              >
                 <div>
                   <div className="flex items-center gap-2">
                     <p className="font-mac-medium">{session.device}</p>
-                    {session.current && <Badge variant="default">Current</Badge>}
+                    {session.current && (
+                      <Badge variant="default">Current</Badge>
+                    )}
                   </div>
-                  <p className="text-sm text-muted-foreground">{session.location}</p>
-                  <p className="text-xs text-muted-foreground">Last active: {session.lastActive}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {session.location}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Last active: {session.lastActive}
+                  </p>
                 </div>
                 {!session.current && (
                   <Button variant="ghost" size="sm" className="text-red-600">
@@ -119,4 +148,3 @@ export function SecuritySettings() {
     </div>
   );
 }
-

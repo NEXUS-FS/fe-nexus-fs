@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
-import { usersApi } from "@/services";
-import type { User } from "@/types";
+import { useState, useEffect, useCallback } from 'react';
+import { usersApi } from '@/services';
+import type { User } from '@/types';
 
 /**
  * Hook for admin user management operations
@@ -22,7 +22,7 @@ export function useAdminUsers(page: number = 1, pageSize: number = 10) {
       setTotalCount(response.total);
       setTotalPages(response.totalPages);
     } catch (err: any) {
-      setError(err.message || "Failed to fetch users");
+      setError(err.message || 'Failed to fetch users');
     } finally {
       setIsLoading(false);
     }
@@ -38,7 +38,7 @@ export function useAdminUsers(page: number = 1, pageSize: number = 10) {
       fetchUsers(); // Refresh list
       return { success: true };
     } catch (err: any) {
-      return { success: false, error: err.message || "Failed to delete user" };
+      return { success: false, error: err.message || 'Failed to delete user' };
     }
   };
 
@@ -48,7 +48,7 @@ export function useAdminUsers(page: number = 1, pageSize: number = 10) {
       fetchUsers(); // Refresh list
       return { success: true };
     } catch (err: any) {
-      return { success: false, error: err.message || "Failed to update user" };
+      return { success: false, error: err.message || 'Failed to update user' };
     }
   };
 
@@ -63,4 +63,3 @@ export function useAdminUsers(page: number = 1, pageSize: number = 10) {
     refresh: fetchUsers,
   };
 }
-

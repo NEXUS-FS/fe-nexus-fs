@@ -25,11 +25,15 @@ describe('RequestAccessModal', () => {
         onOpenChange={mockOnOpenChange}
         provider={provider}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     expect(screen.getByText('Request Provider Access')).toBeInTheDocument();
-    expect(screen.getByText(/Please provide a reason for requesting access to AWS S3/)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Please provide a reason for requesting access to AWS S3/,
+      ),
+    ).toBeInTheDocument();
   });
 
   it('does not render modal when closed', () => {
@@ -39,10 +43,12 @@ describe('RequestAccessModal', () => {
         onOpenChange={mockOnOpenChange}
         provider={provider}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
-    expect(screen.queryByText('Request Provider Access')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Request Provider Access'),
+    ).not.toBeInTheDocument();
   });
 
   it('renders reason textarea', () => {
@@ -52,11 +58,13 @@ describe('RequestAccessModal', () => {
         onOpenChange={mockOnOpenChange}
         provider={provider}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     expect(screen.getByText('Reason for Access')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('I need access to this provider for...')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('I need access to this provider for...'),
+    ).toBeInTheDocument();
   });
 
   it('renders Cancel and Submit buttons', () => {
@@ -66,7 +74,7 @@ describe('RequestAccessModal', () => {
         onOpenChange={mockOnOpenChange}
         provider={provider}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     expect(screen.getByText('Cancel')).toBeInTheDocument();
@@ -80,7 +88,7 @@ describe('RequestAccessModal', () => {
         onOpenChange={mockOnOpenChange}
         provider={provider}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     const submitButton = screen.getByText('Submit Request');
@@ -94,11 +102,15 @@ describe('RequestAccessModal', () => {
         onOpenChange={mockOnOpenChange}
         provider={provider}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
-    const textarea = screen.getByPlaceholderText('I need access to this provider for...');
-    fireEvent.change(textarea, { target: { value: 'I need this for my project' } });
+    const textarea = screen.getByPlaceholderText(
+      'I need access to this provider for...',
+    );
+    fireEvent.change(textarea, {
+      target: { value: 'I need this for my project' },
+    });
 
     const submitButton = screen.getByText('Submit Request');
     expect(submitButton).not.toBeDisabled();
@@ -111,11 +123,15 @@ describe('RequestAccessModal', () => {
         onOpenChange={mockOnOpenChange}
         provider={provider}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
-    const textarea = screen.getByPlaceholderText('I need access to this provider for...');
-    fireEvent.change(textarea, { target: { value: 'I need this for my project' } });
+    const textarea = screen.getByPlaceholderText(
+      'I need access to this provider for...',
+    );
+    fireEvent.change(textarea, {
+      target: { value: 'I need this for my project' },
+    });
 
     fireEvent.click(screen.getByText('Submit Request'));
 
@@ -130,7 +146,7 @@ describe('RequestAccessModal', () => {
         onOpenChange={mockOnOpenChange}
         provider={provider}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByText('Cancel'));
@@ -145,11 +161,9 @@ describe('RequestAccessModal', () => {
         onOpenChange={mockOnOpenChange}
         provider={null}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     expect(screen.getByText(/this provider/)).toBeInTheDocument();
   });
 });
-
-

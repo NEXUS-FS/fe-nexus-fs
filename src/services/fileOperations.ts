@@ -1,4 +1,4 @@
-import { axiosInstance } from "@/lib/axiosInstance";
+import { axiosInstance } from '@/lib/axiosInstance';
 import type {
   ReadFileRequest,
   ReadFileResponse,
@@ -18,7 +18,7 @@ import type {
   MoveFileResponse,
   ExistsRequest,
   ExistsResponse,
-} from "@/types";
+} from '@/types';
 
 /**
  * File Operations API Service
@@ -31,8 +31,8 @@ export const fileOperationsApi = {
    */
   read: async (request: ReadFileRequest): Promise<ReadFileResponse> => {
     const response = await axiosInstance.post<ReadFileResponse>(
-      "/api/files/read",
-      request
+      '/api/files/read',
+      request,
     );
     return response.data;
   },
@@ -42,8 +42,8 @@ export const fileOperationsApi = {
    */
   write: async (request: WriteFileRequest): Promise<WriteFileResponse> => {
     const response = await axiosInstance.post<WriteFileResponse>(
-      "/api/files/write",
-      request
+      '/api/files/write',
+      request,
     );
     return response.data;
   },
@@ -53,8 +53,8 @@ export const fileOperationsApi = {
    */
   delete: async (request: DeleteFileRequest): Promise<DeleteFileResponse> => {
     const response = await axiosInstance.delete<DeleteFileResponse>(
-      "/api/files",
-      { data: request }
+      '/api/files',
+      { data: request },
     );
     return response.data;
   },
@@ -64,7 +64,7 @@ export const fileOperationsApi = {
    */
   list: async (request: ListFilesRequest): Promise<ListFilesResponse> => {
     const response = await axiosInstance.get<ListFilesResponse>(
-      "/api/files/list",
+      '/api/files/list',
       {
         params: {
           providerId: request.providerId,
@@ -72,7 +72,7 @@ export const fileOperationsApi = {
           recursive: request.recursive || false,
           userId: request.userId || null,
         },
-      }
+      },
     );
     return response.data;
   },
@@ -82,8 +82,8 @@ export const fileOperationsApi = {
    */
   stat: async (request: StatFileRequest): Promise<StatFileResponse> => {
     const response = await axiosInstance.post<StatFileResponse>(
-      "/api/files/stat",
-      request
+      '/api/files/stat',
+      request,
     );
     return response.data;
   },
@@ -93,8 +93,8 @@ export const fileOperationsApi = {
    */
   mkdir: async (request: MkdirRequest): Promise<MkdirResponse> => {
     const response = await axiosInstance.post<MkdirResponse>(
-      "/api/files/mkdir",
-      request
+      '/api/files/mkdir',
+      request,
     );
     return response.data;
   },
@@ -104,8 +104,8 @@ export const fileOperationsApi = {
    */
   copy: async (request: CopyFileRequest): Promise<CopyFileResponse> => {
     const response = await axiosInstance.post<CopyFileResponse>(
-      "/api/files/copy",
-      request
+      '/api/files/copy',
+      request,
     );
     return response.data;
   },
@@ -115,8 +115,8 @@ export const fileOperationsApi = {
    */
   move: async (request: MoveFileRequest): Promise<MoveFileResponse> => {
     const response = await axiosInstance.post<MoveFileResponse>(
-      "/api/files/move",
-      request
+      '/api/files/move',
+      request,
     );
     return response.data;
   },
@@ -126,16 +126,15 @@ export const fileOperationsApi = {
    */
   exists: async (request: ExistsRequest): Promise<ExistsResponse> => {
     const response = await axiosInstance.get<ExistsResponse>(
-      "/api/files/exists",
+      '/api/files/exists',
       {
         params: {
           providerId: request.providerId,
           path: request.path,
           userId: request.userId || null,
         },
-      }
+      },
     );
     return response.data;
   },
 };
-

@@ -1,13 +1,13 @@
-import { render, screen } from "@testing-library/react";
-import { describe, it, vi, beforeEach } from "vitest";
-import type { Mock } from "vitest";
-import Login from "./Login";
-import { AuthProvider, useAuthContext } from "@/context/AuthContext";
-import type { PropsWithChildren } from "react";
-import { MemoryRouter } from "react-router-dom";
+import { render, screen } from '@testing-library/react';
+import { describe, it, vi, beforeEach } from 'vitest';
+import type { Mock } from 'vitest';
+import Login from './Login';
+import { AuthProvider, useAuthContext } from '@/context/AuthContext';
+import type { PropsWithChildren } from 'react';
+import { MemoryRouter } from 'react-router-dom';
 
 vi.mock('@/components/auth/LoginForm', () => ({
-  LoginForm: vi.fn(() => <div data-testid="login-form">LoginForm</div>)
+  LoginForm: vi.fn(() => <div data-testid="login-form">LoginForm</div>),
 }));
 
 vi.mock('@/context/AuthContext', async (importOriginal) => {
@@ -29,7 +29,7 @@ const createWrapper = () => {
       <AuthProvider>{children}</AuthProvider>
     </MemoryRouter>
   );
-  Wrapper.displayName = "AuthWrapper";
+  Wrapper.displayName = 'AuthWrapper';
   return Wrapper;
 };
 

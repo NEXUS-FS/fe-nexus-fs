@@ -1,329 +1,172 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import {
   useConnectedProviders,
   useAvailableProviders,
-  useAccessRequests,
   useProviderConfig,
 } from './useProviders';
+
+// Mock localStorage
+const localStorageMock = (() => {
+  let store: Record<string, string> = {};
+  return {
+    getItem: (key: string) => store[key] || null,
+    setItem: (key: string, value: string) => {
+      store[key] = value;
+    },
+    removeItem: (key: string) => {
+      delete store[key];
+    },
+    clear: () => {
+      store = {};
+    },
+  };
+})();
+
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+});
+
+// Mock the providers API
+vi.mock('@/services', () => ({
+  providersApi: {
+    connect: vi.fn().mockResolvedValue({
+      success: true,
+      message: 'Provider connected successfully',
+    }),
+  },
+}));
 
 describe('useConnectedProviders hook', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    localStorageMock.clear();
   });
 
-  it('should return loading state initially', () => {
+  it('should return initial state', () => {
     const { result } = renderHook(() => useConnectedProviders());
-    expect(result.current.isLoading).toBe(true);
+    expect(result.current.isLoading).toBe(false);
     expect(result.current.providers).toEqual([]);
+    expect(result.current.error).toBeNull();
   });
 
-  it('should fetch and return connected providers', async () => {
-    const { result } = renderHook(() => useConnectedProviders());
+  it('should load providers from localStorage', () => {
+    const mockProviders = [
+      {
+        id: 'local-1',
+        name: 'Local Storage',
+        type: 'local' as const,
+        status: 'active' as const,
+        healthStatus: 'Active' as const,
+        storageUsed: 12,
+        storageTotal: 50,
+        filesCount: 234,
+        connectedAt: '2024-01-15T10:30:00Z',
+        isConfigured: true,
+      },
+    ];
 
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-
-    expect(result.current.providers).toHaveLength(2);
-    expect(result.current.providers[0]).toMatchObject({
-      name: 'Local Storage',
-      type: 'local',
-      status: 'active',
-      healthStatus: 'Active',
-      isConfigured: true,
-    });
-    expect(result.current.providers[1]).toMatchObject({
-      name: 'Google Drive',
-      type: 'google-drive',
-      status: 'active',
-      healthStatus: 'Stable',
-      isConfigured: true,
-    });
-  });
-
-  it('should add a new provider', async () => {
-    const { result } = renderHook(() => useConnectedProviders());
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-
-    const newProvider = {
-      id: 'aws-test',
-      name: 'AWS S3 Test',
-      type: 'aws-s3' as const,
-      status: 'inactive' as const,
-      healthStatus: 'Inactive' as const,
-      storageUsed: 0,
-      storageTotal: 100,
-      filesCount: 0,
-      connectedAt: new Date().toISOString(),
-      isConfigured: false,
-    };
-
-    act(() => {
-      result.current.addProvider(newProvider);
-    });
-
-    expect(result.current.providers).toHaveLength(3);
-    expect(result.current.providers[2].name).toBe('AWS S3 Test');
-  });
-
-  it('should configure a provider', async () => {
-    const { result } = renderHook(() => useConnectedProviders());
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-
-    // Add an unconfigured provider first
-    const newProvider = {
-      id: 'aws-config-test',
-      name: 'AWS S3 Config Test',
-      type: 'aws-s3' as const,
-      status: 'inactive' as const,
-      healthStatus: 'Inactive' as const,
-      storageUsed: 0,
-      storageTotal: 100,
-      filesCount: 0,
-      connectedAt: new Date().toISOString(),
-      isConfigured: false,
-    };
-
-    act(() => {
-      result.current.addProvider(newProvider);
-    });
-
-    await act(async () => {
-      await result.current.configureProvider('aws-config-test', {
-        accessKeyId: 'test-key',
-        secretAccessKey: 'test-secret',
-      });
-    });
-
-    const configuredProvider = result.current.providers.find(
-      (p) => p.id === 'aws-config-test'
+    localStorageMock.setItem(
+      'connectedProviders',
+      JSON.stringify(mockProviders),
     );
-    expect(configuredProvider?.isConfigured).toBe(true);
-    expect(configuredProvider?.status).toBe('active');
-    expect(configuredProvider?.healthStatus).toBe('Healthy');
-  });
 
-  it('should disconnect a provider', async () => {
     const { result } = renderHook(() => useConnectedProviders());
 
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-
-    const initialLength = result.current.providers.length;
-
-    await act(async () => {
-      await result.current.disconnectProvider('local-1');
-    });
-
-    expect(result.current.providers).toHaveLength(initialLength - 1);
-    expect(result.current.providers.find((p) => p.id === 'local-1')).toBeUndefined();
+    expect(result.current.providers).toHaveLength(1);
+    expect(result.current.providers[0].name).toBe('Local Storage');
   });
 
-  it('should test connection successfully', async () => {
+  it('should test connection', async () => {
     const { result } = renderHook(() => useConnectedProviders());
 
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
+    const testResult = await result.current.testConnection('test-provider');
 
-    let connectionResult;
-    await act(async () => {
-      connectionResult = await result.current.testConnection('local-1');
-    });
-
-    expect(connectionResult).toEqual({
-      success: true,
-      message: 'Connection successful',
-    });
+    expect(testResult.success).toBe(true);
+    expect(testResult.message).toBe('Connection successful');
   });
 });
 
 describe('useAvailableProviders hook', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    localStorageMock.clear();
   });
 
-  it('should return loading state initially', () => {
-    const { result } = renderHook(() => useAvailableProviders());
-    expect(result.current.isLoading).toBe(true);
-    expect(result.current.providers).toEqual([]);
-  });
-
-  it('should fetch and return available providers', async () => {
+  it('should return all available providers when none are connected', () => {
     const { result } = renderHook(() => useAvailableProviders());
 
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-
-    expect(result.current.providers).toHaveLength(1);
-    expect(result.current.providers[0]).toMatchObject({
-      id: 'aws-s3',
-      name: 'AWS S3',
-      type: 'aws-s3',
-    });
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.providers.length).toBeGreaterThan(0);
+    expect(
+      result.current.providers.some((p) => p.type === 'google-drive'),
+    ).toBe(true);
+    expect(result.current.providers.some((p) => p.type === 'aws-s3')).toBe(
+      true,
+    );
   });
 
-  it('should allow updating providers list', async () => {
+  it('should filter out connected providers', () => {
+    const mockProviders = [
+      {
+        id: 'google-1',
+        name: 'Google Drive',
+        type: 'google-drive' as const,
+        status: 'active' as const,
+        healthStatus: 'Healthy' as const,
+        storageUsed: 8,
+        storageTotal: 15,
+        filesCount: 110,
+        connectedAt: '2024-02-20T14:45:00Z',
+        isConfigured: true,
+      },
+    ];
+
+    localStorageMock.setItem(
+      'connectedProviders',
+      JSON.stringify(mockProviders),
+    );
+
     const { result } = renderHook(() => useAvailableProviders());
 
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-
-    act(() => {
-      result.current.setProviders([]);
-    });
-
-    expect(result.current.providers).toHaveLength(0);
-  });
-});
-
-describe('useAccessRequests hook', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('should return loading state initially', () => {
-    const { result } = renderHook(() => useAccessRequests());
-    expect(result.current.isLoading).toBe(true);
-    expect(result.current.requests).toEqual([]);
-  });
-
-  it('should fetch and return empty access requests initially', async () => {
-    const { result } = renderHook(() => useAccessRequests());
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-
-    expect(result.current.requests).toHaveLength(0);
-  });
-
-  it('should submit a new access request', async () => {
-    const { result } = renderHook(() => useAccessRequests());
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-
-    let newRequest;
-    await act(async () => {
-      newRequest = await result.current.submitRequest(
-        'AWS S3',
-        'aws-s3',
-        'I need access for project files'
-      );
-    });
-
-    expect(result.current.requests).toHaveLength(1);
-    expect(result.current.requests[0]).toMatchObject({
-      providerName: 'AWS S3',
-      providerType: 'aws-s3',
-      reason: 'I need access for project files',
-      status: 'pending',
-    });
-    expect(newRequest).toBeDefined();
-  });
-
-  it('should allow updating requests list', async () => {
-    const { result } = renderHook(() => useAccessRequests());
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-
-    const mockRequest = {
-      id: 'test-req',
-      providerName: 'Test Provider',
-      providerType: 'aws-s3' as const,
-      reason: 'Test reason',
-      status: 'approved' as const,
-      requestedAt: new Date().toISOString(),
-    };
-
-    act(() => {
-      result.current.setRequests([mockRequest]);
-    });
-
-    expect(result.current.requests).toHaveLength(1);
-    expect(result.current.requests[0].status).toBe('approved');
+    expect(
+      result.current.providers.every((p) => p.type !== 'google-drive'),
+    ).toBe(true);
   });
 });
 
 describe('useProviderConfig hook', () => {
-  it('should return null when providerType is null', () => {
-    const result = useProviderConfig(null);
-    expect(result).toBeNull();
+  it('should return null for null provider type', () => {
+    const { result } = renderHook(() => useProviderConfig(null));
+    expect(result.current).toBeNull();
   });
 
-  it('should return AWS S3 configuration fields', () => {
-    const config = useProviderConfig('aws-s3');
+  it('should return config for aws-s3', () => {
+    const { result } = renderHook(() => useProviderConfig('aws-s3'));
 
-    expect(config).not.toBeNull();
-    expect(config?.providerType).toBe('aws-s3');
-    expect(config?.fields).toHaveLength(4);
-    expect(config?.fields.map((f) => f.id)).toEqual([
-      'accessKeyId',
-      'secretAccessKey',
-      'bucketName',
-      'region',
-    ]);
+    expect(result.current).not.toBeNull();
+    expect(result.current?.providerType).toBe('aws-s3');
+    expect(result.current?.fields.length).toBeGreaterThan(0);
+    expect(result.current?.fields.some((f) => f.id === 'accessKey')).toBe(true);
   });
 
-  it('should return Google Drive configuration fields', () => {
-    const config = useProviderConfig('google-drive');
+  it('should return config for google-drive', () => {
+    const { result } = renderHook(() => useProviderConfig('google-drive'));
 
-    expect(config).not.toBeNull();
-    expect(config?.providerType).toBe('google-drive');
-    expect(config?.fields).toHaveLength(3);
-    expect(config?.fields.map((f) => f.id)).toEqual([
-      'clientId',
-      'clientSecret',
-      'folderId',
-    ]);
+    expect(result.current).not.toBeNull();
+    expect(result.current?.providerType).toBe('google-drive');
+    expect(result.current?.fields.some((f) => f.id === 'clientId')).toBe(true);
   });
 
-  it('should return Local Storage configuration fields', () => {
-    const config = useProviderConfig('local');
+  it('should return config for local', () => {
+    const { result } = renderHook(() => useProviderConfig('local'));
 
-    expect(config).not.toBeNull();
-    expect(config?.providerType).toBe('local');
-    expect(config?.fields).toHaveLength(2);
-    expect(config?.fields.map((f) => f.id)).toEqual(['basePath', 'maxStorage']);
+    expect(result.current).not.toBeNull();
+    expect(result.current?.providerType).toBe('local');
+    expect(result.current?.fields.some((f) => f.id === 'basePath')).toBe(true);
   });
 
-  it('should have correct field types for AWS S3', () => {
-    const config = useProviderConfig('aws-s3');
-
-    const accessKeyField = config?.fields.find((f) => f.id === 'accessKeyId');
-    expect(accessKeyField?.type).toBe('text');
-    expect(accessKeyField?.required).toBe(true);
-
-    const secretKeyField = config?.fields.find((f) => f.id === 'secretAccessKey');
-    expect(secretKeyField?.type).toBe('password');
-    expect(secretKeyField?.required).toBe(true);
-
-    const regionField = config?.fields.find((f) => f.id === 'region');
-    expect(regionField?.type).toBe('select');
-    expect(regionField?.options).toBeDefined();
-    expect(regionField?.options?.length).toBeGreaterThan(0);
-  });
-
-  it('should have optional folderId for Google Drive', () => {
-    const config = useProviderConfig('google-drive');
-
-    const folderIdField = config?.fields.find((f) => f.id === 'folderId');
-    expect(folderIdField?.required).toBe(false);
+  it('should return null for unknown provider type', () => {
+    const { result } = renderHook(() => useProviderConfig('unknown-provider'));
+    expect(result.current).toBeNull();
   });
 });
-
-

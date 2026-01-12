@@ -1,15 +1,17 @@
-import { useState } from "react";
-import { AppHeader } from "@/components/layout/AppHeader";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { SharedFilesList } from "@/components/sharing/SharedFilesList";
-import { ShareDialog } from "@/components/sharing/ShareDialog";
-import { useSharing } from "@/hooks/sharing";
-import { Share2, Loader2, RefreshCw } from "lucide-react";
+import { useState } from 'react';
+import { AppHeader } from '@/components/layout/AppHeader';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { SharedFilesList } from '@/components/sharing/SharedFilesList';
+import { ShareDialog } from '@/components/sharing/ShareDialog';
+import { useSharing } from '@/hooks/sharing';
+import { Share2, Loader2, RefreshCw } from 'lucide-react';
 
 export default function SharedFiles() {
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState<"by-me" | "with-me" | "links">("by-me");
+  const [selectedTab, setSelectedTab] = useState<'by-me' | 'with-me' | 'links'>(
+    'by-me',
+  );
 
   const {
     sharedByMe,
@@ -29,28 +31,29 @@ export default function SharedFiles() {
     // Show success feedback (could add a toast here)
   };
 
-  const handleRevoke = async (id: string, type: "internal" | "public") => {
+  const handleRevoke = async (id: string, type: 'internal' | 'public') => {
     const confirmMessage =
-      type === "internal"
-        ? "Are you sure you want to remove this share?"
-        : "Are you sure you want to revoke this link? It will no longer be accessible.";
+      type === 'internal'
+        ? 'Are you sure you want to remove this share?'
+        : 'Are you sure you want to revoke this link? It will no longer be accessible.';
 
     if (!confirm(confirmMessage)) return;
 
-    const result = type === "internal" 
-      ? await removeInternalShare(id)
-      : await revokeLink(id);
+    const result =
+      type === 'internal'
+        ? await removeInternalShare(id)
+        : await revokeLink(id);
 
     if (result.success) {
       // Success - list will update automatically
     } else {
-      alert(result.error || "Failed to revoke");
+      alert(result.error || 'Failed to revoke');
     }
   };
 
   const handleEditPermissions = (_shareId: string) => {
     // TODO: Implement permissions editor dialog
-    alert("Permissions editor coming soon!");
+    alert('Permissions editor coming soon!');
   };
 
   return (
@@ -60,7 +63,9 @@ export default function SharedFiles() {
       <main className="container py-8 px-12 lg:px-16">
         <div className="mb-6 flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-mac-semibold tracking-tight">Shared Files</h1>
+            <h1 className="text-3xl font-mac-semibold tracking-tight">
+              Shared Files
+            </h1>
             <p className="text-muted-foreground mt-1">
               Manage files you&apos;ve shared and files shared with you
             </p>
@@ -68,7 +73,9 @@ export default function SharedFiles() {
 
           <div className="flex gap-2">
             <Button variant="outline" onClick={refresh} disabled={isLoading}>
-              <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? "animate-spin" : ""}`} />
+              <RefreshCw
+                className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`}
+              />
               Refresh
             </Button>
             <Button onClick={() => setIsShareDialogOpen(true)}>
@@ -85,7 +92,11 @@ export default function SharedFiles() {
           </div>
         )}
 
-        <Tabs value={selectedTab} onValueChange={(v) => setSelectedTab(v as any)} className="space-y-6">
+        <Tabs
+          value={selectedTab}
+          onValueChange={(v) => setSelectedTab(v as any)}
+          className="space-y-6"
+        >
           <TabsList>
             <TabsTrigger value="by-me">Shared by Me</TabsTrigger>
             <TabsTrigger value="with-me">Shared with Me</TabsTrigger>
@@ -101,7 +112,7 @@ export default function SharedFiles() {
               <SharedFilesList
                 internalShares={sharedByMe}
                 type="internal"
-                onRevoke={(id) => handleRevoke(id, "internal")}
+                onRevoke={(id) => handleRevoke(id, 'internal')}
                 onEditPermissions={handleEditPermissions}
               />
             )}
@@ -115,14 +126,15 @@ export default function SharedFiles() {
             ) : sharedWithMe.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-muted-foreground border rounded-lg">
                 <Share2 className="h-12 w-12 mb-3 opacity-50" />
-                <p className="text-lg font-mac-medium">No files shared with you</p>
-                <p className="text-sm">Files others share with you will appear here</p>
+                <p className="text-lg font-mac-medium">
+                  No files shared with you
+                </p>
+                <p className="text-sm">
+                  Files others share with you will appear here
+                </p>
               </div>
             ) : (
-              <SharedFilesList
-                internalShares={sharedWithMe}
-                type="internal"
-              />
+              <SharedFilesList internalShares={sharedWithMe} type="internal" />
             )}
           </TabsContent>
 
@@ -136,7 +148,7 @@ export default function SharedFiles() {
                 publicLinks={myShareLinks}
                 type="public"
                 onCopyLink={handleCopyLink}
-                onRevoke={(id) => handleRevoke(id, "public")}
+                onRevoke={(id) => handleRevoke(id, 'public')}
               />
             )}
           </TabsContent>
@@ -155,4 +167,3 @@ export default function SharedFiles() {
     </div>
   );
 }
-

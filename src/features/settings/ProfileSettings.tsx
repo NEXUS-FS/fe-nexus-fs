@@ -1,33 +1,41 @@
-import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuthContext } from "@/context/AuthContext";
-import { Upload, Save } from "lucide-react";
+import { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useAuthContext } from '@/context/AuthContext';
+import { Upload, Save } from 'lucide-react';
 
 export function ProfileSettings() {
   const { user } = useAuthContext();
-  const [displayName, setDisplayName] = useState(user?.username || "");
-  const [email, setEmail] = useState(user?.email || "");
-  const [bio, setBio] = useState("");
-  const [timezone, setTimezone] = useState("UTC");
-  const [language, setLanguage] = useState("en");
+  const [displayName, setDisplayName] = useState(user?.username || '');
+  const [email, setEmail] = useState(user?.email || '');
+  const [bio, setBio] = useState('');
+  const [timezone, setTimezone] = useState('UTC');
+  const [language, setLanguage] = useState('en');
 
   const getInitials = (name: string) => {
     return name
-      .split(" ")
+      .split(' ')
       .map((n) => n[0])
-      .join("")
+      .join('')
       .toUpperCase()
       .slice(0, 2);
   };
 
   const handleSave = () => {
     // TODO: Implement profile update API call
-    alert("Profile settings will be saved when backend integration is complete!");
+    alert(
+      'Profile settings will be saved when backend integration is complete!',
+    );
   };
 
   return (
@@ -43,7 +51,7 @@ export function ProfileSettings() {
             <Avatar className="h-24 w-24">
               <AvatarImage src="" />
               <AvatarFallback className="text-2xl">
-                {user?.username ? getInitials(user.username) : "U"}
+                {user?.username ? getInitials(user.username) : 'U'}
               </AvatarFallback>
             </Avatar>
             <div>
@@ -80,7 +88,7 @@ export function ProfileSettings() {
               <Label htmlFor="username">Username</Label>
               <Input
                 id="username"
-                value={user?.username || ""}
+                value={user?.username || ''}
                 disabled
                 className="bg-muted"
               />
@@ -166,4 +174,3 @@ export function ProfileSettings() {
     </div>
   );
 }
-

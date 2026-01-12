@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Copy, Check, Link2 } from "lucide-react";
-import type { CreateShareLinkRequest } from "@/types";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Copy, Check, Link2 } from 'lucide-react';
+import type { CreateShareLinkRequest } from '@/types';
 
 interface PublicLinkFormProps {
   fileId: string;
@@ -18,9 +18,9 @@ export function PublicLinkForm({
   onSubmit,
   onSuccess,
 }: PublicLinkFormProps) {
-  const [password, setPassword] = useState("");
-  const [expiresAt, setExpiresAt] = useState("");
-  const [maxAccessCount, setMaxAccessCount] = useState("");
+  const [password, setPassword] = useState('');
+  const [expiresAt, setExpiresAt] = useState('');
+  const [maxAccessCount, setMaxAccessCount] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [generatedLink, setGeneratedLink] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -43,7 +43,7 @@ export function PublicLinkForm({
     if (result.success) {
       setGeneratedLink(result.shareLink.url);
     } else {
-      alert(result.error || "Failed to create share link");
+      alert(result.error || 'Failed to create share link');
     }
   };
 
@@ -158,10 +158,9 @@ export function PublicLinkForm({
       {/* Submit */}
       <div className="flex justify-end gap-2 pt-4">
         <Button onClick={handleSubmit} disabled={isSubmitting}>
-          {isSubmitting ? "Creating Link..." : "Create Link"}
+          {isSubmitting ? 'Creating Link...' : 'Create Link'}
         </Button>
       </div>
     </div>
   );
 }
-

@@ -1,7 +1,7 @@
-import { Cloud, HardDrive, Database, Check } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import type { ConnectedProvider } from "@/types";
+import { Cloud, HardDrive, Database, Check } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import type { ConnectedProvider } from '@/types';
 
 interface ProviderSidebarProps {
   providers: ConnectedProvider[];
@@ -16,11 +16,11 @@ export function ProviderSidebar({
 }: ProviderSidebarProps) {
   const getProviderIcon = (type: string) => {
     switch (type) {
-      case "local":
+      case 'local':
         return <HardDrive className="h-5 w-5" />;
-      case "aws-s3":
+      case 'aws-s3':
         return <Cloud className="h-5 w-5" />;
-      case "google-drive":
+      case 'google-drive':
         return <Cloud className="h-5 w-5" />;
       default:
         return <Database className="h-5 w-5" />;
@@ -29,16 +29,16 @@ export function ProviderSidebar({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Healthy":
-        return "text-green-500";
-      case "Stable":
-        return "text-blue-500";
-      case "Active":
-        return "text-green-500";
-      case "Inactive":
-        return "text-gray-400";
+      case 'Healthy':
+        return 'text-green-500';
+      case 'Stable':
+        return 'text-blue-500';
+      case 'Active':
+        return 'text-green-500';
+      case 'Inactive':
+        return 'text-gray-400';
       default:
-        return "text-gray-500";
+        return 'text-gray-500';
     }
   };
 
@@ -57,15 +57,15 @@ export function ProviderSidebar({
         <Card
           key={provider.id}
           className={cn(
-            "p-3 cursor-pointer transition-all hover:shadow-md",
+            'p-3 cursor-pointer transition-all hover:shadow-md',
             selectedProviderId === provider.id
-              ? "border-primary bg-accent"
-              : "hover:border-gray-300"
+              ? 'border-primary bg-accent'
+              : 'hover:border-gray-300',
           )}
           onClick={() => onProviderSelect(provider.id)}
         >
           <div className="flex items-start gap-3">
-            <div className={cn("mt-1", getStatusColor(provider.healthStatus))}>
+            <div className={cn('mt-1', getStatusColor(provider.healthStatus))}>
               {getProviderIcon(provider.type)}
             </div>
             <div className="flex-1 min-w-0">
@@ -104,4 +104,3 @@ export function ProviderSidebar({
     </div>
   );
 }
-

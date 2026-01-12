@@ -1,18 +1,24 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
   --font-color: #131313;
-  --font-white: #E2E1DF;
+  --font-white: #e2e1df;
   --base-font: 'GeneralSans-Regular';
   --size-unit: 16;
   --size-container-ideal: 1440;
   --size-container-min: 992px;
   --size-container-max: 1920px;
-  --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
-  --size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
+  --size-container: clamp(
+    var(--size-container-min),
+    100vw,
+    var(--size-container-max)
+  );
+  --size-font: calc(
+    var(--size-container) / (var(--size-container-ideal) / var(--size-unit))
+  );
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -52,17 +58,23 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-@theme  {
+@theme {
   --background-color: #131313;
   --base-font: 'BlinkMacSystemFont-Regular';
   --font-color: #131313;
-  --color-white: #E2E1DF;
+  --color-white: #e2e1df;
   --size-unit: 16;
   --size-container-ideal: 1440;
   --size-container-min: 992px;
   --size-container-max: 1920px;
-  --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
-  --size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
+  --size-container: clamp(
+    var(--size-container-min),
+    100vw,
+    var(--size-container-max)
+  );
+  --size-font: calc(
+    var(--size-container) / (var(--size-container-ideal) / var(--size-unit))
+  );
   --font-mac-regular: 'BlinkMacSystemFont-Regular';
   --font-mac-bold: 'BlinkMacSystemFont-Bold';
   --font-mac-semibold: 'BlinkMacSystemFont-Semibold';
@@ -141,7 +153,9 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-html, body, #root {
+html,
+body,
+#root {
   color: var(--font-color);
   font-size: var(--size-font);
   font-family: var(--base-font);

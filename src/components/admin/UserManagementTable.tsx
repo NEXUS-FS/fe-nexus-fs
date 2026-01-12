@@ -1,5 +1,5 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -7,9 +7,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Edit, Trash2, User } from "lucide-react";
-import type { User as UserType } from "@/types";
+} from '@/components/ui/table';
+import { Edit, Trash2, User } from 'lucide-react';
+import type { User as UserType } from '@/types';
 
 interface UserManagementTableProps {
   users: UserType[];
@@ -23,21 +23,21 @@ export function UserManagementTable({
   onDelete,
 }: UserManagementTableProps) {
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
     });
   };
 
   const getRoleBadgeVariant = (role: string) => {
     switch (role.toLowerCase()) {
-      case "admin":
-        return "default";
-      case "user":
-        return "secondary";
+      case 'admin':
+        return 'default';
+      case 'user':
+        return 'secondary';
       default:
-        return "outline";
+        return 'outline';
     }
   };
 
@@ -68,14 +68,18 @@ export function UserManagementTable({
           {users.map((user) => (
             <TableRow key={user.id}>
               <TableCell className="font-mac-medium">{user.username}</TableCell>
-              <TableCell className="text-muted-foreground">{user.email}</TableCell>
+              <TableCell className="text-muted-foreground">
+                {user.email}
+              </TableCell>
               <TableCell>
                 <Badge variant={getRoleBadgeVariant(user.role)}>
                   {user.role}
                 </Badge>
               </TableCell>
               <TableCell>
-                <Badge variant={user.status === "active" ? "default" : "secondary"}>
+                <Badge
+                  variant={user.status === 'active' ? 'default' : 'secondary'}
+                >
                   {user.status}
                 </Badge>
               </TableCell>
@@ -83,7 +87,7 @@ export function UserManagementTable({
                 {formatDate(user.createdAt)}
               </TableCell>
               <TableCell className="text-sm text-muted-foreground">
-                {user.updatedAt ? formatDate(user.updatedAt) : "Never"}
+                {user.updatedAt ? formatDate(user.updatedAt) : 'Never'}
               </TableCell>
               <TableCell className="text-right">
                 <div className="flex justify-end gap-2">
@@ -111,4 +115,3 @@ export function UserManagementTable({
     </div>
   );
 }
-

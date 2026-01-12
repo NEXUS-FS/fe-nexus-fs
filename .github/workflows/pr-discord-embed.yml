@@ -20,13 +20,13 @@ jobs:
           else
             echo "message_type=updated" >> $GITHUB_OUTPUT
           fi
-      
+
       - name: Send Discord notification
         uses: tsickert/discord-webhook@v5.1.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          username: "GitHub PR Bot"
-          avatar-url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+          username: 'GitHub PR Bot'
+          avatar-url: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
           embed-title: ${{ steps.event_type.outputs.message_type == 'opened' && '🚀 New Pull Request Opened!' || '🔄 Pull Request Updated!' }}
           embed-color: ${{ steps.event_type.outputs.message_type == 'opened' && 5814783 || 16776960 }}
           embed-description: |
@@ -34,5 +34,5 @@ jobs:
             **🔀 Branch:** `${{ github.head_ref }} → ${{ github.base_ref }}`
             **📝 Title:** ${{ github.event.pull_request.title }}
             **🔗 [View Pull Request](${{ github.event.pull_request.html_url }})**
-          embed-footer-text: "Repository: ${{ github.repository }}"
-          embed-timestamp: "${{ github.event.pull_request.updated_at }}"
+          embed-footer-text: 'Repository: ${{ github.repository }}'
+          embed-timestamp: '${{ github.event.pull_request.updated_at }}'

@@ -1,8 +1,8 @@
-import { useCallback, useState } from "react";
-import { Upload } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { cn } from "@/lib/utils";
+import { useCallback, useState } from 'react';
+import { Upload } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { cn } from '@/lib/utils';
 
 interface FileUploadZoneProps {
   onFilesSelected: (files: File[]) => void;
@@ -41,7 +41,7 @@ export function FileUploadZone({
         onFilesSelected(files);
       }
     },
-    [onFilesSelected]
+    [onFilesSelected],
   );
 
   const handleFileInput = useCallback(
@@ -51,18 +51,18 @@ export function FileUploadZone({
         onFilesSelected(files);
       }
       // Reset input value so same file can be selected again
-      e.target.value = "";
+      e.target.value = '';
     },
-    [onFilesSelected]
+    [onFilesSelected],
   );
 
   return (
     <div
       className={cn(
-        "relative border-2 border-dashed rounded-lg p-8 transition-colors",
+        'relative border-2 border-dashed rounded-lg p-8 transition-colors',
         isDragging
-          ? "border-primary bg-primary/5"
-          : "border-gray-300 hover:border-gray-400"
+          ? 'border-primary bg-primary/5'
+          : 'border-gray-300 hover:border-gray-400',
       )}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -71,14 +71,14 @@ export function FileUploadZone({
       <div className="flex flex-col items-center justify-center gap-4 text-center">
         <div
           className={cn(
-            "p-4 rounded-full transition-colors",
-            isDragging ? "bg-primary/10" : "bg-gray-100"
+            'p-4 rounded-full transition-colors',
+            isDragging ? 'bg-primary/10' : 'bg-gray-100',
           )}
         >
           <Upload
             className={cn(
-              "h-8 w-8",
-              isDragging ? "text-primary" : "text-gray-500"
+              'h-8 w-8',
+              isDragging ? 'text-primary' : 'text-gray-500',
             )}
           />
         </div>
@@ -95,7 +95,7 @@ export function FileUploadZone({
           <>
             <div>
               <p className="text-lg font-mac-medium">
-                {isDragging ? "Drop files here" : "Drag & drop files here"}
+                {isDragging ? 'Drop files here' : 'Drag & drop files here'}
               </p>
               <p className="text-sm text-muted-foreground mt-1">
                 or click to browse
@@ -124,4 +124,3 @@ export function FileUploadZone({
     </div>
   );
 }
-

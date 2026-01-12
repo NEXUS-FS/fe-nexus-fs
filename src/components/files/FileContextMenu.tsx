@@ -4,7 +4,7 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+} from '@/components/ui/context-menu';
 import {
   Download,
   Copy,
@@ -13,7 +13,7 @@ import {
   Share2,
   Info,
   FileEdit,
-} from "lucide-react";
+} from 'lucide-react';
 
 interface FileContextMenuProps {
   children: React.ReactNode;
@@ -75,4 +75,3 @@ export function FileContextMenu({
     </ContextMenu>
   );
 }
-

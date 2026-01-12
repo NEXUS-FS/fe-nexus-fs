@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -6,10 +6,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface NewFolderDialogProps {
   open: boolean;
@@ -24,18 +24,18 @@ export function NewFolderDialog({
   onConfirm,
   currentPath,
 }: NewFolderDialogProps) {
-  const [folderName, setFolderName] = useState("");
+  const [folderName, setFolderName] = useState('');
 
   const handleConfirm = () => {
     if (folderName.trim()) {
       onConfirm(folderName.trim());
-      setFolderName("");
+      setFolderName('');
       onOpenChange(false);
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       handleConfirm();
     }
   };
@@ -76,4 +76,3 @@ export function NewFolderDialog({
     </Dialog>
   );
 }
-

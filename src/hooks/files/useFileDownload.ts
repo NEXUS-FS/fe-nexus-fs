@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { streamingApi } from "@/services";
+import { useState } from 'react';
+import { streamingApi } from '@/services';
 
 /**
  * Hook for handling file downloads
@@ -11,23 +11,23 @@ export function useFileDownload() {
   const downloadFile = async (
     providerId: string,
     filePath: string,
-    fileName?: string
+    fileName?: string,
   ) => {
     setIsDownloading(true);
     setError(null);
 
     try {
       const blob = await streamingApi.download({ providerId, filePath });
-      
+
       // Extract filename from path if not provided
-      const name = fileName || filePath.split("/").pop() || "download";
-      
+      const name = fileName || filePath.split('/').pop() || 'download';
+
       streamingApi.triggerDownload(blob, name);
-      
+
       return { success: true };
     } catch (err: any) {
       const errorMsg =
-        err.response?.data?.message || err.message || "Download failed";
+        err.response?.data?.message || err.message || 'Download failed';
       setError(errorMsg);
       return { success: false, error: errorMsg };
     } finally {
@@ -41,4 +41,3 @@ export function useFileDownload() {
     error,
   };
 }
-
